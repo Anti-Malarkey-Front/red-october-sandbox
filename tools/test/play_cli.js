@@ -2,24 +2,24 @@
 // Play Red October from the command line, one move at a time, for testers (people or agents).
 // The game is saved to a file after every move (default /tmp/red_october_cli.json; set SAVE=path for another).
 //
-//   node tools/play_cli.js new <men|sr|lsr> [easy|normal|hard]   start a game
-//   node tools/play_cli.js show                                  the current page, the numbers, and what you can do
-//   node tools/play_cli.js choose <n>                            pick option n on the page
-//   node tools/play_cli.js draw <n>                              draw a card from deck n (on the main page)
-//   node tools/play_cli.js play <n>                              play card n from your hand
-//   node tools/play_cli.js advisor <n>                           use pinned card n (advisors, the Cabinet, the Council, Wait and See)
-//   node tools/play_cli.js stats                                 every number the game keeps (for spotting oddities)
+//   node tools/test/play_cli.js new <men|sr|lsr> [easy|normal|hard]   start a game
+//   node tools/test/play_cli.js show                                  the current page, the numbers, and what you can do
+//   node tools/test/play_cli.js choose <n>                            pick option n on the page
+//   node tools/test/play_cli.js draw <n>                              draw a card from deck n (on the main page)
+//   node tools/test/play_cli.js play <n>                              play card n from your hand
+//   node tools/test/play_cli.js advisor <n>                           use pinned card n (advisors, the Cabinet, the Council, Wait and See)
+//   node tools/test/play_cli.js stats                                 every number the game keeps (for spotting oddities)
 //
 // Run `npx dendrynexus make-html` first. Each move prints the new page.
 var path = require('path');
 var fs = require('fs');
-global.RO = require('./model.js');
-var engine = require('../node_modules/dendrynexus/lib/engine');
-var compiler = require('../node_modules/dendrynexus/lib/parsers/compiler');
+global.RO = require('../../source/model.js');
+var engine = require('../../node_modules/dendrynexus/lib/engine');
+var compiler = require('../../node_modules/dendrynexus/lib/parsers/compiler');
 
 var SAVE = process.env.SAVE || '/tmp/red_october_cli.json';
 var game = null;
-compiler.convertJSONToGame(fs.readFileSync(path.join(__dirname, '..', 'out', 'game.json')), function(err, g) {
+compiler.convertJSONToGame(fs.readFileSync(path.join(__dirname, '..', '..', 'out', 'game.json')), function(err, g) {
   if (err) { throw err; }
   game = g;
 });
@@ -55,7 +55,7 @@ var eng = new engine.DendryEngine(ui, game);
 
 function save() { fs.writeFileSync(SAVE, JSON.stringify(eng.getExportableState())); }
 function load() {
-  if (!fs.existsSync(SAVE)) { console.log('No game in progress. Start one with: node tools/play_cli.js new sr normal'); process.exit(1); }
+  if (!fs.existsSync(SAVE)) { console.log('No game in progress. Start one with: node tools/test/play_cli.js new sr normal'); process.exit(1); }
   eng.setState(JSON.parse(fs.readFileSync(SAVE, 'utf8')));
 }
 function Q() { return eng.state.qualities; }

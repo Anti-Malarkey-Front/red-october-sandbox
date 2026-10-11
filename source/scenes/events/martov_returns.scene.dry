@@ -5,11 +5,11 @@ tags: event
 view-if: player_party = 'menshevik' and (dix >= 9)
 priority: 8
 max-visits: 1
-on-arrival: martov_advisor = 1;
+on-arrival: martov_advisor = 1; axelrod_advisor = 1;
 
 = Martov Returns
 
-Julius Martov reached Petrograd on 9 May, having travelled through Germany like Lenin, on a train arranged for the exiles. He was received with the warmth due to the party's conscience, and without enthusiasm by Tsereteli and Dan, who have been running the party without him.
+Julius Martov reached Petrograd on 9 May, having travelled through Germany like Lenin, on a train arranged for the exiles. He was received with the warmth due to the party's conscience, and without enthusiasm by Tsereteli and Dan, who have been running the party without him. Pavel Axelrod, the party's elder, came on the same train.
 
 Martov opposes the coalition, opposes the war and opposes any attempt to ally the party with the bourgeoisie. By the end of the summer his Internationalists may be a third of the party.
 

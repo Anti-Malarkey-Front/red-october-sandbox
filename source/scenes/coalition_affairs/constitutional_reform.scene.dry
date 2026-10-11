@@ -18,15 +18,15 @@ view-if: dix < 18
 choose-if: resources >= 1
 unavailable-subtitle: We have no resources.
 
-How should the party go about it? Cautiously, with compromises, it will cost a resource, do less and anger less. In full, it will do all that it says, and its opponents will answer. And a party strong enough can carry it out and break its opponents.
+How should the party go about it? Cautiously, with compromises, it will cost another resource, do less and anger less. In full, it will do all that it says, and its opponents will answer. And a party strong enough can carry it out and break its opponents.
 
 - @bring_forward_slow: Go about it cautiously, with compromises.
 - @bring_forward_decree: Carry it out in full.
 - @bring_forward_force: Carry it out in full, and break any opposition by force.
 
 @bring_forward_slow
-choose-if: resources >= 1
-subtitle: Milder effects and little anger. Costs 1 resource.
+choose-if: resources >= 2
+subtitle: Milder effects and little anger. Costs 2 resources: the campaign and the compensation.
 unavailable-subtitle: We have nothing to pay the compensation with.
 on-arrival: {!
 

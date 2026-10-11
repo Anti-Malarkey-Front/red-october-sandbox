@@ -1,27 +1,44 @@
 {
   "name": "red-october",
   "version": "0.0.1",
-  "description": "Red October: Fall of Empire. A fork of Social Democracy: An Alternate History, set in the Russian Revolution, 1917-1921.",
+  "description": "Red October: Fall of Empire. A strategy game of the Russian Revolution, 1917-1921, for the browser: lead the Mensheviks, the SRs or the Left SRs. A fork of Social Democracy: An Alternate History.",
   "main": "out/html/index.html",
   "scripts": {
-    "dendrynexus": "dendrynexus",
-    "test": "bash tools/ci.sh",
-    "build": "npx dendrynexus make-html && sh tools/sync_model.sh"
+    "build": "npx dendrynexus make-html && sh tools/build/sync_model.sh",
+    "test": "bash tools/test/ci.sh",
+    "test:model": "node tools/test/test_model.js",
+    "playtest": "node tools/test/playtest.js",
+    "play": "node tools/test/play_cli.js",
+    "fuzz": "node tools/test/fuzz.js 1000 5",
+    "balance": "node tools/test/balance_report.js 80",
+    "generate": "python3 tools/build/gen_advisors.py && python3 tools/build/gen_cabinet.py && python3 tools/build/gen_laws.py",
+    "serve": "python3 -m http.server 8000 --directory out/html"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/evarnimtb-netizen/red-october.git"
   },
-  "keywords": [],
+  "keywords": [
+    "interactive-fiction",
+    "dendry",
+    "strategy-game",
+    "russian-revolution",
+    "alternate-history",
+    "browser-game"
+  ],
   "author": "Eva (original game by Autumn Chen)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/evarnimtb-netizen/red-october/issues"
   },
-  "homepage": "https://github.com/evarnimtb-netizen/red-october",
+  "homepage": "https://evarnimtb-netizen.github.io/red-october/",
   "dependencies": {
     "d3": "^7.9.0",
     "dendrynexus": "github:aucchen/dendrynexus",
     "parliament-svg": "^3.0.0"
-  }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "private": true
 }

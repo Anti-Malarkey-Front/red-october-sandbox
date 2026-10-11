@@ -1,6 +1,6 @@
 // Red October model: stats drift, factions, support and the Civil War front.
 // Pure functions of the quality object Q, so they can be tested in node.
-// A copy is served as out/html/model.js (see tools/sync_model.sh) and loaded by index.html.
+// A copy is served as out/html/model.js (see tools/build/sync_model.sh) and loaded by index.html.
 var RO = (function() {
   // Voter groups ("classes"). The old 'middle strata' are split into four, so that the support of each
   // can be shown separately. Campaign boosts still use the six boost groups (boost_middle covers the four).
@@ -71,7 +71,7 @@ var RO = (function() {
         bund: [8, 5, 'The Bund']
       },
       labels: {intl: 'the Internationalists', defencist: 'the Defencists', rightdef: 'the Right Defencists'},
-      advisors: ['dan', 'chkheidze', 'liber', 'lidia', 'abramovich', 'potresov', 'sukhanov', 'khinchuk']
+      advisors: ['dan', 'chkheidze', 'liber', 'lidia', 'abramovich', 'potresov', 'sukhanov', 'khinchuk', 'gvozdev', 'batursky']
     },
     lsr: {
       slot: 'lsr', name: 'Left SRs', pname: 'the Left SRs', partner: 'SRs', partner_slot: 'sr',
@@ -580,7 +580,7 @@ var RO = (function() {
 
 
   // ---- the advisors' council: four active at a time ----
-  // BEGIN ADVISORS (written by tools/gen_advisors.py)
+  // BEGIN ADVISORS (written by tools/build/gen_advisors.py)
   var ADVISORS = {
     martov: {name: "Julius Martov", party: 'menshevik'},
     dan: {name: "Fyodor Dan", party: 'menshevik'},
@@ -618,12 +618,12 @@ var RO = (function() {
   // Advisors who leave the scene in history: abroad, in prison or dead. From this dix on they no longer advise anyone.
   // (Others leave through events: Chkheidze, Khinchuk, the Menshevik leaders arrested in 1921, the SRs of the Directory.)
   var ADVISOR_UNTIL = {
-    axelrod: 18,       // abroad from the autumn of 1917, at Stockholm and then in Switzerland; he never came back
+    axelrod: 18,       // back with Martov in May 1917; abroad from the autumn, at Stockholm and then in Switzerland; he never came back
     tsereteli: 26,     // to Georgia after the Assembly is dispersed, early 1918
     breshkovskaya: 46, // leaves Russia for America at the end of 1918
     natanson: 54,      // abroad for his health in 1919, dies in Switzerland in July
     gots: 82,          // arrested in 1920, and tried in 1922
-    martov: 92,        // leaves for Berlin in September 1920
+    martov: 92,        // leaves for Berlin in the autumn of 1920; gone by the end of the Civil War (November)
     abramovich: 92,    // abroad with Martov in 1920
     chernov: 92        // leaves Russia in 1920
   };
@@ -686,7 +686,7 @@ var RO = (function() {
 
 
   // ---- the Cabinet's standing policies (set from the Cabinet advisor card) ----
-  // Settings are 0, 1, 2 in each area; the immediate effects of a change are in tools/gen_cabinet.py.
+  // Settings are 0, 1, 2 in each area; the immediate effects of a change are in tools/build/gen_cabinet.py.
   // The defaults (land 0, food 1, war 0, order 0, labour 0) have no ongoing effect.
   function policyDrift(Q, tl) {
     var full = Q.in_coalition && !Q.bol_regime, lsr = Q.lsr_in_gov && Q.bol_regime;
@@ -995,7 +995,7 @@ var RO = (function() {
   var LAW_KEYS = ['bread', 'ruble', 'army_discipline', 'land_pressure', 'bolshevik', 'right_threat', 'soviet_democracy', 'repression',
                   'war_weariness', 'rel_ally', 'rel_lsr', 'rel_bol', 'rel_kad'].concat(['workers', 'soldiers', 'peasants', 'middle', 'railway', 'nations'].map(function(g) { return 'boost_' + g; }));
   // How much a law's effects anger each camp, when the law does not say so itself (explicit ant_* changes).
-  // tools/lawvariants.py (law_camps) applies the same rule to decide which laws get the three implementations: keep them in step.
+  // tools/build/lawvariants.py (law_camps) applies the same rule to decide which laws get the three implementations: keep them in step.
   var LAW_HIT_MIN = 2;
   function lawHits(d) {
     return {kad: Math.max(0, -(d.rel_kad || 0)) * 1.2, gen: Math.max(0, d.right_threat || 0) * 2, bol: Math.max(0, -(d.rel_bol || 0))};

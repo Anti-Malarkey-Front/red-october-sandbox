@@ -2,7 +2,7 @@
 """Generate the Cabinet advisor card (source/scenes/advisors/cabinet.scene.dry) and the policy qdisplays.
 
 Each policy area has settings 0, 1, 2. Changing one takes a turn and has an immediate effect (js); the
-setting's ongoing monthly effect lives in tools/model.js (policyDrift) and must be kept in step with the
+setting's ongoing monthly effect lives in source/model.js (policyDrift) and must be kept in step with the
 numbers described here.
 """
 import os
@@ -11,7 +11,7 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 from lawvariants import variants, law_camps
 
-ROOT = os.path.join(os.path.dirname(__file__), '..', 'source')
+ROOT = os.path.join(os.path.dirname(__file__), '..', '..', 'source')
 OUT = os.path.join(ROOT, 'scenes', 'advisors')
 QD = os.path.join(ROOT, 'qdisplays')
 

@@ -6,7 +6,7 @@ a card-image line to scenes that lack one.
 """
 import os, re, glob, html, textwrap
 
-ROOT = os.path.join(os.path.dirname(__file__), '..')
+ROOT = os.path.join(os.path.dirname(__file__), '..', '..')
 SCENES = os.path.join(ROOT, 'source', 'scenes')
 OUT = os.path.join(ROOT, 'out', 'html', 'img', 'cards')
 os.makedirs(OUT, exist_ok=True)
@@ -64,7 +64,7 @@ def read_header(path):
 def add_image_line(path, rel):
     s = open(path, encoding='utf-8').read()
     if re.search(r'^card-image: img/portraits/', s, re.M):
-        return  # a period photograph placed by tools/fetch_art.py: keep it
+        return  # a period photograph placed by tools/assets/fetch_art.py: keep it
     if re.search(r'^card-image:', s, re.M):
         s = re.sub(r'^card-image:.*$', 'card-image: ' + rel, s, count=1, flags=re.M)
     else:

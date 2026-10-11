@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Put the period art placed by tools/fetch_art.py into the scenes: a picture at the top of each event that has one
+"""Put the period art placed by tools/assets/fetch_art.py into the scenes: a picture at the top of each event that has one
 (face-image), and the advisors' portraits (by regenerating the advisor scenes). Safe to run again."""
 import json, os, re, subprocess, sys
 
-ROOT = os.path.join(os.path.dirname(__file__), '..')
-placed = json.load(open(os.path.join(ROOT, 'docs', 'art_placed.json')))
+ROOT = os.path.join(os.path.dirname(__file__), '..', '..')
+placed = json.load(open(os.path.join(ROOT, 'tools', 'assets', 'art_placed.json')))
 n = 0
 for key, rel in placed.items():
     use, eid = key.split(':', 1)
@@ -31,8 +31,8 @@ def credit_page(name, heading, intro, path):
 p = os.path.join(ROOT, 'source', 'scenes', 'credits.scene.dry')
 s = open(p, encoding='utf-8').read()
 s = s[:s.index('\n@images\n')].rstrip('\n') + '\n\n'  # the page, not the menu option that points to it
-s += credit_page('images', 'Image sources', 'Period photographs and posters from Wikimedia Commons, by file: author, title, date, source and licence.', 'credits_images.txt')
-s += '\n' + credit_page('music', 'Music sources', 'Period recordings from Wikimedia Commons: performer, title, date, source and licence.', 'credits_music.txt')
+s += credit_page('images', 'Image sources', 'Period photographs and posters from Wikimedia Commons, by file: author, title, date, source and licence.', os.path.join('docs', 'credits', 'images.txt'))
+s += '\n' + credit_page('music', 'Music sources', 'Period recordings from Wikimedia Commons: performer, title, date, source and licence.', os.path.join('docs', 'credits', 'music.txt'))
 open(p, 'w', encoding='utf-8').write(s)
 print('credits pages written')
-subprocess.check_call([sys.executable, os.path.join(ROOT, 'tools', 'gen_advisors.py')])
+subprocess.check_call([sys.executable, os.path.join(ROOT, 'tools', 'build', 'gen_advisors.py')])

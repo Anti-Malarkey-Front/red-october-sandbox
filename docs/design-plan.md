@@ -381,7 +381,7 @@ Build the 1917 phase as a playable slice first, then add one phase at a time; ea
 9. **1918.** Brest-Litovsk, spring elections, Komuch, the expulsion, the July 1918 rising.
 10. **Civil War.** The front tracker; October 1918 to December 1921; the Soviet Affairs deck.
 11. **Endings and achievements** for each party.
-12. **Assets.** Public-domain portraits and photographs from Wikimedia Commons, period music; rewrite `credits_images.txt` and `credits_music.txt`.
+12. **Assets.** Public-domain portraits and photographs from Wikimedia Commons, period music; rewrite the credits (now `docs/credits/images.txt` and `docs/credits/music.txt`).
 13. **Balance pass.** For each party, play the historical line and check it lands on its historical ending; then check each win is reachable but hard.
 
 ### Open questions

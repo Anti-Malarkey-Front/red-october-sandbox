@@ -5,7 +5,7 @@ import glob, os, re, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from lawvariants import variants, law_camps
 
-ROOT = os.path.join(os.path.dirname(__file__), '..', 'source', 'scenes')
+ROOT = os.path.join(os.path.dirname(__file__), '..', '..', 'source', 'scenes')
 
 # Options that are declarations, not measures: never given the three ways to carry them out.
 DECLARATIONS = {('domestic_enemies', 'neither')}

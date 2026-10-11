@@ -1,9 +1,12 @@
-var RO = require('./model.js');
+#!/usr/bin/env node
+// Arena tuning: prints every party's vote in each arena for a few typical moments of 1917-1918, to check the support
+// model against the historical results. usage: node tools/test/tune.js
+var RO = require('../../source/model.js');
 function show(label, Q, arena, extra) {
   var r = RO.arenaResult(Q, arena, extra);
   console.log(label.padEnd(26), arena.padEnd(10), RO.PARTIES.map(p => p + ' ' + r[p].toFixed(1)).join('  '), ' G=' + RO.grievance(Q).toFixed(0));
 }
-var Mar = {war_weariness: 70, bread: 30, land_pressure: 40, ruble: 60, bolshevik: 20, right_threat: 30, soviet_democracy: 80, repression: 0, in_coalition: 0, player_slot: 'men', lsr_split: 0};
+var Mar = {war_weariness: 70, bread: 30, land_pressure: 40, ruble: 60, bolshevik: 20, right_threat: 30, soviet_democracy: 80, repression: 0, in_coalition: 0, player_party: 'menshevik', lsr_split: 0};
 var Jun = Object.assign({}, Mar, {war_weariness: 76, bread: 26, land_pressure: 50, ruble: 48, bolshevik: 35, in_coalition: 1});
 var Sep = Object.assign({}, Mar, {war_weariness: 82, bread: 18, land_pressure: 66, ruble: 32, bolshevik: 60, right_threat: 50, in_coalition: 1});
 var Nov = Object.assign({}, Mar, {war_weariness: 85, bread: 14, land_pressure: 75, ruble: 25, bolshevik: 75, right_threat: 40, in_coalition: 0, lsr_split: 1});

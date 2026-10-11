@@ -1,24 +1,24 @@
 #!/usr/bin/env node
 // Headless playtester for Red October.
-// usage: node tools/playtest.js [runs] [policy] [seed]
-//   policy: random | first | cautious | bot:<name> (tools/bots.js)
+// usage: node tools/test/playtest.js [runs] [policy] [seed]
+//   policy: random | first | cautious | bot:<name> (tools/test/bots.js)
 // STRICT=1 makes it exit with status 1 on an error, a stuck game or a broken bit of text (for CI).
 // NOISE=p makes a bot pick a random option with probability p. SEED=n makes the games repeatable (game i uses seed n+i).
 // Loads out/game.json (run `npx dendrynexus make-html` first) and plays complete games with a simple policy.
 var path = require('path');
 var fs = require('fs');
-global.RO = require('./model.js');
-var engine = require('../node_modules/dendrynexus/lib/engine');
-var toText = require('../node_modules/dendrynexus/lib/ui/content/text');
+global.RO = require('../../source/model.js');
+var engine = require('../../node_modules/dendrynexus/lib/engine');
+var toText = require('../../node_modules/dendrynexus/lib/ui/content/text');
 var allText = [];
 
 var bots = require('./bots.js');
 var runs = parseInt(process.argv[2] || '20', 10);
 var policy = process.argv[3] || 'random';
 var verbose = process.env.VERBOSE === '1';
-var compiler = require('../node_modules/dendrynexus/lib/parsers/compiler');
+var compiler = require('../../node_modules/dendrynexus/lib/parsers/compiler');
 var game = null;
-compiler.convertJSONToGame(fs.readFileSync(path.join(__dirname, '..', 'out', 'game.json')), function(err, g) {
+compiler.convertJSONToGame(fs.readFileSync(path.join(__dirname, '..', '..', 'out', 'game.json')), function(err, g) {
   if (err) { throw err; }
   game = g;
 });
@@ -255,7 +255,7 @@ results.forEach(function(r) { var k = r.game_over ? r.ending : 'STUCK'; counts[k
 if (process.env.DBG) { results.forEach(function(r) { console.log(r.ending + ' ' + JSON.stringify(r.dbg)); }); }
 if (process.env.POW) { results.forEach(function(r) { console.log(JSON.stringify({e: r.ending, p: r.bpow_final, h: r.homog, lc: r.lc, ca: r.ca, st: r.stock, tk: r.takeover, vs: r.vs})); }); }
 if (process.env.TEXT) { fs.writeFileSync(process.env.TEXT, allText.join('\n')); }
-// JSON=file writes one summary per game, for tools/balance_report.js
+// JSON=file writes one summary per game, for tools/test/balance_report.js
 if (process.env.JSON) {
   fs.writeFileSync(process.env.JSON, JSON.stringify(results.map(function(r) {
     return {ending: r.game_over ? r.ending : 'STUCK', year: r.year, month: r.month, legality: r.legality, sd: r.sd, opp: r.opp, laws: r.laws, breaks: r.breaks, broke: r.broke, peak: r.peak, final_poll: r.final_poll,

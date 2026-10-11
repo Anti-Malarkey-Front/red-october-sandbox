@@ -1,6 +1,6 @@
 """Shared by gen_cabinet.py and gen_laws.py: turn a law (an option with effects) into a router scene with three ways to carry it out.
 
-slow   - phased in, with compensation and negotiation: 60% of the effects, little anger, costs 1 resource (RO.law, tools/model.js)
+slow   - phased in, with compensation and negotiation: 60% of the effects, little anger, costs 1 resource (RO.law, source/model.js)
 decree - as written
 force  - as written, and the camps it angers are broken by force if the party is strong enough
 """
@@ -8,11 +8,11 @@ import json
 import re
 
 NAMES = {'kad': 'Kadets', 'gen': 'generals', 'bol': 'Bolsheviks'}
-LAW_HIT_MIN = 2  # as in tools/model.js
+LAW_HIT_MIN = 2  # as in source/model.js
 
 
 def law_camps(js):
-    """The camps a law angers, by the same rule as lawHits() and law() in tools/model.js: explicit ant_* changes if the
+    """The camps a law angers, by the same rule as lawHits() and law() in source/model.js: explicit ant_* changes if the
     law has any, otherwise 1.2 x the fall in relations with the Kadets, 2 x the rise of the Right's threat and the fall in
     relations with the Bolsheviks. Keep the two in step."""
     def total(key):

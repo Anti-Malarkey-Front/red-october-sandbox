@@ -1,7 +1,7 @@
 """Helpers for editing event scene files: gate whole scenes or single options by party."""
 import re, os
 
-EV = os.path.join(os.path.dirname(__file__), '..', 'source', 'scenes')
+EV = os.path.join(os.path.dirname(__file__), '..', '..', 'source', 'scenes')
 
 def path(rel):
     return os.path.join(EV, rel)

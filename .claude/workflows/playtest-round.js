@@ -7,12 +7,12 @@ export const meta = {
     { title: 'Play', detail: 'eight testers play full games, two read the scenes', model: 'haiku' },
     { title: 'Merge', detail: 'one agent merges duplicate findings across testers', model: 'sonnet' },
     { title: 'Check', detail: 'each finding is checked against the source: real, artifact of the tool, or wrong', model: 'sonnet' },
-    { title: 'Report', detail: 'write docs/playtest-round-N.md', model: 'sonnet' },
+    { title: 'Report', detail: 'write docs/reports/playtest-round-N.md', model: 'sonnet' },
   ],
 }
 
-// Red October playtest round. Testers play with tools/play_cli.js (one move per command, game saved to a file),
-// report structured findings; the findings are merged, checked against the code, and written to docs/.
+// Red October playtest round. Testers play with tools/test/play_cli.js (one move per command, game saved to a file),
+// report structured findings; the findings are merged, checked against the code, and written to docs/reports/.
 // Nothing in the game is changed by this workflow: fixing is a separate step, in the main session.
 
 const ROUND = (args && args.round) || 2
@@ -78,11 +78,11 @@ You are a playtester for "Red October: Fall of Empire", a text strategy game abo
 Dendry engine. Do NOT edit, create or delete any file in the repository (the only file you write is your save file).
 
 Repository: ${ROOT}. Run every command from there, with the environment variables given below.
-Commands (node tools/play_cli.js ...): new <men|sr|lsr> [easy|normal|hard] | show | choose <n> | draw <n> | play <n> | advisor <n> | stats.
+Commands (node tools/test/play_cli.js ...): new <men|sr|lsr> [easy|normal|hard] | show | choose <n> | draw <n> | play <n> | advisor <n> | stats.
 On the main page you draw a card from a deck, then play a card from your hand or use a pinned card (advisors, the Cabinet, the Council,
 Wait and See); that usually ends the turn. On other pages you choose an option. Every move prints the new page, so you rarely need show.
 The game has 69 turns, from March 1917 to the end of 1921. You may read the source to understand what you see: scenes are in
-source/scenes/**/*.scene.dry, the numbers in tools/model.js, the design in docs/design-plan.md, the last balance report in docs/balance.md.
+source/scenes/**/*.scene.dry, the numbers in source/model.js, the design in docs/design-plan.md, the last balance report in docs/reports/balance.md.
 Do not rebuild the game (do not run npx dendrynexus): it has been built for you.
 
 Known and already fixed (do not report again): the game running past 1921; the 519/412 vote; "Nineteen of thirty"; the Party Press card
@@ -119,13 +119,13 @@ const TESTERS = [
 const PLAYERS = TESTERS.map(t => ({
   ...t,
   prompt: HOWTO + `\n\nYour save file: SAVE=/tmp/ro_round${ROUND}_${t.id}.json NODE_NO_WARNINGS=1 (put both before every command).\n` +
-    `Start: SAVE=/tmp/ro_round${ROUND}_${t.id}.json NODE_NO_WARNINGS=1 node tools/play_cli.js new ${t.party} ${t.diff}\n\nYour game: ${t.brief}\n\n` +
+    `Start: SAVE=/tmp/ro_round${ROUND}_${t.id}.json NODE_NO_WARNINGS=1 node tools/test/play_cli.js new ${t.party} ${t.diff}\n\nYour game: ${t.brief}\n\n` +
     'Return your ending, a three-line summary, and your findings, most important first.',
 }))
 
 const READERS = [
   { id: 'reader-events', brief: 'Read every scene in source/scenes/events/ (about 85 files). For each, check the text against its conditions (view-if, choose-if) and the history of 1917-1921: anachronisms (a date or event that has not happened yet at the time the event can fire), text that names the wrong party for the party playing (player_party is menshevik, sr or lsr), contradictions between a title or subtitle and the body, options whose effects (the JavaScript in on-arrival) contradict their text, and events that can fire at the wrong time (for example a 1917 event that can fire after the Bolsheviks take power, bol_regime = 1). Also check every go-to line: its conditions must never be true at the same time (the engine picks at random when they are).' },
-  { id: 'reader-cards', brief: 'Read every card in source/scenes/party_affairs/, coalition_affairs/, soviet_affairs/ and advisors/, and tools/model.js. Check: cards whose text or options do not fit the time when they can be drawn (view-if), options that are always better than the others (compare the numbers in their on-arrival), options that cost nothing, text naming the wrong party or person, unavailable-subtitles that do not explain the real condition, and model functions whose numbers can run away (a stat that can only rise or only fall). Use node and tools/play_cli.js stats if you want to check a number.' },
+  { id: 'reader-cards', brief: 'Read every card in source/scenes/party_affairs/, coalition_affairs/, soviet_affairs/ and advisors/, and source/model.js. Check: cards whose text or options do not fit the time when they can be drawn (view-if), options that are always better than the others (compare the numbers in their on-arrival), options that cost nothing, text naming the wrong party or person, unavailable-subtitles that do not explain the real condition, and model functions whose numbers can run away (a stat that can only rise or only fall). Use node and tools/test/play_cli.js stats if you want to check a number.' },
 ]
 const READER_PROMPTS = READERS.map(r => ({
   ...r,
@@ -137,7 +137,7 @@ const ONLY = (args && args.only) || null
 const TEAM = [...PLAYERS, ...READER_PROMPTS].filter(t => !ONLY || ONLY.indexOf(t.id) >= 0)
 
 phase('Build')
-await agent(`In ${ROOT}, run \`npx dendrynexus make-html\` and then \`node tools/test_model.js\`. Report only "built" and the test result line.`,
+await agent(`In ${ROOT}, run \`npx dendrynexus make-html\` and then \`node tools/test/test_model.js\`. Report only "built" and the test result line.`,
   { label: 'build', phase: 'Build', model: 'haiku', effort: 'low' })
 
 phase('Play')
@@ -159,15 +159,15 @@ phase('Check')
 const checked = await parallel((merged ? merged.findings : []).map(f => () =>
   agent(`A tester of Red October: Fall of Empire (repository ${ROOT}) reported this. Check it against the source and decide whether it is real.\n\n` +
     `${f.type}, ${f.severity}: ${f.title}\n${f.detail}\n\n` +
-    'The testers played with tools/play_cli.js, a command-line driver: some oddities come from the tool and not from the game, which runs in the browser' +
-    ' (out/html/ui.js, game.js). Find the cause in the scenes (source/scenes) or the model (tools/model.js), with file:line. Do NOT edit any file.' +
+    'The testers played with tools/test/play_cli.js, a command-line driver: some oddities come from the tool and not from the game, which runs in the browser' +
+    ' (out/html/ui.js, game.js). Find the cause in the scenes (source/scenes) or the model (source/model.js), with file:line. Do NOT edit any file.' +
     ' Verdict: confirmed (a real problem in the game), cli-artifact (only in the tool), not-a-bug (intended, or the tester misread), cannot-tell.',
     { label: `check:${f.id}`, phase: 'Check', model: 'sonnet', schema: VERDICT })
     .then(v => ({ ...f, ...(v || { verdict: 'cannot-tell', cause: 'the checker failed', fix: '' }) }))))
 
 phase('Report')
 const report = await agent(
-  `Write a playtest report in Markdown for the game's author, and save it as ${ROOT}/docs/playtest-round-${ROUND}.md (the only file you may write).` +
+  `Write a playtest report in Markdown for the game's author, and save it as ${ROOT}/docs/reports/playtest-round-${ROUND}.md (the only file you may write).` +
   ' Sections: the testers and their endings (one line each); confirmed findings by severity, each with what happens, the cause (file:line) and the' +
   ' suggested fix; findings that are only artifacts of the command-line tool; findings that are not bugs, briefly; and the ones that could not be' +
   ' decided. Plain language, no hype. Then return the report text.\n\n' +
@@ -175,5 +175,5 @@ const report = await agent(
   { label: 'report', phase: 'Report', model: 'sonnet' })
 
 const confirmed = checked.filter(Boolean).filter(f => f.verdict === 'confirmed')
-log(`${confirmed.length} confirmed of ${checked.filter(Boolean).length} merged findings; report in docs/playtest-round-${ROUND}.md`)
+log(`${confirmed.length} confirmed of ${checked.filter(Boolean).length} merged findings; report in docs/reports/playtest-round-${ROUND}.md`)
 return { round: ROUND, confirmed, all: checked.filter(Boolean), report }

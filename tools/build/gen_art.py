@@ -2,7 +2,7 @@
 """Generate the title banner and the three party emblems (SVG) in out/html/img/."""
 import os, math
 
-OUT = os.path.join(os.path.dirname(__file__), '..', 'out', 'html', 'img')
+OUT = os.path.join(os.path.dirname(__file__), '..', '..', 'out', 'html', 'img')
 os.makedirs(os.path.join(OUT, 'parties'), exist_ok=True)
 
 RED, CREAM, BLACK, GOLD = '#8c1d18', '#f2e6c9', '#1c1c1c', '#c9a227'

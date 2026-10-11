@@ -1,5 +1,5 @@
-var RO = require('./model.js');
-// Scripted strategies for tools/playtest.js. Each strategy has:
+var RO = require('../../source/model.js');
+// Scripted strategies for tools/test/playtest.js. Each strategy has:
 //   choices: scene id -> list of regexes tried in order against the available option titles
 //   cards:   card/advisor ids in priority order (first available is played)
 //   init:    optional per-sub-scene preferences are handled by 'choices' as well (keyed by scene id)

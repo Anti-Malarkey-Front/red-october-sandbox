@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-"""Fetch the period art and music listed in docs/art_manifest.json from Wikimedia Commons, and write the credits.
+"""Fetch the period art and music listed in tools/assets/art_manifest.json from Wikimedia Commons, and write the credits.
 
 Each manifest entry names a Commons file and where it goes:
   {"use": "portrait" | "event" | "music", "id": "<advisor or event id>", "title": "File:..."}
 Images are fetched as Commons thumbnails (portraits 360px wide, event pictures 640px wide), audio as the original file.
 Only files whose Commons licence is public domain, CC0 or CC BY / CC BY-SA are accepted; the licence, author and source
-page of each go into credits_images.txt / credits_music.txt. Run it again to fetch anything that is missing.
+page of each go into docs/credits/images.txt and docs/credits/music.txt. Run it again to fetch anything that is missing.
 
-usage: python3 tools/fetch_art.py [--dry-run]
+usage: python3 tools/assets/fetch_art.py [--dry-run]
 """
 import json, os, re, shutil, socket, subprocess, sys, time, html, urllib.parse, urllib.request
 
-ROOT = os.path.join(os.path.dirname(__file__), '..')
+ROOT = os.path.join(os.path.dirname(__file__), '..', '..')
 OUT = os.path.join(ROOT, 'out', 'html')
 API = 'https://commons.wikimedia.org/w/api.php'
 UA = {'User-Agent': 'RedOctoberGame/0.1 (https://github.com/evarnimtb-netizen/red-october; fetching credited public-domain art)'}
@@ -63,7 +63,7 @@ def ext_for(entry, meta):
 
 def main():
     dry = '--dry-run' in sys.argv
-    manifest = json.load(open(os.path.join(ROOT, 'docs', 'art_manifest.json'), encoding='utf-8'))
+    manifest = json.load(open(os.path.join(ROOT, 'tools', 'assets', 'art_manifest.json'), encoding='utf-8'))
     credits = {'image': [], 'music': []}
     placed = {}
     for e in manifest:
@@ -88,10 +88,10 @@ def main():
     if dry:
         return
     head = '= Images\n\nPeriod photographs and posters, from Wikimedia Commons. Each line: file in out/html, author, title, date, source, licence.\n\n'
-    open(os.path.join(ROOT, 'credits_images.txt'), 'w', encoding='utf-8').write(head + '\n\n'.join(credits['image']) + '\n')
+    open(os.path.join(ROOT, 'docs', 'credits', 'images.txt'), 'w', encoding='utf-8').write(head + '\n\n'.join(credits['image']) + '\n')
     head = 'Music credits (recordings from Wikimedia Commons):\n\n'
-    open(os.path.join(ROOT, 'credits_music.txt'), 'w', encoding='utf-8').write(head + '\n\n'.join(credits['music']) + '\n')
-    json.dump(placed, open(os.path.join(ROOT, 'docs', 'art_placed.json'), 'w'), indent=1, sort_keys=True)
+    open(os.path.join(ROOT, 'docs', 'credits', 'music.txt'), 'w', encoding='utf-8').write(head + '\n\n'.join(credits['music']) + '\n')
+    json.dump(placed, open(os.path.join(ROOT, 'tools', 'assets', 'art_placed.json'), 'w'), indent=1, sort_keys=True)
     print('%d files placed; credits written' % len(placed))
 
 

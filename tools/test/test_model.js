@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-// Unit tests for tools/model.js: node tools/test_model.js (exits with status 1 on a failure).
+// Unit tests for source/model.js: node tools/test/test_model.js (exits with status 1 on a failure).
 // They pin down the rules that the scenes and the interface rely on; run them after changing the model.
 var assert = require('assert');
 var fs = require('fs');
 var path = require('path');
-var RO = require('./model.js');
+var RO = require('../../source/model.js');
 
 var passed = 0, failed = 0;
 function test(name, fn) {
@@ -21,9 +21,9 @@ function state(extra) {
   return Q;
 }
 
-test('the served model is a copy of tools/model.js (run tools/sync_model.sh)', function() {
-  var a = fs.readFileSync(path.join(__dirname, 'model.js'), 'utf8');
-  var b = fs.readFileSync(path.join(__dirname, '..', 'out', 'html', 'model.js'), 'utf8');
+test('the served model is a copy of source/model.js (run tools/build/sync_model.sh)', function() {
+  var a = fs.readFileSync(path.join(__dirname, '..', '..', 'source', 'model.js'), 'utf8');
+  var b = fs.readFileSync(path.join(__dirname, '..', '..', 'out', 'html', 'model.js'), 'utf8');
   assert.strictEqual(a, b);
 });
 
@@ -136,7 +136,7 @@ test('a law that says how much it angers is believed', function() {
 test('lawHits and the generator rule agree on the threshold', function() {
   var h = RO.lawHits({rel_kad: -2, right_threat: 1, rel_bol: -1});
   assert.ok(h.kad >= 2 && h.gen >= 2 && h.bol < 2);
-  var py = fs.readFileSync(path.join(__dirname, 'lawvariants.py'), 'utf8');
+  var py = fs.readFileSync(path.join(__dirname, '..', 'build', 'lawvariants.py'), 'utf8');
   assert.ok(/LAW_HIT_MIN = 2/.test(py) && /\* 1\.2/.test(py) && /\* 2/.test(py));
 });
 

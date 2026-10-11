@@ -3,7 +3,7 @@
 import os
 import shutil
 
-OUT = os.path.join(os.path.dirname(__file__), '..', 'source', 'scenes', 'advisors')
+OUT = os.path.join(os.path.dirname(__file__), '..', '..', 'source', 'scenes', 'advisors')
 
 # id, title, faction tag, flag var, bio, action title, action subtitle, extra choose-if, unavailable text, js effect, result text
 ADVISORS = [
@@ -166,10 +166,10 @@ OTHERS = [
 
 def write_model_table(table):
     import json, re
-    path = os.path.join(os.path.dirname(__file__), 'model.js')
+    path = os.path.join(os.path.dirname(__file__), '..', '..', 'source', 'model.js')
     src = open(path, encoding='utf-8').read()
     body = ',\n    '.join("%s: {name: %s, party: '%s'}" % (k, json.dumps(v[0]), v[1]) for k, v in table.items())
-    block = "  // BEGIN ADVISORS (written by tools/gen_advisors.py)\n  var ADVISORS = {\n    %s\n  };\n  // END ADVISORS" % body
+    block = "  // BEGIN ADVISORS (written by tools/build/gen_advisors.py)\n  var ADVISORS = {\n    %s\n  };\n  // END ADVISORS" % body
     src = re.sub(r"  // BEGIN ADVISORS.*?// END ADVISORS", lambda m: block, src, flags=re.S)
     open(path, 'w', encoding='utf-8').write(src)
 
@@ -298,9 +298,9 @@ def offers(actions):
 
 
 def card_image(aid):
-    """The advisor's period photograph if tools/fetch_art.py has placed one, otherwise the plain placeholder."""
+    """The advisor's period photograph if tools/assets/fetch_art.py has placed one, otherwise the plain placeholder."""
     for ext in ('.jpg', '.png'):
-        if os.path.exists(os.path.join(os.path.dirname(__file__), '..', 'out', 'html', 'img', 'portraits', aid + ext)):
+        if os.path.exists(os.path.join(os.path.dirname(__file__), '..', '..', 'out', 'html', 'img', 'portraits', aid + ext)):
             return 'img/portraits/%s%s' % (aid, ext)
     return 'img/cards/%s.svg?v=2' % aid
 
@@ -395,9 +395,9 @@ view-if: {flag} = 1 and (player_party = '{party}' or lent_{aid} = 1) and on_{aid
     for (aid, title, tag, flag, bio, party, actions) in OTHERS:
         table[aid] = (title, party, offers([(a[0], a[1]) for a in actions]))
     write_model_table(table)
-    # the served copy of the model must match (tools/test_model.js checks it)
+    # the served copy of the model must match (tools/test/test_model.js checks it)
     here = os.path.dirname(__file__)
-    shutil.copyfile(os.path.join(here, 'model.js'), os.path.join(here, '..', 'out', 'html', 'model.js'))
+    shutil.copyfile(os.path.join(here, '..', '..', 'source', 'model.js'), os.path.join(here, '..', '..', 'out', 'html', 'model.js'))
     write_council(table)
     print('wrote', len(ADVISORS), '+', len(OTHERS), 'advisors and the council')
 

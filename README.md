@@ -1,62 +1,73 @@
 # Red October: Fall of Empire
 
-A fork of [*Social Democracy: An Alternate History*](https://github.com/aucchen/social_democracy_alternate_history) by Autumn Chen (MIT licence), set in the Russian Revolution, 1917-1921. You lead one of three socialist parties (the Mensheviks, the SRs or the Left SRs) from the February Revolution to December 1921: share power or refuse it, keep the party together, and try to save something of what was won in February from a military dictatorship of the Right, a Bolshevik one-party state, or exile. "Red October" is a working title.
+[![Test and publish the game](https://github.com/evarnimtb-netizen/red-october/actions/workflows/pages.yml/badge.svg)](https://github.com/evarnimtb-netizen/red-october/actions/workflows/pages.yml)
+[![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 
-**Play it in your browser: https://evarnimtb-netizen.github.io/red-october/** (rebuilt automatically from `main`).
+**A strategy game of the Russian Revolution, 1917-1921, for the browser.** Lead one of the socialist parties that history defeated (the Mensheviks, the Socialist Revolutionaries or the Left SRs) from the fall of the Tsar to the end of the Civil War, and try to save something of what was won in February 1917 from a military dictatorship, a White victory, or a Bolshevik one-party state.
 
-The design is in [`docs/design-plan.md`](docs/design-plan.md).
+**▶ Play it now: https://evarnimtb-netizen.github.io/red-october/** (no installation; works on phones)
 
-## Status
+Red October is a fork of Autumn Chen's [*Social Democracy: An Alternate History*](https://github.com/aucchen/social_democracy_alternate_history), built on the Dendry interactive-fiction engine.
 
-All three campaigns are **playable from start to finish**: the Mensheviks (hard), the SRs (normal) and the Left SRs (hard).
+## The game
 
-- A phone layout (900px and under): a bar at the top with the date, resources and members, and two drawers, Status on the left and Support and parliament on the right; cards become rows with their subtitles visible, and everything has touch-sized targets. Tablets and narrow windows get the same bar.
-- 69 turns: two-week turns until the calendar reform of February 1918, then monthly turns to December 1921.
-- An alliance web between the three playable parties and the Bolsheviks, with three levels (cooperation, bloc, coalition), each with its own effects, and fault lines (Brest-Litovsk, Komuch, the July 1918 rising, Kolchak's coup) at which alliances break.
-- Cards in three decks (Party Affairs, Coalition Affairs, Soviet Affairs), with party-only cards for each campaign, and 29 advisors, of whom four sit on your council at a time (reshuffle or swap them from the Council card). A Cabinet card sets the country's standing policies while your party is in government.
-- A right-hand panel with your support divided by nine classes, your popularity in each arena, the parliament of each arena (as elected, and as it would be if it voted today, drawn with d3-parliament) and the Opposition tab.
-- The ruble: it falls while the war is paid for with the printing press, and can be held up with the Cabinet's Finance setting (taxes on war profits and a Liberty Loan, or Allied credits) and the Paying for the Revolution card; it recovers once the war is over, and under the Bolsheviks once the market returns (the Money and the Market card, the NEP).
-- An opposition that answers your policies: the Kadets and the propertied classes, the generals and the Right, and the Bolsheviks each have a hostility that rises with what they object to (socialising the land, the eight-hour day, peace diplomacy, emergency measures, the Kadets in or out of the cabinet). At 40 they try to sanction you; at 70 they take up arms, but only if they have the strength (a weak camp only grumbles) (a landowners' revolt, a generals' march, a Bolshevik strike). You can give way, hold firm or appeal over their heads, and a revolt that is not put down can end the game. Every unpopular law, from the Cabinet or from the decks, can be carried out three ways: phased in with compensation (milder, costs a resource), by decree (as written), or, for a strong party or one with strong allies, by decree with the opposition broken by force (the odds are shown). Sanctions can be answered in kind.
-- About 70 events from the February Revolution to the arrests of 1921, most shared between the parties with options and wording that change by party, plus events of each campaign's own. A real fork at the October Revolution: a Bolshevik takeover, an all-socialist government via the Vikzhel talks, or a Constituent Assembly that governs.
-- An ending recap: a chart of your support, Bolshevik strength, the threat from the Right and soviet democracy across the whole run, your peak support and best election result, the contested measures you passed and how, and the camps you faced and broke.
-- 11 endings (Kornilov's Russia, the generals' republic, White Russia, exile, the one-party state, the SR and Left SR historical endings, the all-socialist government, the Constituent Republic, Soviet democracy, the Soviet coalition) and 14 achievements.
+In March 1917 Russia's largest parties were not the Bolsheviks but the moderate socialists: the SRs won the only free national election Russia ever held, and the Mensheviks led the Petrograd Soviet. Within five years both were banned. You take over one of them on the morning after the Tsar's fall.
 
-- Period art and music: photographs of 26 of the advisors and pictures for 24 events (1917-1921), and four period recordings (the Workers' Marseillaise of 1917, Varshavianka, Rachmaninoff playing his Prelude in C-sharp minor, the Internationale), all public domain, from Wikimedia Commons. Event pictures and music can be switched off in Options.
+- **Three campaigns** on one shared timeline, each with its own currents, advisors, cards, events and endings: the **Mensheviks** (hard), the **SRs** (normal) and the **Left SRs** (hard).
+- **69 turns** from March 1917 to December 1921: two-week turns until the calendar reform of February 1918, monthly after.
+- **About 80 events** on their historical dates (the April Crisis, the July Days, Kornilov, October, the Constituent Assembly, Brest-Litovsk, Komuch, the Civil War, Kronstadt, the NEP), with choices and wording that change by party, and a real fork at October: a Bolshevik takeover, an all-socialist government, or an Assembly that governs.
+- **38 cards in three decks** and **29 historical advisors** (Martov, Dan, Tsereteli, Chernov, Spiridonova, Steinberg and more), four of them on your council at a time.
+- **A living country:** bread, the ruble, the war, the land, the Bolsheviks, the Right and the soviets drift month by month; a Cabinet sets standing policy while your party governs.
+- **Alliances and fault lines** between the three parties and the Bolsheviks, which break at Brest-Litovsk, Komuch, the July 1918 rising and Kolchak's coup unless relations are strong.
+- **An opposition that answers back:** the Kadets, the generals and the Bolsheviks sanction or revolt against your policies, and every contested law can be phased in, decreed, or forced through.
+- **12 endings and 16 achievements**, from Kornilov's Russia to Soviet democracy, with a recap of your whole run.
+- Parliament charts, a phone layout, dark mode, and period photographs and recordings from 1917-1921.
 
-Not yet done: a balance pass by a human player (the tools for it are below), and portraits for Gvozdev, Kolegaev and Aleksandrovich, for whom no free photograph was found. The numbers in the design plan marked as uncertain have not been checked against the books.
+The full description of the game, every system, event, card, advisor and ending, is in **[docs/game-description.md](docs/game-description.md)**.
 
-## Building the game
+## Running it locally
 
-1. `npm install`
-2. `npx dendrynexus make-html` in this folder, then open `out/html/index.html` (or serve the folder with any static web server).
+You need Node.js 20+ and Python 3.9+.
 
-`out/html/index.html`, `game.js`, `ui.js` (the sidebar bars, the "What changed" box and the party-select screen) and `game.css` are hand-maintained and are not rewritten by the build. `out/html/model.js` is a copy of `tools/model.js`; run `tools/sync_model.sh` after editing the model.
+```bash
+npm install
+npm run build      # compile the scenes into out/html
+npm run serve      # then open http://localhost:8000
+```
 
-## Tests
+Add `?debug` to the address to see the hidden numbers in the sidebar.
 
-`npm test` (or `sh tools/ci.sh`) builds the game, runs the model's unit tests (`tools/test_model.js`), checks that the generated scenes match their generators, and plays full games for every party and difficulty and every scripted strategy, failing on an error, a stuck game or broken text (`STRICT=1`). GitHub Actions runs the same checks on every push and pull request, and only publishes the game if they pass.
+## Development
 
-## Balance
+```bash
+npm test           # everything CI runs: unit tests, generated-file check, full games for every party and strategy
+npm run fuzz       # 5,000 games with random settings -> docs/reports/fuzz-report.md
+npm run balance    # endings by party, difficulty and strategy -> docs/reports/balance.md
+npm run play -- new sr normal    # play from the command line
+```
 
-`node tools/balance_report.js [games]` plays every party at every difficulty, and every scripted strategy, and writes [`docs/balance.md`](docs/balance.md): how often each ending comes up, how often the opposition moves, and how support fares. For playing it yourself, open the game with `?debug` at the end of the address (for example `index.html?debug`): the sidebar then shows the hidden numbers (the Bolsheviks' power for an insurrection, Kornilov's force against the resistance, each camp's hostility and its target, the odds of breaking it, relations and alliances, the front).
+```
+source/          the game: scenes (events, cards, advisors, the turn loop) and the rules model (source/model.js)
+out/html/        the web page: index.html, game.js, ui.js, game.css, pictures, music
+tools/build/     generators for advisors, the Cabinet, contested laws, card art
+tools/assets/    fetching and wiring the period art and music
+tools/test/      unit tests, the headless playtester and bots, fuzz and balance reports, CI script
+docs/            the game description, design plan, architecture, testing, reports, credits
+```
 
-Difficulty: Easy gives more resources, a bigger hand and returnable cards, and its currents, opposition and generals are a little gentler (and a party that is banned in name but keeps its members is not counted as driven abroad). Hard takes resources away, makes the currents 15% harder to hold together, the opposition anger 12% faster and the generals stronger.
+Start with **[CONTRIBUTING.md](CONTRIBUTING.md)**, then [docs/architecture.md](docs/architecture.md) and [docs/testing.md](docs/testing.md). Every push to `main` is tested and, if the tests pass, published to GitHub Pages.
 
-## Tools
+## Documentation
 
-- `tools/model.js`: the numbers behind the game: the support model for each voter group and arena, the monthly drift of the stats, factions and dissent, the Civil War front, and helpers for cards and events. It is plain JavaScript, loaded by the game and by the tests.
-- `tools/playtest.js`: a headless playtester. `node tools/playtest.js 100 cautious` plays 100 complete games with a random policy; `bot:democrat`, `bot:vikzhelist`, `bot:opposition`, `bot:whiteaid` (Mensheviks), `bot:sr_land`, `bot:sr_komuch`, `bot:sr_peasant` (SRs) and `bot:lsr_coalition`, `bot:lsr_rising` (Left SRs) and `bot:socializer` and `bot:breaker` (SRs: socialise the land through the Cabinet; the breaker also breaks the opposition by force, but only at 60% odds or better) play scripted strategies (see `tools/bots.js`). `PARTY="Left SRs"` picks the party (`Mensheviks`, `Socialist Revolutionaries`, `Left SRs`), `DIFF=Hard` picks the difficulty, `TEXT=file` dumps all text shown, `POW=1` and `WF=1` print balance data. Run `make-html` first.
-- `tools/play_cli.js`: play the game from the command line, one move at a time (`new sr normal`, `show`, `choose 2`, `draw 0`, `play 1`, `advisor 3`, `stats`), with the game saved to a file between moves. Handy for testing by hand or by an agent.
-- `tools/evedit.py` has helpers for editing events by party; `tools/gen_advisors.py` regenerates the advisor scenes; `tools/gen_cards.py` regenerates the card art (SVG) and wires it into the scenes; `tools/gen_art.py` regenerates the title banner and the party emblems.
+| | |
+|---|---|
+| [Game description](docs/game-description.md) | Everything in the game, in detail |
+| [Design plan](docs/design-plan.md) | The original plan and its historical research |
+| [Contributing](CONTRIBUTING.md) | Setting up, making changes, conventions |
+| [Architecture](docs/architecture.md) · [Testing](docs/testing.md) | How the code fits together and how it is tested |
+| [Changelog](CHANGELOG.md) | What changed, and when |
+| [Reports](docs/README.md#reports) | Balance, fuzz testing and playtest reports |
 
-## Included Libraries
+## Credits and licence
 
-[jquery v1.11.1](https://releases.jquery.com/)
-
-[d3.js v7](https://d3js.org) (ISC licence) and [d3-parliament](https://github.com/geoffreybr/d3-parliament) by Geoffrey Brossard (MIT licence), which draw the parliament charts, as in the original game.
-
-## Credits
-
-The engine, the interface and the structure of the cards, advisors and elections are the work of Autumn Chen: see `LICENSE`. The original game's images and music are not included in this fork. The period photographs and recordings in this one come from Wikimedia Commons and are listed, with author, source and licence, in `credits_images.txt` and `credits_music.txt` (and in the game's Credits); `docs/art_manifest.json` lists them, `tools/fetch_art.py` fetches them and `tools/wire_art.py` puts them into the scenes. Dendry, the game engine, is by Ian Millington and Autumn Chen.
-
-To update dendrynexus in `package-lock.json`, run `npm install --upgrade https://github.com/aucchen/dendrynexus`
+Red October is by Eva (2026), on the work of Autumn Chen (*Social Democracy*, 2024) and Ian Millington (Dendry). The period photographs and recordings are public domain, from Wikimedia Commons. See [CREDITS.md](CREDITS.md) for everyone and everything, and [LICENSE](LICENSE) for the MIT licence.

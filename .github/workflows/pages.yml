@@ -31,13 +31,13 @@ jobs:
       - name: Build
         run: npx dendrynexus make-html
       - name: Model unit tests
-        run: node tools/test_model.js
+        run: node tools/test/test_model.js
       - name: Generated scenes are up to date
         run: |
-          python3 tools/gen_advisors.py > /dev/null
-          python3 tools/gen_cabinet.py > /dev/null
-          python3 tools/gen_laws.py > /dev/null
-          git diff --exit-code --stat -- source/scenes/advisors source/scenes/coalition_affairs source/scenes/soviet_affairs tools/model.js
+          python3 tools/build/gen_advisors.py > /dev/null
+          python3 tools/build/gen_cabinet.py > /dev/null
+          python3 tools/build/gen_laws.py > /dev/null
+          git diff --exit-code --stat -- source/scenes/advisors source/scenes/coalition_affairs source/scenes/soviet_affairs source/model.js
 
   playtest:
     runs-on: ubuntu-latest
@@ -59,8 +59,8 @@ jobs:
           DIFF: ${{ matrix.difficulty }}
           STRICT: 1
         run: |
-          node tools/playtest.js 40 cautious | tail -4
-          node tools/playtest.js 20 random | tail -4
+          node tools/test/playtest.js 40 cautious | tail -4
+          node tools/test/playtest.js 20 random | tail -4
 
   bots:
     runs-on: ubuntu-latest
@@ -75,9 +75,9 @@ jobs:
         env:
           STRICT: 1
         run: |
-          for BOT in democrat vikzhelist opposition whiteaid persuader; do PARTY="Mensheviks" node tools/playtest.js 10 "bot:$BOT" | tail -2; done
-          for BOT in sr_land sr_komuch sr_peasant socializer breaker; do PARTY="Socialist Revolutionaries" node tools/playtest.js 10 "bot:$BOT" | tail -2; done
-          for BOT in lsr_coalition lsr_rising; do PARTY="Left SRs" node tools/playtest.js 10 "bot:$BOT" | tail -2; done
+          for BOT in democrat vikzhelist opposition whiteaid persuader; do PARTY="Mensheviks" node tools/test/playtest.js 10 "bot:$BOT" | tail -2; done
+          for BOT in sr_land sr_komuch sr_peasant socializer breaker; do PARTY="Socialist Revolutionaries" node tools/test/playtest.js 10 "bot:$BOT" | tail -2; done
+          for BOT in lsr_coalition lsr_rising lsr_villages; do PARTY="Left SRs" node tools/test/playtest.js 10 "bot:$BOT" | tail -2; done
 
   build:
     needs: [checks, playtest, bots]
