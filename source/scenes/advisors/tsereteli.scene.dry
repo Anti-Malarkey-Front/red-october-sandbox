@@ -1,5 +1,5 @@
 title: Irakli Tsereteli
-subtitle: Coalition Broker (Tsereteli keeps the cabinet together and smooths over disputes with the Kadets)
+subtitle: Coalition Broker: Tsereteli keeps the cabinet together and smooths over disputes with the Kadets. Relations with the Kadets +5; relations with the SRs +4; threat from the Right −2; the Internationalists: dissent +3; the Revolutionary Defencists: strength +1, dissent −1.
 is-pinned-card: true
 card-image: img/portraits/tsereteli.jpg
 tags: advisor, defencist
@@ -10,12 +10,18 @@ view-if: tsereteli_advisor = 1 and (player_party = 'menshevik' or lent_tsereteli
 
 Tsereteli (1881-1959), a Georgian Menshevik returned from Siberian exile, is the architect of revolutionary defencism and the coalition. He believes the socialists must share power to save the revolution.
 
+**Coalition Broker.** Tsereteli keeps the cabinet together and smooths over disputes with the Kadets.
+
+*Effect:* Relations with the Kadets +5; relations with the SRs +4; threat from the Right −2; the Internationalists: dissent +3; the Revolutionary Defencists: strength +1, dissent −1.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Coalition Broker
-subtitle: Tsereteli keeps the cabinet together and smooths over disputes with the Kadets.
+subtitle: Tsereteli keeps the cabinet together and smooths over disputes with the Kadets. Relations with the Kadets +5; relations with the SRs +4; threat from the Right −2; the Internationalists: dissent +3; the Revolutionary Defencists: strength +1, dissent −1.
 choose-if: advisor_action_timer <= 0 and in_coalition = 1 and bol_regime = 0
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (in_coalition = 1 and bol_regime = 0) : We are not in a coalition government. ?]
 on-arrival: {!

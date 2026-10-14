@@ -1,5 +1,5 @@
 title: Kuzma Gvozdev
-subtitle: Defence-Industry Pact (Gvozdev wins the war-industry workers' loyalty, at some cost among the radical ones)
+subtitle: Defence-Industry Pact: Gvozdev wins the war-industry workers' loyalty, at some cost among the radical ones. Support among workers +4, railwaymen +1; Bolshevik strength +1; the ruble +1; the trade unionists: strength +2, dissent −2.
 is-pinned-card: true
 card-image: img/cards/gvozdev.svg?v=2
 tags: advisor, unions
@@ -10,12 +10,18 @@ view-if: gvozdev_advisor = 1 and (player_party = 'menshevik' or lent_gvozdev = 1
 
 Gvozdev (1880-?), a lathe worker and chairman of the Central War Industries Committee's workers' group, is the workers' voice that the industrialists listen to.
 
+**Defence-Industry Pact.** Gvozdev wins the war-industry workers' loyalty, at some cost among the radical ones.
+
+*Effect:* Support among workers +4, railwaymen +1; Bolshevik strength +1; the ruble +1; the trade unionists: strength +2, dissent −2.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Defence-Industry Pact
-subtitle: Gvozdev wins the war-industry workers' loyalty, at some cost among the radical ones.
+subtitle: Gvozdev wins the war-industry workers' loyalty, at some cost among the radical ones. Support among workers +4, railwaymen +1; Bolshevik strength +1; the ruble +1; the trade unionists: strength +2, dissent −2.
 choose-if: advisor_action_timer <= 0 and at_war = 1
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (at_war = 1) : The war is over. ?]
 on-arrival: {!

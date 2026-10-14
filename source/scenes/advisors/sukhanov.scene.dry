@@ -1,5 +1,5 @@
 title: Nikolai Sukhanov
-subtitle: Insider Chronicler (Sukhanov's table talk reveals what the other parties intend)
+subtitle: Insider Chronicler: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the talks on an all-socialist government.
 is-pinned-card: true
 card-image: img/portraits/sukhanov.jpg
 tags: advisor, intl
@@ -10,12 +10,18 @@ view-if: sukhanov_advisor = 1 and (player_party = 'menshevik' or lent_sukhanov =
 
 Sukhanov (1882-1940), an Internationalist writer and a founding member of the Soviet executive, writes the best chronicle of the revolution as it happens. His wife is a Bolshevik.
 
+**Insider Chronicler.** Sukhanov's table talk reveals what the other parties intend.
+
+*Effect:* Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the talks on an all-socialist government.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Insider Chronicler
-subtitle: Sukhanov's table talk reveals what the other parties intend.
+subtitle: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the talks on an all-socialist government.
 choose-if: advisor_action_timer <= 0
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
 on-arrival: {!

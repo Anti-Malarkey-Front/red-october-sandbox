@@ -2,6 +2,21 @@
 
 This changelog covers the Red October fork only and follows the format of [Keep a Changelog](https://keepachangelog.com). The game has no numbered releases yet, so entries are grouped by date, newest first, and the history of the original game is in [docs/upstream/social-democracy-changes.txt](docs/upstream/social-democracy-changes.txt).
 
+## 2026-10-14
+
+### Added
+
+- Tracked achievements. The Achievements page (from the start menu or the end of a game) shows all 36, earned or not, with progress counts and the ones new in this game marked; they are kept in the browser across games, and a notice appears when one is earned. New: one for each of the 12 endings, a win with each party (The Minority Prevails, Land and Liberty, The Third Revolution), Clean Hands (win without force), Against the Current (win on Hard), Shared Power (reach a coalition), To the Bitter End, and two that count across games, Three Roads and Every Road. The list lives in `RO.ACHIEVEMENTS`, and the fuzz report now shows how often each is earned.
+- Advisor cards say exactly what each action does: the support, stats, relations, party currents and hidden effects, on the card, on the action and in the council. The text is written by `gen_advisors.py` from the effect code, so it cannot drift from the rules, and an advisor lent to another party speaks of that party's currents and allies.
+
+### Changed
+
+- Relations with the other parties fade more slowly: goodwill above a party's resting point now drifts back at 4% of the gap a month (was 8%), and a formal alliance rests just above the level that holds it, so it is lost only to events and choices, never to drift alone. Quarrels heal at the old pace.
+
+### Fixed
+
+- The "Achievements in this playthrough" page could show the achievements of the previous game played in the same session.
+
 ## 2026-10-11
 
 ### Added

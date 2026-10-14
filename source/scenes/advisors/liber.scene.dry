@@ -1,5 +1,5 @@
 title: Mikhail Liber
-subtitle: Jewish Workers' Link (Liber rallies the Jewish workers' organisations)
+subtitle: Jewish Workers' Link: Liber rallies the Jewish workers' organisations. Support among minorities +4, workers +2; the Bund: strength +1, dissent −5.
 is-pinned-card: true
 card-image: img/portraits/liber.jpg
 tags: advisor, bund
@@ -10,12 +10,18 @@ view-if: liber_advisor = 1 and (player_party = 'menshevik' or lent_liber = 1) an
 
 Liber (1880-1937) is a Bundist and a member of the Soviet executive. He speaks for the Jewish workers' organisations.
 
+**Jewish Workers' Link.** Liber rallies the Jewish workers' organisations.
+
+*Effect:* Support among minorities +4, workers +2; the Bund: strength +1, dissent −5.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Jewish Workers' Link
-subtitle: Liber rallies the Jewish workers' organisations.
+subtitle: Liber rallies the Jewish workers' organisations. Support among minorities +4, workers +2; the Bund: strength +1, dissent −5.
 choose-if: advisor_action_timer <= 0
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
 on-arrival: {!

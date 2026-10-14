@@ -146,6 +146,21 @@ function coverage(ids, title) {
 coverage(events, 'Events reached');
 coverage(cards, 'Cards drawn');
 
+// achievements: how often a game earns each one (the ones counted across games are left out)
+var RO = require(path.join(ROOT, 'source', 'model.js'));
+var ACH = RO.ACHIEVEMENTS.filter(function(a) { return a.id !== 'three_roads' && a.id !== 'every_road'; });
+var PARTY_KEY = {menshevik: 'Mensheviks', sr: 'Socialist Revolutionaries', lsr: 'Left SRs'};
+L.push('## Achievements earned', '', 'Share of games (%) that earn each achievement, of all games and of the games of the party that can earn it.', '',
+  row(['Achievement', 'All games', 'Mensheviks', 'SRs', 'Left SRs']), row(['---', '---', '---', '---', '---']));
+var nP = tally(games, function(g) { return g.config.party; });
+ACH.forEach(function(a) {
+  var has = function(g) { return (g.achievements || []).indexOf(a.id) >= 0; };
+  var by = function(p) { return (a.party && PARTY_KEY[a.party] !== p) ? '-' : pct(games.filter(function(g) { return g.config.party === p && has(g); }).length, nP[p] || 0); };
+  L.push(row(['`' + a.id + '`', pct(games.filter(has).length, games.length), by('Mensheviks'), by('Socialist Revolutionaries'), by('Left SRs')]));
+});
+var neverAch = ACH.filter(function(a) { return !games.some(function(g) { return (g.achievements || []).indexOf(a.id) >= 0; }); });
+L.push('', 'Never earned: ' + (neverAch.length ? neverAch.map(function(a) { return '`' + a.id + '`'; }).join(', ') : 'none') + '.', '');
+
 // cards played
 var plays = {};
 games.forEach(function(g) { for (var id in g.played || {}) { plays[id] = (plays[id] || 0) + g.played[id]; } });

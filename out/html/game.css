@@ -841,3 +841,25 @@ a, button, ul.choices li, .tab_button { touch-action: manipulation; -webkit-tap-
 /* ?debug: the hidden numbers in the sidebar */
 .sb-debug td { font-size: 0.78em; line-height: 1.3em; }
 .sb-debug td:last-child { font-family: Menlo, Consolas, monospace; }
+
+/* the achievements gallery and the unlock notice */
+.ach-progress { text-align: center; margin: 0.2em 0 0.8em 0; }
+.ach-progress b { font-size: 1.6em; font-weight: normal; }
+.ach-bar { height: 6px; max-width: 18em; margin: 0.35em auto 0 auto; background: var(--bar-bg); border-radius: 3px; overflow: hidden; }
+.ach-bar i { display: block; height: 100%; background: #b8862b; }
+.ach-grid { list-style: none; margin: 0.3em 0 0.9em 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(13em, 1fr)); gap: 0.45em; }
+.ach { position: relative; border: 1px solid #876; border-radius: 4px; padding: 0.4em 0.55em 0.45em 2.1em; line-height: 1.25em; background: rgba(120, 90, 40, 0.06); }
+.ach::before { content: '\2605'; position: absolute; left: 0.55em; top: 0.38em; font-size: 1.05em; color: #b8862b; }
+.ach b { display: block; font-weight: normal; }
+.ach small { display: block; font-size: 0.8em; opacity: 0.85; }
+.ach.locked { opacity: 0.55; background: transparent; border-style: dashed; }
+.ach.locked::before { content: '\2606'; color: inherit; }
+.ach.kind-loss::before { content: '\2620'; color: #8a3a2a; }
+.ach.kind-historical::before { content: '\231B'; color: #6b5a45; }
+.ach.locked.kind-loss::before, .ach.locked.kind-historical::before { color: inherit; }
+.ach-new { position: absolute; right: 0.4em; top: 0.35em; font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.05em; color: #fff; background: #b8862b; border-radius: 3px; padding: 0 0.35em; }
+.ach-toast { position: fixed; left: 50%; bottom: 1.2em; transform: translateX(-50%); z-index: 1000; max-width: calc(100vw - 32px); box-sizing: border-box;
+  background: #2b2418; color: #f3ead6; border: 1px solid #b8862b; border-radius: 6px; padding: 0.55em 0.9em; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  font-size: 0.95em; line-height: 1.3em; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+.ach-toast.show { opacity: 1; }
+.ach-toast b { color: #e8c170; font-weight: normal; }

@@ -1,5 +1,5 @@
 title: Lev Khinchuk
-subtitle: Moscow Machine (Khinchuk mobilises food and cooperative networks in Moscow)
+subtitle: Moscow Machine: Khinchuk mobilises food and cooperative networks in Moscow. Support among workers +2, middle strata +2; bread supply +3; the trade unionists: strength +1, dissent −1.
 is-pinned-card: true
 card-image: img/portraits/khinchuk.jpg
 tags: advisor, unions
@@ -10,12 +10,18 @@ view-if: khinchuk_advisor = 1 and (player_party = 'menshevik' or lent_khinchuk =
 
 Khinchuk (1868-1939), a Menshevik and cooperator, is the chairman of the Moscow Soviet's executive in 1917 and an expert on cooperatives.
 
+**Moscow Machine.** Khinchuk mobilises food and cooperative networks in Moscow.
+
+*Effect:* Support among workers +2, middle strata +2; bread supply +3; the trade unionists: strength +1, dissent −1.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Moscow Machine
-subtitle: Khinchuk mobilises food and cooperative networks in Moscow.
+subtitle: Khinchuk mobilises food and cooperative networks in Moscow. Support among workers +2, middle strata +2; bread supply +3; the trade unionists: strength +1, dissent −1.
 choose-if: advisor_action_timer <= 0
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
 on-arrival: {!

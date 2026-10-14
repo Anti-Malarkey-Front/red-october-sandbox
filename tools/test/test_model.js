@@ -206,5 +206,40 @@ test('an alliance that cannot go further says why', function() {
   assert.ok(['power', 'lines'].indexOf(Q.alliance_why) >= 0, Q.alliance_why);
 });
 
+test('relations fade slowly, and a formal alliance does not fade away by itself', function() {
+  var Q = state({at_war: 0, rel_ally: 80, rel_base_ally: 55, ally_lvl: 0, rel_bol: 10, rel_base_bol: 25, ally_bol: 0});
+  for (var i = 0; i < 6; i++) { RO.drift(Q, 1); }
+  assert.ok(Q.rel_ally > 65 && Q.rel_ally < 80, 'untended goodwill ' + Q.rel_ally);
+  assert.ok(Q.rel_bol > 15 && Q.rel_bol < 25, 'a quarrel heals ' + Q.rel_bol);
+  var C = state({player_party: 'menshevik', at_war: 0, rel_ally: 80, rel_base_ally: 55, ally_lvl: 3});
+  for (i = 0; i < 48; i++) { RO.drift(C, 1); RO.alliancesTurn(C, 1); }
+  assert.strictEqual(C.ally_lvl, 3, 'coalition held at ' + C.rel_ally);
+});
+
+test('achievements at the end: endings, wins, and the ones counted across games', function() {
+  var ids = RO.ACHIEVEMENTS.map(function(a) { return a.id; });
+  assert.strictEqual(new Set(ids).size, ids.length, 'ids are unique');
+  var Q = state({player_party: 'sr', ending: 'constituent_republic', difficulty: 1, laws_log: [[30, 'Land', 'decree', 'kad']]});
+  var got = RO.achievementsAtEnd(Q, {});
+  ['game_completed', 'ending_constituent_republic', 'constituent_republic_win', 'won_sr', 'clean_hands', 'against_the_current'].forEach(function(id) {
+    assert.ok(got.indexOf(id) >= 0, id + ' in ' + got.join(','));
+  });
+  got.forEach(function(id) { assert.ok(ids.indexOf(id) >= 0, 'listed: ' + id); });
+  Q.laws_log.push([40, 'Order', 'force', 'bol']);
+  assert.ok(RO.achievementsAtEnd(Q, {}).indexOf('clean_hands') < 0, 'force spoils clean hands');
+  assert.ok(RO.achievementsAtEnd(Q, {won_menshevik: 1, won_lsr: 1}).indexOf('three_roads') >= 0);
+  var every = {};
+  RO.ACHIEVEMENTS.forEach(function(a) { if (a.ending && a.ending !== 'white') { every[a.id] = 1; } });
+  var L = state({player_party: 'menshevik', ending: 'white'});
+  assert.ok(RO.achievementsAtEnd(L, every).indexOf('every_road') >= 0);
+  assert.ok(RO.achievementsAtEnd(L, {}).indexOf('won_menshevik') < 0, 'a loss is not a win');
+  // every ending the game can reach has its achievement
+  var src = require('fs').readFileSync(require('path').join(__dirname, '..', '..', 'source', 'scenes', 'game_over.scene.dry'), 'utf8');
+  (src.match(/eg_(\w+) if ending = '(\w+)'/g) || []).forEach(function(m) {
+    var e = m.match(/'(\w+)'/)[1];
+    assert.ok(ids.indexOf('ending_' + e) >= 0, 'ending achievement for ' + e);
+  });
+});
+
 console.log(passed + ' passed, ' + failed + ' failed');
 if (failed) { process.exit(1); }

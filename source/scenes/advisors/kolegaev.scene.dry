@@ -1,5 +1,5 @@
 title: Andrei Kolegaev
-subtitle: Land Decree (Kolegaev carries out the redistribution of land)
+subtitle: Land Decree: Kolegaev carries out the redistribution of land. Support among peasants +5; land pressure −8; the village organisers: strength +1, dissent −1.
 is-pinned-card: true
 card-image: img/cards/kolegaev.svg?v=2
 tags: advisor, rightdef
@@ -10,12 +10,18 @@ view-if: kolegaev_advisor = 1 and (player_party = 'lsr' or lent_kolegaev = 1) an
 
 Kolegaev (1886-1937), a Left SR, is the party's expert on the land, and one of the authors of the land decree.
 
+**Land Decree.** Kolegaev carries out the redistribution of land.
+
+*Effect:* Support among peasants +5; land pressure −8; the village organisers: strength +1, dissent −1.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Land Decree
-subtitle: Kolegaev carries out the redistribution of land.
+subtitle: Kolegaev carries out the redistribution of land. Support among peasants +5; land pressure −8; the village organisers: strength +1, dissent −1.
 choose-if: advisor_action_timer <= 0 and lsr_in_gov = 1
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (lsr_in_gov = 1) : We are not in the government. ?]
 on-arrival: {!

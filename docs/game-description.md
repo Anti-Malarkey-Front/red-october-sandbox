@@ -33,7 +33,7 @@
 | **You play** | The leadership of one of three socialist parties that history defeated: the Mensheviks, the Socialist Revolutionaries (SRs) or the Left SRs |
 | **Goal** | Save something of what was won in February 1917, without a military dictatorship of the Right, a White victory, or a Bolshevik one-party state |
 | **Length** | 69 turns (two-week turns until February 1918, then monthly); about an hour a playthrough |
-| **Content** | About 80 events, 38 cards in three decks, 29 historical advisors, 12 endings, 16 achievements |
+| **Content** | About 80 events, 38 cards in three decks, 29 historical advisors, 12 endings, 36 achievements |
 | **Platform** | Any modern browser, desktop or phone; no installation, no account; saves in the browser |
 | **Engine** | Dendry (dendrynexus), a fork of Autumn Chen's *Social Democracy: An Alternate History* |
 | **Licence** | MIT; the period photographs and recordings are in the public domain |
@@ -525,7 +525,7 @@ Levels, and what the relation must be for each:
 | 2 | bloc | relation ≥ 60, and the lines are compatible | 50 |
 | 3 | coalition | relation ≥ 75, lines compatible, and shared power | 65 |
 
-**Relations drift.** Each relation moves 8% of the gap a month towards its base. Mensheviks: ally 55, Left SRs 30, Bolsheviks 25, Kadets 30. SRs: ally 55, Left SRs 60, Bolsheviks 25, Kadets 35. Left SRs: ally 45, Mensheviks 35, Bolsheviks 40, Kadets 15.
+**Relations drift.** Each relation moves towards a resting point: 4% of the gap a month when it is above it (goodwill fades slowly), 8% when it is below (quarrels heal). The resting point is the base, except that a formal alliance whose relations still hold it rests at 5 above the level that keeps it (cooperation 35, bloc 55, coalition 70), so an alliance is never lost to drift alone, only to events and choices. Mensheviks: ally 55, Left SRs 30, Bolsheviks 25, Kadets 30. SRs: ally 55, Left SRs 60, Bolsheviks 25, Kadets 35. Left SRs: ally 45, Mensheviks 35, Bolsheviks 40, Kadets 15.
 
 **Left SR start.** The Left SRs start in coalition with the SRs (level 3, relation 55). On the first turn the relation is below the coalition hold (65), so the level drops to 2. Its drift towards 45 then drops it again, to 1 (cooperation), since 45 is below the bloc hold of 50. The alliance only holds if the relation is tended.
 
@@ -1954,7 +1954,7 @@ An advisor appears in these choices only if the party can use them (see the Advi
 
 ## The advisors
 
-There are 29 advisors. Each belongs to one party. Each has one or two actions, and an advisor can act only when they are on the council and the party can use them (their party, or lent to it: see the shared table). All advisors share one cooldown: after any advisor action, no advisor can act for 6 months.
+There are 29 advisors. Each belongs to one party. Each has one or two actions, and an advisor can act only when they are on the council and the party can use them (their party, or lent to it: see the shared table). All advisors share one cooldown: after any advisor action, no advisor can act for 6 months. Each advisor's card, action and council entry list the action's exact effects (support, stats, relations, currents and hidden flags), written by `tools/build/gen_advisors.py` from the effect code; an advisor lent to another party describes the effects in that party's terms.
 
 The faction column gives each advisor's current, using the party's own name for it. The dates are the first half of the month in which the threshold is reached. Where a date comes from an event rather than a fixed date, the event is named.
 
@@ -2089,17 +2089,22 @@ Which count as wins: the page labels "A win." for `soviet_coalition`, `peasant_s
 
 ### Achievements
 
-There are sixteen achievements: most are awarded at the end of the game, three by events along the way.
+There are 36 achievements, listed in `RO.ACHIEVEMENTS` in `source/model.js`: one for each of the 12 endings, and 24 deeds. Most are awarded at the end of the game by `RO.achievementsAtEnd`, three by events along the way, and two count across games. The engine keeps the earned ones in the browser (localStorage), so they carry from game to game; the Achievements page, from the start menu or the end of a game, shows them all, earned or not, with the ones new in this game marked, and a notice appears whenever one is earned.
 
 | Achievement | Condition |
 |---|---|
-| Game completed | always, on reaching the end page |
+| Each ending (12) | reach that ending |
+| To the Bitter End | always, on reaching the end page |
 | Dustbin of History | ending `exile`, `one_party`, `sr_historical` or `lsr_historical` |
 | The Soviet Coalition | ending `soviet_coalition` |
 | The Peasant Soviets | ending `peasant_soviets` |
 | Soviet Democracy | ending `soviet_democracy` |
 | The Constituent Republic | ending `constituent_republic` |
 | The All-Socialist Government | ending `all_socialist` |
+| The Minority Prevails / Land and Liberty / The Third Revolution | win with the Mensheviks / the SRs / the Left SRs |
+| Clean Hands | win without carrying any contested measure by force |
+| Against the Current | win on Hard |
+| Shared Power | an alliance reaches the coalition level (`coalition_reached`, set by `RO.alliancesTurn`) |
 | Komuch Without Kolchak | SR player; `komuch_alive`; front under 72; Bolsheviks rule |
 | One Party | SR player; `lsr_kept`; no Left SR split (`lsr_split` not set) |
 | Seven Commissars | Left SR player; `seven_commissars`; Bolsheviks rule |
@@ -2109,6 +2114,10 @@ There are sixteen achievements: most are awarded at the end of the game, three b
 | There Is Such a Party | take power from the crowd in the July Days (1917) |
 | Vikzhel | sign the all-socialist government at the Vikzhel talks |
 | All Power to the Assembly | the Constituent Assembly meets and governs |
+| Three Roads | across games: win with all three parties |
+| Every Road | across games: reach all 12 endings |
+
+The fuzz report (`docs/reports/fuzz-report.md`) shows how often random games earn each one.
 
 **Note.** The page text for Komuch Without Kolchak says "that the Whites never capture". The code tests that the front is under 72 at the end.
 

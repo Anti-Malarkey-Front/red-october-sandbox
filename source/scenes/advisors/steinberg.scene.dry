@@ -1,5 +1,5 @@
 title: Isaac Steinberg
-subtitle: Revolutionary Legality (Steinberg fights the Cheka's powers from inside the government)
+subtitle: Revolutionary Legality: Steinberg fights the Cheka's powers from inside the government. Repression −5; soviet democracy +2; relations with the Bolsheviks −1; the pro-coalition Left SRs: strength +1, dissent −2.
 is-pinned-card: true
 card-image: img/portraits/steinberg.jpg
 tags: advisor, rightdef
@@ -10,12 +10,18 @@ view-if: steinberg_advisor = 1 and (player_party = 'lsr' or lent_steinberg = 1) 
 
 Steinberg (1888-1957), a Left SR lawyer, is the party's conscience on the rights of the accused, and an enemy of arbitrary arrest.
 
+**Revolutionary Legality.** Steinberg fights the Cheka's powers from inside the government.
+
+*Effect:* Repression −5; soviet democracy +2; relations with the Bolsheviks −1; the pro-coalition Left SRs: strength +1, dissent −2.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Revolutionary Legality
-subtitle: Steinberg fights the Cheka's powers from inside the government.
+subtitle: Steinberg fights the Cheka's powers from inside the government. Repression −5; soviet democracy +2; relations with the Bolsheviks −1; the pro-coalition Left SRs: strength +1, dissent −2.
 choose-if: advisor_action_timer <= 0 and lsr_in_gov = 1
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (lsr_in_gov = 1) : We are not in the government. ?]
 on-arrival: {!

@@ -303,6 +303,10 @@ var RO = (function() {
     }
   }
 
+  // the relations that hold each formal alliance, and the relations below which a level is lost
+  var REL_LVL = {rel_ally: 'ally_lvl', rel_lsr: 'ally_lsr', rel_bol: 'ally_bol'};
+  var HOLD = [0, 30, 50, 65];
+
   // Per-turn drift of the stats. tl is the turn length in months (0.5 or 1).
   function drift(Q, tl) {
     var G = grievance(Q);
@@ -339,10 +343,13 @@ var RO = (function() {
       Q.repression += (Q.legality <= 1 ? 0.6 : 0.3) * tl;
       Q.red_army += 1.2 * tl * (Q.red_army < 70 ? 1 : 0);
     }
-    // relations with other parties drift back toward where they started unless tended
+    // relations with other parties drift back toward where they started unless tended: goodwill fades slowly and
+    // quarrels heal faster, and a formal alliance holds its partner just above the level that keeps it
     var relBase = {rel_ally: Q.rel_base_ally || 55, rel_lsr: Q.rel_base_lsr || 30, rel_bol: Q.rel_base_bol || 25, rel_kad: Q.rel_base_kad || 30};
     for (var rk in relBase) {
-      Q[rk] += (relBase[rk] - Q[rk]) * 0.08 * tl;
+      var lvlKey = REL_LVL[rk], held = lvlKey ? HOLD[clamp(Q[lvlKey] || 0, 0, 3)] : 0;
+      var home = (held && Q[rk] >= held) ? Math.max(relBase[rk], held + 5) : relBase[rk];
+      Q[rk] += (home - Q[rk]) * (Q[rk] > home ? 0.04 : 0.08) * tl;
     }
     // the player's campaign boosts fade slowly
     for (var g = 0; g < BOOST_GROUPS.length; g++) {
@@ -495,8 +502,7 @@ var RO = (function() {
   }
   function levelName(l) { return LEVEL_NAMES[clamp(Math.round(l), 0, 3)]; }
 
-  // Alliances erode when relations fall well below what holds them.
-  var HOLD = [0, 30, 50, 65];
+  // Alliances erode when relations fall well below what holds them (HOLD is declared with drift, which uses it too).
   function alliancesTurn(Q, tl) {
     var i, who, blocs = 0, feed = 0;
     // Left SRs start inside the SR party; the split ends that
@@ -510,6 +516,7 @@ var RO = (function() {
       Q[LVL[who]] = lvl;
       if (lvl >= 2) { blocs++; }
       if (lvl >= 3) {
+        Q.coalition_reached = 1;
         feed += Q['turmoil_' + allySlot(Q, who)] || 0;
         var adv = LEND[Q.player_party] && LEND[Q.player_party][who];
         if (adv && !Q['lent_' + adv] && !Q[adv + '_advisor']) { Q[adv + '_advisor'] = 1; Q['lent_' + adv] = 1; }
@@ -1086,7 +1093,80 @@ var RO = (function() {
   }
 
 
-  return {exileRisk: exileRisk, allianceBlocker: allianceBlocker, campPower: campPower, campReadiness: campReadiness, ACT_FROM: ACT_FROM, ARMS_AT: ARMS_AT, campTarget: campTarget, recordTurn: recordTurn, law: law, lawHits: lawHits, breakCamp: breakCamp, squash: squash, squashAll: squashAll, squashOdds: squashOdds, strength: strength, allyPower: allyPower, recordParliament: recordParliament, projectParliament: projectParliament, PARL_SIZE: PARL_SIZE, oppositionTurn: oppositionTurn, opposition: opposition, offence: offence, rollback: rollback, mainGrievance: mainGrievance, CAMPS: CAMPS, CAMP_NAMES: CAMP_NAMES, SANCTION_AT: SANCTION_AT, REVOLT_AT: REVOLT_AT, classSupport: classSupport, popularity: popularity, BOOST_GROUPS: BOOST_GROUPS, CLASS_NAMES: CLASS_NAMES, policyDrift: policyDrift, syncAdvisors: syncAdvisors, reshuffleCouncil: reshuffleCouncil, callAdvisor: callAdvisor, swapAdvisor: swapAdvisor, replaceAdvisor: replaceAdvisor, advisorsAvailable: advisorsAvailable, allianceTarget: allianceTarget, formalize: formalize, levelName: levelName, alliancesTurn: alliancesTurn, worldTurmoil: worldTurmoil, fault: fault, allySlot: allySlot, compatible: compatible, chance: chance, PARTY: PARTY, initParty: initParty, boost: boost, fac: fac, add: add, pay: pay, display: display, GROUPS: GROUPS, PARTIES: PARTIES, PARTY_NAMES: PARTY_NAMES, FACTIONS: FACTIONS, BASE: BASE,
+  // ---- achievements ----
+  // The list that the achievements gallery shows. The ids are the engine's achievement names: the engine keeps the
+  // ones earned in the browser (localStorage) across games, and sets game_achievement_<id> for the current game.
+  // kind: for an ending, 'loss', 'historical', 'win' or 'best'; party: the campaign in which it can be earned.
+  var ACHIEVEMENTS = [
+    {id: 'ending_kornilov', ending: 'kornilov', title: "Kornilov's Russia", desc: 'General Kornilov takes Petrograd.', kind: 'loss'},
+    {id: 'ending_right_coup', ending: 'right_coup', title: "The Generals' Republic", desc: 'The generals send the Constituent Assembly home.', kind: 'loss'},
+    {id: 'ending_white', ending: 'white', title: 'White Russia', desc: 'The Whites win the Civil War.', kind: 'loss'},
+    {id: 'ending_exile', ending: 'exile', title: 'Exile', desc: 'The party is driven abroad.', kind: 'historical', party: 'menshevik'},
+    {id: 'ending_one_party', ending: 'one_party', title: 'The One-Party State', desc: 'The party survives, tolerated and powerless.', kind: 'historical', party: 'menshevik'},
+    {id: 'ending_sr_historical', ending: 'sr_historical', title: 'Prisoners of the Right and the Left', desc: 'The SRs are crushed between the Whites and the Reds.', kind: 'historical', party: 'sr'},
+    {id: 'ending_lsr_historical', ending: 'lsr_historical', title: 'July 1918', desc: 'The Left SRs break with the Bolsheviks, and are broken.', kind: 'historical', party: 'lsr'},
+    {id: 'ending_constituent_republic', ending: 'constituent_republic', title: 'The Constituent Republic', desc: 'The Constituent Assembly governs.', kind: 'win'},
+    {id: 'ending_all_socialist', ending: 'all_socialist', title: 'The All-Socialist Government', desc: 'A government of all the socialist parties holds.', kind: 'win'},
+    {id: 'ending_soviet_coalition', ending: 'soviet_coalition', title: 'The Soviet Coalition', desc: 'The Left SRs govern beside the Bolsheviks to the end.', kind: 'win', party: 'lsr'},
+    {id: 'ending_peasant_soviets', ending: 'peasant_soviets', title: 'The Peasant Soviets', desc: 'The villages elect their own soviets.', kind: 'win', party: 'lsr'},
+    {id: 'ending_soviet_democracy', ending: 'soviet_democracy', title: 'Soviet Democracy', desc: 'The soviets are made free again.', kind: 'best'},
+    {id: 'game_completed', title: 'To the Bitter End', desc: 'Finish a game, whatever the ending.'},
+    {id: 'there_is_such_a_party', title: 'There Is Such a Party', desc: 'Take power in July 1917.'},
+    {id: 'vikzhel', title: 'Vikzhel', desc: 'Sign the all-socialist government.'},
+    {id: 'all_power_to_the_assembly', title: 'All Power to the Assembly', desc: 'The Constituent Assembly meets.'},
+    {id: 'coalition_reached', title: 'Shared Power', desc: 'Raise an alliance to a coalition.'},
+    {id: 'nineteen_of_thirty', title: 'Nineteen of Thirty', desc: 'Win the spring 1918 soviet elections and keep them.'},
+    {id: 'chto_delat', title: "Chto Delat'", desc: 'Adopt the 1919 programme before 1920.'},
+    {id: 'free_georgia', title: 'Free Georgia', desc: 'Georgia survives the invasion.'},
+    {id: 'komuch_without_kolchak', title: 'Komuch Without Kolchak', desc: 'An SR government on the Volga that the Whites never capture.', party: 'sr'},
+    {id: 'one_party_sr', title: 'One Party', desc: 'The SRs never split.', party: 'sr'},
+    {id: 'seven_commissars', title: 'Seven Commissars', desc: 'The Left SR coalition outlives Brest-Litovsk.', party: 'lsr'},
+    {id: 'dustbin_of_history', title: 'Dustbin of History', desc: 'Reach a historical ending.'},
+    {id: 'soviet_democracy_win', title: 'Soviet Democracy', desc: 'Reach the best ending.'},
+    {id: 'constituent_republic_win', title: 'The Constituent Republic', desc: 'Win with the Constituent Assembly.'},
+    {id: 'all_socialist_win', title: 'The All-Socialist Government', desc: 'Win with the all-socialist coalition.'},
+    {id: 'soviet_coalition_win', title: 'The Soviet Coalition', desc: 'Govern beside the Bolsheviks to the end.', party: 'lsr'},
+    {id: 'peasant_soviets_win', title: 'The Peasant Soviets', desc: 'Win the villages their own soviets.', party: 'lsr'},
+    {id: 'won_menshevik', title: 'The Minority Prevails', desc: 'Win with the Mensheviks.', party: 'menshevik'},
+    {id: 'won_sr', title: 'Land and Liberty', desc: 'Win with the SRs.', party: 'sr'},
+    {id: 'won_lsr', title: 'The Third Revolution', desc: 'Win with the Left SRs.', party: 'lsr'},
+    {id: 'clean_hands', title: 'Clean Hands', desc: 'Win without carrying a single measure by force.'},
+    {id: 'against_the_current', title: 'Against the Current', desc: 'Win on Hard.'},
+    {id: 'three_roads', title: 'Three Roads', desc: 'Win with all three parties.'},
+    {id: 'every_road', title: 'Every Road', desc: 'Reach every ending.'}
+  ];
+  var WON_ENDINGS = ['constituent_republic', 'all_socialist', 'soviet_democracy', 'soviet_coalition', 'peasant_soviets'];
+  var HISTORICAL_ENDINGS = ['exile', 'one_party', 'sr_historical', 'lsr_historical'];
+  function won(ending) { return WON_ENDINGS.indexOf(ending) >= 0; }
+
+  // The achievements that the final state earns. had: the achievements earned in earlier games (an object of ids), for
+  // the ones that count across games. Returns a list of ids.
+  function achievementsAtEnd(Q, had) {
+    var e = Q.ending, p = Q.player_party, out = ['game_completed', 'ending_' + e];
+    var force = (Q.laws_log || []).some(function(l) { return l[2] === 'force'; });
+    if (HISTORICAL_ENDINGS.indexOf(e) >= 0) { out.push('dustbin_of_history'); }
+    if (won(e)) {
+      out.push(e + '_win', 'won_' + p);
+      if (!force) { out.push('clean_hands'); }
+      if (Q.difficulty > 0) { out.push('against_the_current'); }
+    }
+    if (p === 'sr' && Q.komuch_alive && Q.white_front < 72 && Q.bol_regime) { out.push('komuch_without_kolchak'); }
+    if (p === 'sr' && Q.lsr_kept && !Q.lsr_split) { out.push('one_party_sr'); }
+    if (p === 'lsr' && Q.seven_commissars && Q.bol_regime) { out.push('seven_commissars'); }
+    if (Q.capitals_won >= 19 && Q.spring_honoured) { out.push('nineteen_of_thirty'); }
+    if (Q.program_adopted && Q.program_dix < 72) { out.push('chto_delat'); }
+    if (Q.georgia_survives && Q.bol_regime) { out.push('free_georgia'); }
+    if (Q.coalition_reached) { out.push('coalition_reached'); }
+    // across games
+    var all = {}, k;
+    for (k in had || {}) { all[k] = 1; }
+    out.forEach(function(id) { all[id] = 1; });
+    if (all.won_menshevik && all.won_sr && all.won_lsr) { out.push('three_roads'); }
+    if (ACHIEVEMENTS.every(function(a) { return !a.ending || all[a.id]; })) { out.push('every_road'); }
+    return out.filter(function(id, i) { return out.indexOf(id) === i; });
+  }
+
+  return {ACHIEVEMENTS: ACHIEVEMENTS, achievementsAtEnd: achievementsAtEnd, WON_ENDINGS: WON_ENDINGS, exileRisk: exileRisk, allianceBlocker: allianceBlocker, campPower: campPower, campReadiness: campReadiness, ACT_FROM: ACT_FROM, ARMS_AT: ARMS_AT, campTarget: campTarget, recordTurn: recordTurn, law: law, lawHits: lawHits, breakCamp: breakCamp, squash: squash, squashAll: squashAll, squashOdds: squashOdds, strength: strength, allyPower: allyPower, recordParliament: recordParliament, projectParliament: projectParliament, PARL_SIZE: PARL_SIZE, oppositionTurn: oppositionTurn, opposition: opposition, offence: offence, rollback: rollback, mainGrievance: mainGrievance, CAMPS: CAMPS, CAMP_NAMES: CAMP_NAMES, SANCTION_AT: SANCTION_AT, REVOLT_AT: REVOLT_AT, classSupport: classSupport, popularity: popularity, BOOST_GROUPS: BOOST_GROUPS, CLASS_NAMES: CLASS_NAMES, policyDrift: policyDrift, syncAdvisors: syncAdvisors, reshuffleCouncil: reshuffleCouncil, callAdvisor: callAdvisor, swapAdvisor: swapAdvisor, replaceAdvisor: replaceAdvisor, advisorsAvailable: advisorsAvailable, allianceTarget: allianceTarget, formalize: formalize, levelName: levelName, alliancesTurn: alliancesTurn, worldTurmoil: worldTurmoil, fault: fault, allySlot: allySlot, compatible: compatible, chance: chance, PARTY: PARTY, initParty: initParty, boost: boost, fac: fac, add: add, pay: pay, display: display, GROUPS: GROUPS, PARTIES: PARTIES, PARTY_NAMES: PARTY_NAMES, FACTIONS: FACTIONS, BASE: BASE,
           ARENAS: ARENAS, ARENA_BIAS: ARENA_BIAS, clamp: clamp, dix: dix, grievance: grievance,
           setResults: setResults, bolPower: bolPower, kornilovForce: kornilovForce,
           kornilovResistance: kornilovResistance, groupSupport: groupSupport, arenaResult: arenaResult, currentArena: currentArena,

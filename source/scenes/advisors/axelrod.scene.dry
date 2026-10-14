@@ -1,5 +1,5 @@
 title: Pavel Axelrod
-subtitle: Western Socialist Network (Axelrod lobbies the Western socialists for pressure and aid)
+subtitle: Western Socialist Network: Axelrod lobbies the Western socialists for pressure and aid. Soviet democracy +1; repression −1; resources +2; more pressure from the socialists abroad.
 is-pinned-card: true
 card-image: img/portraits/axelrod.jpg
 tags: advisor, unions
@@ -10,12 +10,18 @@ view-if: axelrod_advisor = 1 and (player_party = 'menshevik' or lent_axelrod = 1
 
 Axelrod (1850-1928) is an elder of Russian Marxism and the founder of the idea of a broad workers' congress. He is the party's link to the socialists of the West.
 
+**Western Socialist Network.** Axelrod lobbies the Western socialists for pressure and aid.
+
+*Effect:* Soviet democracy +1; repression −1; resources +2; more pressure from the socialists abroad.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Western Socialist Network
-subtitle: Axelrod lobbies the Western socialists for pressure and aid.
+subtitle: Axelrod lobbies the Western socialists for pressure and aid. Soviet democracy +1; repression −1; resources +2; more pressure from the socialists abroad.
 choose-if: advisor_action_timer <= 0
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
 on-arrival: {!

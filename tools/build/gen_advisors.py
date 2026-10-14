@@ -164,6 +164,101 @@ OTHERS = [
     "Aleksandrovich saw the lists before they were signed. A number of names were crossed out, and a few of those named were warned.")]),
 ]
 
+# ---- plain descriptions of what an action does, read from its effect code ----
+# The faction names of each party (as in source/model.js PARTY.*.factions), and the other parties as each campaign sees them.
+FACTION_NAMES = {
+    'menshevik': {'defencist': 'the Revolutionary Defencists', 'intl': 'the Internationalists', 'rightdef': 'the Right Defencists',
+                  'unions': 'the trade unionists', 'bund': 'the Bund'},
+    'sr': {'defencist': 'the Centre', 'intl': 'the Left SRs', 'rightdef': 'the Right SRs', 'unions': 'the Right Centre',
+           'bund': 'the Ufa delegation'},
+    'lsr': {'defencist': 'the leadership', 'intl': 'the pro-Bolshevik Left SRs', 'rightdef': 'the pro-coalition Left SRs',
+            'unions': 'the village organisers', 'bund': 'the Narodnik Communists'},
+}
+REL_NAMES = {
+    'menshevik': {'rel_ally': 'the SRs', 'rel_lsr': 'the Left SRs'},
+    'sr': {'rel_ally': 'the Mensheviks', 'rel_lsr': 'the Left SRs'},
+    'lsr': {'rel_ally': 'the SRs', 'rel_lsr': 'the Mensheviks'},
+}
+MEM_SCALE = {'menshevik': 1, 'sr': 2.5, 'lsr': 0.8}
+GROUP_NAMES = {'workers': 'workers', 'soldiers': 'soldiers', 'peasants': 'peasants', 'middle': 'middle strata',
+               'railway': 'railwaymen', 'nations': 'minorities'}
+STAT_NAMES = {'bolshevik': 'Bolshevik strength', 'ruble': 'the ruble', 'bread': 'bread supply', 'land_pressure': 'land pressure',
+              'soviet_democracy': 'soviet democracy', 'repression': 'repression', 'right_threat': 'threat from the Right'}
+# effects that are not numbers in the sidebar
+FLAG_TEXT = {
+    'insight': 'better intelligence for the talks on an all-socialist government',
+    'foreign_pressure': 'more pressure from the socialists abroad',
+    'peasant_organised': "the peasants' soviets better organised",
+    'cheka_shield': 'a shield for the party when the Red Terror comes',
+    'land_law_draft': 'a land law ready for the Constituent Assembly',
+    'armed_struggle': 'the party takes up arms: a government on the Volga, relying on foreign aid',
+}
+
+
+def sign(n):
+    n = float(n)
+    n = int(n) if n == int(n) else n
+    return ('+%s' % n) if n > 0 else ('−%s' % abs(n))
+
+
+def describe(js, party):
+    """What an action's effect code does, in plain words: 'Support: workers +3; soviet democracy +1; ...'."""
+    import re
+    out = []
+    for m in re.finditer(r'RO\.boost\(Q, \{([^}]*)\}\)', js):
+        pairs = re.findall(r'(\w+): (-?[\d.]+)', m.group(1))
+        out.append('support among ' + ', '.join('%s %s' % (GROUP_NAMES[g], sign(v)) for g, v in pairs))
+    for m in re.finditer(r'RO\.add\(Q, \{([^}]*)\}\)', js):
+        for k, v in re.findall(r'(\w+): (-?[\d.]+)', m.group(1)):
+            if k.startswith('rel_'):
+                who = 'the Bolsheviks' if k == 'rel_bol' else ('the Kadets' if k == 'rel_kad' else REL_NAMES[party][k])
+                out.append('relations with %s %s' % (who, sign(v)))
+            else:
+                out.append('%s %s' % (STAT_NAMES[k], sign(v)))
+    m = re.search(r'Q\.members \+= ([\d.]+) \* Q\.mem_scale', js)
+    if m:
+        out.append('+{:,} members'.format(int(round(float(m.group(1)) * MEM_SCALE[party] * 1000))))
+    m = re.search(r'Q\.resources \+= (\d+)', js)
+    if m:
+        out.append('resources %s' % sign(m.group(1)))
+    if 'for (var f of Q.factions)' in js:
+        m = re.search(r'RO\.fac\(Q, f, 0, (-?\d+)\)', js)
+        out.append('dissent in every current %s' % sign(m.group(1)))
+    for f, st, di in re.findall(r"RO\.fac\(Q, '(\w+)', (-?\d+), (-?\d+)\)", js):
+        bits = []
+        if int(st):
+            bits.append('strength %s' % sign(st))
+        if int(di):
+            bits.append('dissent %s' % sign(di))
+        if bits:
+            out.append('%s: %s' % (FACTION_NAMES[party][f], ', '.join(bits)))
+    for flag, text in FLAG_TEXT.items():
+        if re.search(r'Q\.%s (=|\+=)' % flag, js):
+            out.append(text)
+    s = '; '.join(out)
+    return s[0].upper() + s[1:] + '.' if s else ''
+
+
+# the campaigns in which each advisor can sit on the council (their own, and those that borrow them at the coalition
+# level: LEND in source/model.js)
+LENT_TO = {'chernov': ['menshevik', 'lsr'], 'spiridonova': ['menshevik', 'sr'], 'dan': ['sr'], 'martov': ['lsr']}
+
+
+def effects(aid, party, js):
+    """The effect line for the advisor's own campaign, and a [? if ?] version for the scenes when it can be lent."""
+    own = describe(js, party)
+    lent = LENT_TO.get(aid, [])
+    if not lent:
+        return own, own
+    alt = "[? if player_party = '%s' : %s ?]" % (party, own)
+    for p in lent:
+        alt += "[? if player_party = '%s' : %s ?]" % (p, describe(js, p))
+    return own, alt
+
+
+WAIT_NOTE = '*Calling on an advisor takes the turn, and then no advisor can act again for six months.*'
+
+
 def write_model_table(table):
     import json, re
     path = os.path.join(os.path.dirname(__file__), '..', '..', 'source', 'model.js')
@@ -293,8 +388,8 @@ RO.replaceAdvisor(Q, Q.adv_out);
 
 
 def offers(actions):
-    """What an advisor can do, in a line: the action's name and what it does."""
-    return '; '.join('%s (%s)' % (t, sub.rstrip('.')) for t, sub in actions)
+    """What an advisor can do, in a line: each action's name, what it is, and its effects."""
+    return ' / '.join('%s: %s %s' % (t, sub, eff) for t, sub, eff in actions)
 
 
 def card_image(aid):
@@ -305,59 +400,22 @@ def card_image(aid):
     return 'img/cards/%s.svg?v=2' % aid
 
 
-def main():
-    os.makedirs(OUT, exist_ok=True)
-    for (aid, title, tag, flag, bio, atitle, asub, cond, unavail, js, result) in ADVISORS:
+def write_advisor(aid, title, tag, flag, bio, party, actions):
+    """One advisor's pinned card: the portrait, the biography, and each action with what it does."""
+    owner = "player_party = 'menshevik'" if party == 'menshevik' else "player_party = '%s'" % party
+    acts, scenes, plan = '', '', ''
+    for i, (atitle, asub, cond, unavail, js, result) in enumerate(actions):
         choose = 'advisor_action_timer <= 0' + (' and ' + cond if cond else '')
         un = '[? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]'
         if cond:
             un += '[? if not (' + cond + ') : ' + unavail + ' ?]'
-        text = f"""title: {title}
-subtitle: {offers([(atitle, asub)])}
-is-pinned-card: true
-card-image: {card_image(aid)}
-tags: advisor, {tag}
-new-page: true
-view-if: {flag} = 1 and (player_party = 'menshevik' or lent_{aid} = 1) and on_{aid} = 1
-
-= {title}
-
-{bio}
-
-- @action
-- @root: Return to main
-
-@action
+        own, eff = effects(aid, party, js)
+        sid = 'action' if i == 0 else 'action%d' % (i + 1)
+        acts += '- @%s\n' % sid
+        plan += '**%s.** %s\n\n*Effect:* %s\n\n' % (atitle, asub, eff)
+        scenes += f"""@{sid}
 title: {atitle}
-subtitle: {asub}
-choose-if: {choose}
-unavailable-subtitle: {un}
-on-arrival: {{!
-Q.advisor_action_timer = 6;
-Q.last_advisor_action = 1;
-Q.month_actions += 1;
-{js}
-!}}
-
-{result}
-
-- @root: Continue.
-"""
-        with open(os.path.join(OUT, aid + '.scene.dry'), 'w', encoding='utf-8') as f:
-            f.write(text)
-    for (aid, title, tag, flag, bio, party, actions) in OTHERS:
-        acts = ''
-        scenes = ''
-        for i, (atitle, asub, cond, unavail, js, result) in enumerate(actions):
-            choose = 'advisor_action_timer <= 0' + (' and ' + cond if cond else '')
-            un = '[? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]'
-            if cond:
-                un += '[? if not (' + cond + ') : ' + unavail + ' ?]'
-            sid = 'action' if i == 0 else 'action%d' % (i + 1)
-            acts += '- @%s\n' % sid
-            scenes += f"""@{sid}
-title: {atitle}
-subtitle: {asub}
+subtitle: {asub} {eff}
 choose-if: {choose}
 unavailable-subtitle: {un}
 on-arrival: {{!
@@ -372,28 +430,38 @@ Q.month_actions += 1;
 - @root: Continue.
 
 """
-        text = f"""title: {title}
-subtitle: {offers([(a[0], a[1]) for a in actions])}
+    summary = offers([(a[0], a[1], describe(a[4], party)) for a in actions])
+    text = f"""title: {title}
+subtitle: {summary}
 is-pinned-card: true
 card-image: {card_image(aid)}
 tags: advisor, {tag}
 new-page: true
-view-if: {flag} = 1 and (player_party = '{party}' or lent_{aid} = 1) and on_{aid} = 1
+view-if: {flag} = 1 and ({owner} or lent_{aid} = 1) and on_{aid} = 1
 
 = {title}
 
 {bio}
+
+{plan}{WAIT_NOTE}
 
 {acts}- @root: Return to main
 
 {scenes}"""
-        with open(os.path.join(OUT, aid + '.scene.dry'), 'w', encoding='utf-8') as f:
-            f.write(text.rstrip() + '\n')
+    with open(os.path.join(OUT, aid + '.scene.dry'), 'w', encoding='utf-8') as f:
+        f.write(text.rstrip() + '\n')
+    return summary
+
+
+def main():
+    os.makedirs(OUT, exist_ok=True)
     table = {}
     for (aid, title, tag, flag, bio, atitle, asub, cond, unavail, js, result) in ADVISORS:
-        table[aid] = (title, 'menshevik', offers([(atitle, asub)]))
+        summary = write_advisor(aid, title, tag, flag, bio, 'menshevik', [(atitle, asub, cond, unavail, js, result)])
+        table[aid] = (title, 'menshevik', summary)
     for (aid, title, tag, flag, bio, party, actions) in OTHERS:
-        table[aid] = (title, party, offers([(a[0], a[1]) for a in actions]))
+        summary = write_advisor(aid, title, tag, flag, bio, party, actions)
+        table[aid] = (title, party, summary)
     write_model_table(table)
     # the served copy of the model must match (tools/test/test_model.js checks it)
     here = os.path.dirname(__file__)

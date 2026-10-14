@@ -1,5 +1,5 @@
 title: Vladimir Volsky
-subtitle: Komuch (Volsky builds a government on the Volga with an armed force); Compromise (Volsky opens talks with the soviets)
+subtitle: Komuch: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid. / Compromise: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
 is-pinned-card: true
 card-image: img/portraits/volsky.jpg
 tags: advisor, bund
@@ -10,13 +10,23 @@ view-if: volsky_advisor = 1 and (player_party = 'sr' or lent_volsky = 1) and on_
 
 Volsky (1877-1946) is a Right SR deputy from the Volga, ready to fight for the Constituent Assembly, and honest enough to stop when the fight is lost.
 
+**Komuch.** Volsky builds a government on the Volga with an armed force.
+
+*Effect:* Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid.
+
+**Compromise.** Volsky opens talks with the soviets.
+
+*Effect:* Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @action2
 - @root: Return to main
 
 @action
 title: Komuch
-subtitle: Volsky builds a government on the Volga with an armed force.
+subtitle: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid.
 choose-if: advisor_action_timer <= 0 and bol_regime = 1
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (bol_regime = 1) : There is no Bolshevik government to fight. ?]
 on-arrival: {!
@@ -32,7 +42,7 @@ Volsky's Komuch has a government, a flag and an army of volunteers. It also has 
 
 @action2
 title: Compromise
-subtitle: Volsky opens talks with the soviets.
+subtitle: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
 choose-if: advisor_action_timer <= 0 and bol_regime = 1
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (bol_regime = 1) : There is no Bolshevik government to talk to. ?]
 on-arrival: {!

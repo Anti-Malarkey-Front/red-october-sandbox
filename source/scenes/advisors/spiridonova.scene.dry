@@ -1,5 +1,5 @@
 title: Maria Spiridonova
-subtitle: Peasant Congress (Spiridonova turns the peasants' deputies to the left)
+subtitle: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the SRs −3; the leadership: strength +1, dissent −1; the peasants' soviets better organised.
 is-pinned-card: true
 card-image: img/portraits/spiridonova.jpg
 tags: advisor, defencist
@@ -10,12 +10,18 @@ view-if: spiridonova_advisor = 1 and (player_party = 'lsr' or lent_spiridonova =
 
 Spiridonova (1884-1941), who shot a governor in 1906 and was tortured for it, is the leader of the Left SRs and the heroine of the villages. She drew the peasant congresses to the left.
 
+**Peasant Congress.** Spiridonova turns the peasants' deputies to the left.
+
+*Effect:* [? if player_party = 'lsr' : Support among peasants +8, soldiers +2; relations with the SRs −3; the leadership: strength +1, dissent −1; the peasants' soviets better organised. ?][? if player_party = 'menshevik' : Support among peasants +8, soldiers +2; relations with the SRs −3; the Revolutionary Defencists: strength +1, dissent −1; the peasants' soviets better organised. ?][? if player_party = 'sr' : Support among peasants +8, soldiers +2; relations with the Mensheviks −3; the Centre: strength +1, dissent −1; the peasants' soviets better organised. ?]
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Peasant Congress
-subtitle: Spiridonova turns the peasants' deputies to the left.
+subtitle: Spiridonova turns the peasants' deputies to the left. [? if player_party = 'lsr' : Support among peasants +8, soldiers +2; relations with the SRs −3; the leadership: strength +1, dissent −1; the peasants' soviets better organised. ?][? if player_party = 'menshevik' : Support among peasants +8, soldiers +2; relations with the SRs −3; the Revolutionary Defencists: strength +1, dissent −1; the peasants' soviets better organised. ?][? if player_party = 'sr' : Support among peasants +8, soldiers +2; relations with the Mensheviks −3; the Centre: strength +1, dissent −1; the peasants' soviets better organised. ?]
 choose-if: advisor_action_timer <= 0
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
 on-arrival: {!

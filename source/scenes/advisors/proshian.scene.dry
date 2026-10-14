@@ -1,5 +1,5 @@
 title: Prosh Proshian
-subtitle: Telegraph Lines (Proshian's telegraph network carries news and the party's organisation)
+subtitle: Telegraph Lines: Proshian's telegraph network carries news and the party's organisation. Support among workers +1, railwaymen +2; +8,000 members; the village organisers: strength +1, dissent −2; better intelligence for the talks on an all-socialist government.
 is-pinned-card: true
 card-image: img/portraits/proshian.jpg
 tags: advisor, unions
@@ -10,12 +10,18 @@ view-if: proshian_advisor = 1 and (player_party = 'lsr' or lent_proshian = 1) an
 
 Proshian (1883-1918), a Left SR, is a telegraph man, with a network of operators who are loyal to the party.
 
+**Telegraph Lines.** Proshian's telegraph network carries news and the party's organisation.
+
+*Effect:* Support among workers +1, railwaymen +2; +8,000 members; the village organisers: strength +1, dissent −2; better intelligence for the talks on an all-socialist government.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Telegraph Lines
-subtitle: Proshian's telegraph network carries news and the party's organisation.
+subtitle: Proshian's telegraph network carries news and the party's organisation. Support among workers +1, railwaymen +2; +8,000 members; the village organisers: strength +1, dissent −2; better intelligence for the talks on an all-socialist government.
 choose-if: advisor_action_timer <= 0 and lsr_in_gov = 1
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (lsr_in_gov = 1) : We are not in the government. ?]
 on-arrival: {!

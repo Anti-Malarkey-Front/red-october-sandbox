@@ -1,5 +1,5 @@
 title: Noe Zhordania
-subtitle: Georgian Model (Zhordania offers Georgia as a model of democratic socialism, and as a refuge)
+subtitle: Georgian Model: Zhordania offers Georgia as a model of democratic socialism, and as a refuge. Support among minorities +3; land pressure −3; soviet democracy +1; resources +1; the Revolutionary Defencists: strength +2, dissent −2.
 is-pinned-card: true
 card-image: img/portraits/zhordania.jpg
 tags: advisor, defencist
@@ -10,12 +10,18 @@ view-if: zhordania_advisor = 1 and (player_party = 'menshevik' or lent_zhordania
 
 Zhordania (1868-1953), the leader of the Georgian Mensheviks, is the master of Georgian social democracy, and of Tiflis.
 
+**Georgian Model.** Zhordania offers Georgia as a model of democratic socialism, and as a refuge.
+
+*Effect:* Support among minorities +3; land pressure −3; soviet democracy +1; resources +1; the Revolutionary Defencists: strength +2, dissent −2.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Georgian Model
-subtitle: Zhordania offers Georgia as a model of democratic socialism, and as a refuge.
+subtitle: Zhordania offers Georgia as a model of democratic socialism, and as a refuge. Support among minorities +3; land pressure −3; soviet democracy +1; resources +1; the Revolutionary Defencists: strength +2, dissent −2.
 choose-if: advisor_action_timer <= 0
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
 on-arrival: {!

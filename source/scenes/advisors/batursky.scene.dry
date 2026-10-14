@@ -1,5 +1,5 @@
 title: Boris Batursky
-subtitle: Independent Unions (Batursky builds union influence and argues the case for independence)
+subtitle: Independent Unions: Batursky builds union influence and argues the case for independence. Support among workers +3, railwaymen +3; repression +1; the trade unionists: strength +3, dissent −3.
 is-pinned-card: true
 card-image: img/portraits/batursky.jpg
 tags: advisor, unions
@@ -10,12 +10,18 @@ view-if: batursky_advisor = 1 and (player_party = 'menshevik' or lent_batursky =
 
 Batursky (1879-1920) is a trade union leader who argues that unions must remain independent of the state.
 
+**Independent Unions.** Batursky builds union influence and argues the case for independence.
+
+*Effect:* Support among workers +3, railwaymen +3; repression +1; the trade unionists: strength +3, dissent −3.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Independent Unions
-subtitle: Batursky builds union influence and argues the case for independence.
+subtitle: Batursky builds union influence and argues the case for independence. Support among workers +3, railwaymen +3; repression +1; the trade unionists: strength +3, dissent −3.
 choose-if: advisor_action_timer <= 0
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
 on-arrival: {!

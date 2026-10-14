@@ -689,6 +689,68 @@
   }
 
 
+
+  // ---------- achievements: the gallery, and a notice when one is earned ----------
+  // The list is RO.ACHIEVEMENTS; the engine keeps the earned ones in localStorage across games (state.achievements).
+  var KIND_WORD = {loss: 'A loss', historical: 'The historical ending', win: 'A win', best: 'The best ending'};
+  var PARTY_ONLY = {menshevik: 'Mensheviks', sr: 'SRs', lsr: 'Left SRs'};
+  function earnedAchievements() { var e = engine(); return (e && e.state && e.state.achievements) || {}; }
+  function achItem(a, got, fresh) {
+    var note = [];
+    if (a.kind) { note.push(KIND_WORD[a.kind]); }
+    if (a.party) { note.push(PARTY_ONLY[a.party] + ' only'); }
+    return '<li class="ach ' + (got ? 'got' : 'locked') + (a.kind ? ' kind-' + a.kind : '') + '">' +
+      (fresh ? '<span class="ach-new">New</span>' : '') + '<b>' + esc(a.title) + '</b><small>' + esc(a.desc) +
+      (note.length ? ' <em>(' + esc(note.join(', ')) + ')</em>' : '') + '</small></li>';
+  }
+  function renderAchievements() {
+    var box = $('#content .achievements:not([data-done])');
+    if (!box.length || !window.RO || !window.RO.ACHIEVEMENTS) { return; }
+    var Q = qualities() || {}, have = earnedAchievements(), list = window.RO.ACHIEVEMENTS;
+    var thisGame = Q.started === 1 && Q.game_over === 1;
+    var count = list.filter(function(a) { return have[a.id]; }).length;
+    var section = function(title, items) {
+      var n = items.filter(function(a) { return have[a.id]; }).length;
+      return '<div class="sb-section">' + title + ' (' + n + ' of ' + items.length + ')</div><ul class="ach-grid">' +
+        items.map(function(a) { return achItem(a, !!have[a.id], thisGame && Q['game_achievement_' + a.id] === 1); }).join('') + '</ul>';
+    };
+    var h = '<div class="ach-progress"><b>' + count + '</b> of ' + list.length + ' earned' +
+      '<div class="ach-bar"><i style="width:' + Math.round(100 * count / list.length) + '%"></i></div></div>';
+    h += section('Endings', list.filter(function(a) { return a.ending; }));
+    h += section('Deeds', list.filter(function(a) { return !a.ending; }));
+    h += '<p class="recap-note"><small>Achievements are kept in this browser, across games.</small></p>';
+    box.attr('data-done', '1').html(h);
+  }
+  var toastQueue = [], toastTimer = null;
+  function showAchievementToast() {
+    toastTimer = null;
+    if (!toastQueue.length) { return; }
+    var names = toastQueue.splice(0, toastQueue.length);
+    var el = $('#ach_toast');
+    if (!el.length) { el = $('<div id="ach_toast" class="ach-toast" role="status" aria-live="polite"></div>').appendTo('body'); }
+    el.html((names.length === 1 ? 'Achievement: ' : names.length + ' achievements: ') + names.map(function(n) { return '<b>' + esc(n) + '</b>'; }).join(', '));
+    el.addClass('show');
+    clearTimeout(el.data('hide'));
+    el.data('hide', setTimeout(function() { el.removeClass('show'); }, 3500 + 700 * Math.min(names.length, 6)));
+  }
+  // the engine is made by core.js once the page has loaded: wrap its achieve() the first time it is there
+  function wrapAchieve() {
+    var e = engine(), proto = e && Object.getPrototypeOf(e);
+    if (!proto || !proto.achieve || proto.achieve.roWrapped) { return; }
+    var original = proto.achieve;
+    proto.achieve = function(name) {
+      var fresh = !(this.state && this.state.achievements && this.state.achievements[name]);
+      original.call(this, name);
+      if (!fresh || !window.RO || !window.RO.ACHIEVEMENTS) { return; }
+      var a = window.RO.ACHIEVEMENTS.filter(function(x) { return x.id === name; })[0];
+      if (!a) { return; }
+      toastQueue.push(a.title);
+      if (!toastTimer) { toastTimer = setTimeout(showAchievementToast, 200); }
+    };
+    proto.achieve.roWrapped = true;
+  }
+  $(wrapAchieve);
+
   // ---------- music: period recordings, shuffled, from the start of a game ----------
   // The engine's audio() plays the first file and then picks at random from the playlist when a track ends. It is started
   // once, after the player's first click into a game (browsers only play sound after a click).
@@ -740,11 +802,13 @@
   }
 
   window.onDisplayContent = function() {
+    wrapAchieve();
     window.updateSidebar();
     showEffects();
     decorateParties();
     renderParliaments();
     renderRecap();
+    renderAchievements();
     cardSubtitles();
     var Q0 = qualities();
     if (Q0 && Q0.started === 1) { startMusic(); }

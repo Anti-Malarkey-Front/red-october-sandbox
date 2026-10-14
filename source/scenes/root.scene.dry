@@ -20,6 +20,8 @@ go-to: start_menu_2
 on-arrival: {!
 Q.started = 1;
 Q.game_over = 0;
+// the achievements of the last game, if one was played in this session, are not this game's
+for (var ak in Q) { if (ak.indexOf('game_achievement_') === 0) { Q[ak] = 0; } }
 Q.game_end = 0;
 Q.ending = '';
 
@@ -172,7 +174,7 @@ var flags = ['may_crisis_seen', 'larin_seen', 'crisis_count', 'vik_check_1', 'al
              'turmoil_men', 'turmoil_sr', 'turmoil_lsr', 'turmoil_bol', 'komuch_averted', 'lsr_uprising_averted',
              'split_alliance_done', 'anti_brest_front', 'lent_chernov', 'lent_dan', 'lent_spiridonova', 'lent_martov',
              'ant_kad', 'ant_gen', 'ant_bol', 'opp_kad_ev', 'opp_gen_ev', 'opp_bol_ev', 'opp_kad_n', 'opp_gen_n', 'opp_bol_n',
-             'directory_joined', 'late_coup', 'late_peace', 'lost_petrosoviet', 'vik_ever', 'kadets_back', 'assembly_met', 'opp_kad_age', 'opp_gen_age', 'opp_bol_age', 'opp_kad_base', 'opp_gen_base', 'opp_bol_base'];
+             'directory_joined', 'late_coup', 'late_peace', 'lost_petrosoviet', 'vik_ever', 'kadets_back', 'assembly_met', 'opp_kad_age', 'opp_gen_age', 'opp_bol_age', 'opp_kad_base', 'opp_gen_base', 'opp_bol_base', 'coalition_reached'];
 Q.fault_text = '';
 Q.fault_flag = 0;
 // standing policies of the Cabinet: land, food, war, order, labour (food starts at the grain monopoly)

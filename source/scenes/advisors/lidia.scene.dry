@@ -1,5 +1,5 @@
 title: Lidia Dan
-subtitle: Family Bridge (Lidia Dan mediates between the Martov and Dan circles)
+subtitle: Family Bridge: Lidia Dan mediates between the Martov and Dan circles. The Internationalists: dissent −8; the Revolutionary Defencists: dissent −4.
 is-pinned-card: true
 card-image: img/portraits/lidia.jpg
 tags: advisor, intl
@@ -10,12 +10,18 @@ view-if: lidia_advisor = 1 and (player_party = 'menshevik' or lent_lidia = 1) an
 
 Lidia Dan (1878-1963) is Martov's sister and Fyodor Dan's wife, so she stands at the point where the party's two circles meet.
 
+**Family Bridge.** Lidia Dan mediates between the Martov and Dan circles.
+
+*Effect:* The Internationalists: dissent −8; the Revolutionary Defencists: dissent −4.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Family Bridge
-subtitle: Lidia Dan mediates between the Martov and Dan circles.
+subtitle: Lidia Dan mediates between the Martov and Dan circles. The Internationalists: dissent −8; the Revolutionary Defencists: dissent −4.
 choose-if: advisor_action_timer <= 0
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
 on-arrival: {!

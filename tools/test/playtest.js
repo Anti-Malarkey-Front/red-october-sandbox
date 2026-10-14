@@ -226,6 +226,7 @@ function playOne(idx) {
           breaks: (q.break_log || []).length, broke: (q.break_log || []).filter(function(b) { return b[2]; }).length,
           peak: (q.hist || []).reduce(function(m, r) { return Math.max(m, r[1]); }, 0), final_poll: Math.round(q.player_poll || 0),
           snaps: snaps, log: log, lastScenes: scenes.slice(-6),
+          achievements: Object.keys((eng.state && eng.state.achievements) || {}),
           error: error, picks: picks, seed: SEED === null ? null : SEED + idx, played: played, seen: Object.keys(seen), lo: lo, hi: hi, zeroRes: zeroRes, turns: turns, party: q.player_party, difficulty: q.difficulty,
           fin: TRACK.reduce(function(o, k) { if (typeof q[k] === 'number') { o[k] = Math.round(q[k] * 100) / 100; } return o; }, {mem_cap: q.mem_cap})};
 }
@@ -259,7 +260,7 @@ if (process.env.TEXT) { fs.writeFileSync(process.env.TEXT, allText.join('\n')); 
 if (process.env.JSON) {
   fs.writeFileSync(process.env.JSON, JSON.stringify(results.map(function(r) {
     return {ending: r.game_over ? r.ending : 'STUCK', year: r.year, month: r.month, legality: r.legality, sd: r.sd, opp: r.opp, laws: r.laws, breaks: r.breaks, broke: r.broke, peak: r.peak, final_poll: r.final_poll,
-            bol_regime: r.bol_regime, members: r.members,
+            bol_regime: r.bol_regime, members: r.members, achievements: r.achievements,
             steps: r.steps, seed: r.seed, played: r.played, seen: r.seen, lo: r.lo, hi: r.hi, fin: r.fin, zeroRes: r.zeroRes, turns: r.turns, picks: process.env.PICKS ? r.picks : undefined, snaps: process.env.PICKS ? r.snaps : undefined, last: r.game_over ? undefined : r.lastScenes};
   })));
 }

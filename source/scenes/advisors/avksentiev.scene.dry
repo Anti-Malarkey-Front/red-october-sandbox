@@ -1,5 +1,5 @@
 title: Nikolai Avksentiev
-subtitle: Order and Republic (Avksentiev steadies the government, and angers the left)
+subtitle: Order and Republic: Avksentiev steadies the government, and angers the left. Threat from the Right −4; relations with the Kadets +3; soviet democracy −1; the Right SRs: strength +1, dissent −3; the Left SRs: dissent +6.
 is-pinned-card: true
 card-image: img/portraits/avksentiev.jpg
 tags: advisor, rightdef
@@ -10,12 +10,18 @@ view-if: avksentiev_advisor = 1 and (player_party = 'sr' or lent_avksentiev = 1)
 
 Avksentiev (1878-1943) is a Right SR, a leader of the peasant soviets and a defender of order and the coalition.
 
+**Order and Republic.** Avksentiev steadies the government, and angers the left.
+
+*Effect:* Threat from the Right −4; relations with the Kadets +3; soviet democracy −1; the Right SRs: strength +1, dissent −3; the Left SRs: dissent +6.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Order and Republic
-subtitle: Avksentiev steadies the government, and angers the left.
+subtitle: Avksentiev steadies the government, and angers the left. Threat from the Right −4; relations with the Kadets +3; soviet democracy −1; the Right SRs: strength +1, dissent −3; the Left SRs: dissent +6.
 choose-if: advisor_action_timer <= 0
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
 on-arrival: {!

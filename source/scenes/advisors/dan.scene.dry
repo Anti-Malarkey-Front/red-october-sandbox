@@ -1,5 +1,5 @@
 title: Fyodor Dan
-subtitle: Soviet Floor Manager (Dan whips the votes in the Soviet and prepares the speeches)
+subtitle: Soviet Floor Manager: Dan whips the votes in the Soviet and prepares the speeches. Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the Revolutionary Defencists: strength +1, dissent −1.
 is-pinned-card: true
 card-image: img/portraits/dan.jpg
 tags: advisor, defencist
@@ -10,12 +10,18 @@ view-if: dan_advisor = 1 and (player_party = 'menshevik' or lent_dan = 1) and on
 
 Dan (1871-1947) is a physician and a leading figure in the Soviet executive. He is the party's best speaker in a hostile hall.
 
+**Soviet Floor Manager.** Dan whips the votes in the Soviet and prepares the speeches.
+
+*Effect:* [? if player_party = 'menshevik' : Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the Revolutionary Defencists: strength +1, dissent −1. ?][? if player_party = 'sr' : Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the Centre: strength +1, dissent −1. ?]
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Soviet Floor Manager
-subtitle: Dan whips the votes in the Soviet and prepares the speeches.
+subtitle: Dan whips the votes in the Soviet and prepares the speeches. [? if player_party = 'menshevik' : Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the Revolutionary Defencists: strength +1, dissent −1. ?][? if player_party = 'sr' : Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the Centre: strength +1, dissent −1. ?]
 choose-if: advisor_action_timer <= 0
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
 on-arrival: {!

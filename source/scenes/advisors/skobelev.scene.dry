@@ -1,5 +1,5 @@
 title: Matvei Skobelev
-subtitle: Labour Arbitration (Skobelev settles a strike through conciliation boards)
+subtitle: Labour Arbitration: Skobelev settles a strike through conciliation boards. Support among workers −1; the ruble +2; relations with the Kadets +2; the trade unionists: strength +1, dissent −1.
 is-pinned-card: true
 card-image: img/portraits/skobelev.jpg
 tags: advisor, defencist
@@ -10,12 +10,18 @@ view-if: skobelev_advisor = 1 and (player_party = 'menshevik' or lent_skobelev =
 
 Skobelev (1885-1938) is a young Social Democrat from Baku and the Soviet's man for labour disputes.
 
+**Labour Arbitration.** Skobelev settles a strike through conciliation boards.
+
+*Effect:* Support among workers −1; the ruble +2; relations with the Kadets +2; the trade unionists: strength +1, dissent −1.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Labour Arbitration
-subtitle: Skobelev settles a strike through conciliation boards.
+subtitle: Skobelev settles a strike through conciliation boards. Support among workers −1; the ruble +2; relations with the Kadets +2; the trade unionists: strength +1, dissent −1.
 choose-if: advisor_action_timer <= 0 and in_coalition = 1 and bol_regime = 0
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (in_coalition = 1 and bol_regime = 0) : We are not in a coalition government. ?]
 on-arrival: {!

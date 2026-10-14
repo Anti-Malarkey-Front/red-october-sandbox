@@ -1,5 +1,5 @@
 title: Mark Natanson
-subtitle: Elder's Authority (Natanson's authority calms the party's quarrels)
+subtitle: Elder's Authority: Natanson's authority calms the party's quarrels. Dissent in every current −6; the pro-coalition Left SRs: strength +1.
 is-pinned-card: true
 card-image: img/portraits/natanson.jpg
 tags: advisor, rightdef
@@ -10,12 +10,18 @@ view-if: natanson_advisor = 1 and (player_party = 'lsr' or lent_natanson = 1) an
 
 Natanson (1850-1919), a veteran populist and a founder of the party, has the authority of forty years of prison and exile. He is the Left SRs' elder.
 
+**Elder's Authority.** Natanson's authority calms the party's quarrels.
+
+*Effect:* Dissent in every current −6; the pro-coalition Left SRs: strength +1.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Elder's Authority
-subtitle: Natanson's authority calms the party's quarrels.
+subtitle: Natanson's authority calms the party's quarrels. Dissent in every current −6; the pro-coalition Left SRs: strength +1.
 choose-if: advisor_action_timer <= 0
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
 on-arrival: {!

@@ -1,5 +1,5 @@
 title: Pyotr Aleksandrovich
-subtitle: Inside the Cheka (Aleksandrovich blocks a wave of arrests before it begins)
+subtitle: Inside the Cheka: Aleksandrovich blocks a wave of arrests before it begins. Repression −2; relations with the Bolsheviks −1; the pro-coalition Left SRs: strength +1, dissent −2; a shield for the party when the Red Terror comes.
 is-pinned-card: true
 card-image: img/cards/aleksandrovich.svg?v=2
 tags: advisor, rightdef
@@ -10,12 +10,18 @@ view-if: aleksandrovich_advisor = 1 and (player_party = 'lsr' or lent_aleksandro
 
 Aleksandrovich (1887-1918) is a Left SR who knows the Cheka from the inside. He knows who is on the lists.
 
+**Inside the Cheka.** Aleksandrovich blocks a wave of arrests before it begins.
+
+*Effect:* Repression −2; relations with the Bolsheviks −1; the pro-coalition Left SRs: strength +1, dissent −2; a shield for the party when the Red Terror comes.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Inside the Cheka
-subtitle: Aleksandrovich blocks a wave of arrests before it begins.
+subtitle: Aleksandrovich blocks a wave of arrests before it begins. Repression −2; relations with the Bolsheviks −1; the pro-coalition Left SRs: strength +1, dissent −2; a shield for the party when the Red Terror comes.
 choose-if: advisor_action_timer <= 0 and lsr_in_gov = 1 and dix >= 24
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (lsr_in_gov = 1 and dix >= 24) : We have no seat on the Cheka board yet. ?]
 on-arrival: {!

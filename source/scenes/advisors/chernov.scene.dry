@@ -1,5 +1,5 @@
 title: Viktor Chernov
-subtitle: Land Socialisation (Chernov pushes the land law forward)
+subtitle: Land Socialisation: Chernov pushes the land law forward. Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the Right SRs: dissent +5; the Centre: strength +1, dissent −1; a land law ready for the Constituent Assembly.
 is-pinned-card: true
 card-image: img/portraits/chernov.jpg
 tags: advisor, defencist
@@ -10,12 +10,18 @@ view-if: chernov_advisor = 1 and (player_party = 'sr' or lent_chernov = 1) and o
 
 Chernov (1873-1952) is the party's leader and its theorist of land socialisation. He wants the land socialised, and the Constituent Assembly to do it.
 
+**Land Socialisation.** Chernov pushes the land law forward.
+
+*Effect:* [? if player_party = 'sr' : Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the Right SRs: dissent +5; the Centre: strength +1, dissent −1; a land law ready for the Constituent Assembly. ?][? if player_party = 'menshevik' : Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the Right Defencists: dissent +5; the Revolutionary Defencists: strength +1, dissent −1; a land law ready for the Constituent Assembly. ?][? if player_party = 'lsr' : Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the pro-coalition Left SRs: dissent +5; the leadership: strength +1, dissent −1; a land law ready for the Constituent Assembly. ?]
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Land Socialisation
-subtitle: Chernov pushes the land law forward.
+subtitle: Chernov pushes the land law forward. [? if player_party = 'sr' : Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the Right SRs: dissent +5; the Centre: strength +1, dissent −1; a land law ready for the Constituent Assembly. ?][? if player_party = 'menshevik' : Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the Right Defencists: dissent +5; the Revolutionary Defencists: strength +1, dissent −1; a land law ready for the Constituent Assembly. ?][? if player_party = 'lsr' : Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the pro-coalition Left SRs: dissent +5; the leadership: strength +1, dissent −1; a land law ready for the Constituent Assembly. ?]
 choose-if: advisor_action_timer <= 0
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
 on-arrival: {!

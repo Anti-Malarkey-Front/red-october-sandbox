@@ -1,5 +1,5 @@
 title: Eva Broido
-subtitle: Party Secretary (Broido strengthens the party's organisation and its work among women workers)
+subtitle: Party Secretary: Broido strengthens the party's organisation and its work among women workers. Support among workers +2, middle strata +1; +8,000 members; the Internationalists: strength +1, dissent −2.
 is-pinned-card: true
 card-image: img/portraits/broido.jpg
 tags: advisor, intl
@@ -10,12 +10,18 @@ view-if: broido_advisor = 1 and (player_party = 'menshevik' or lent_broido = 1) 
 
 Eva Broido (1876-1941), an Internationalist, becomes the party's secretary in August 1917 and organises women workers.
 
+**Party Secretary.** Broido strengthens the party's organisation and its work among women workers.
+
+*Effect:* Support among workers +2, middle strata +1; +8,000 members; the Internationalists: strength +1, dissent −2.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Party Secretary
-subtitle: Broido strengthens the party's organisation and its work among women workers.
+subtitle: Broido strengthens the party's organisation and its work among women workers. Support among workers +2, middle strata +1; +8,000 members; the Internationalists: strength +1, dissent −2.
 choose-if: advisor_action_timer <= 0
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
 on-arrival: {!

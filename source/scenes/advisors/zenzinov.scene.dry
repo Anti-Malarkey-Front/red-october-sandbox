@@ -1,5 +1,5 @@
 title: Vladimir Zenzinov
-subtitle: Party Machine (Zenzinov builds the party's organisation and its membership)
+subtitle: Party Machine: Zenzinov builds the party's organisation and its membership. Support among peasants +2, workers +1; +50,000 members; the Right Centre: strength +1, dissent −4.
 is-pinned-card: true
 card-image: img/portraits/zenzinov.jpg
 tags: advisor, unions
@@ -10,12 +10,18 @@ view-if: zenzinov_advisor = 1 and (player_party = 'sr' or lent_zenzinov = 1) and
 
 Zenzinov (1880-1953) is a member of the Central Committee and the party's organiser. He believes in the party's machine, and in the Constituent Assembly.
 
+**Party Machine.** Zenzinov builds the party's organisation and its membership.
+
+*Effect:* Support among peasants +2, workers +1; +50,000 members; the Right Centre: strength +1, dissent −4.
+
+*Calling on an advisor takes the turn, and then no advisor can act again for six months.*
+
 - @action
 - @root: Return to main
 
 @action
 title: Party Machine
-subtitle: Zenzinov builds the party's organisation and its membership.
+subtitle: Zenzinov builds the party's organisation and its membership. Support among peasants +2, workers +1; +50,000 members; the Right Centre: strength +1, dissent −4.
 choose-if: advisor_action_timer <= 0
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
 on-arrival: {!
