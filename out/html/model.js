@@ -514,7 +514,8 @@ var RO = (function() {
       var inside = who === 'ally' && Q.player_party === 'lsr' && !Q.lsr_split;
       if (!inside) { while (lvl > 0 && Q[REL[who]] < HOLD[lvl]) { lvl--; } }
       Q[LVL[who]] = lvl;
-      if (lvl >= 2) { blocs++; }
+      // a faction inside the SR party shares no presidium with it: only separate parties make a bloc
+      if (lvl >= 2 && !inside) { blocs++; }
       var adv = LEND[Q.player_party] && LEND[Q.player_party][who];
       if (lvl >= 3) {
         if (!inside) { Q.coalition_reached = 1; }

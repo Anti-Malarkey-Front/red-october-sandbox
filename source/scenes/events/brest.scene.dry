@@ -107,7 +107,7 @@ The Congress ratified the treaty by 784 votes to 261. On 19 March the Left SR Pe
 view-if: player_party = 'lsr' and lsr_in_gov = 1
 on-arrival: {!
 Q.brest_rb = Q.rel_bol; Q.brest_sd = Q.soviet_democracy;
-Q.stay_p = RO.clamp((Q.rel_bol - 60) / 50 + (Q.soviet_democracy - 50) / 200 + 0.05 * Q.bloc_lean + 0.08 * Q.anti_brest_front, 0.05, 0.9);
+Q.stay_p = RO.clamp((Q.rel_bol - 64) / 50 + (Q.soviet_democracy - 50) / 200 + 0.05 * Q.bloc_lean + 0.08 * Q.anti_brest_front, 0.05, 0.9);
 Q.stay_ok = (Q.dissent < 0.45 && RO.chance(Q.stay_p)) ? 1 : 0;
 if (Q.stay_ok) {
     Q.seven_commissars = 1;

@@ -7,7 +7,7 @@ priority: 25
 max-visits: 1
 on-arrival: {!
 Q.nep_early = 0;
-if (Q.program_adopted && Q.rel_bol >= 40 && Q.dix < 72) {
+if (Q.program_adopted && Q.rel_bol >= 43 && Q.dix < 72) {
     Q.nep_early = 1;
     RO.add(Q, {bread: 10, soviet_democracy: 5, repression: -8, land_pressure: -5});
     RO.boost(Q, {peasants: 5, workers: 3, middle: 3});

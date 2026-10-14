@@ -26,6 +26,15 @@ A code review of the whole game found these; each was checked against the code a
 - The Opposition panel read "Chance to break it by force:45%".
 - The "Achievements in this playthrough" page could show the achievements of the previous game played in the same session.
 
+### Balance
+
+Slower-fading goodwill, and the Left SR fix, made three scripted strategies win clearly more often (in seeded test runs: the Vikzhel strategy 24% to 41%, the Left SR coalition 53% to 67%, the Left SR villages 29% to 41%). The gates that relations decide are raised to match, so casual play keeps the gentler drift and the strategies are back near their old rates (28%, 52% and 29%):
+
+- The Vikzhel deal needs a score of 70 (was 68).
+- The Menshevik 1919 programme and the demand for free soviets at the Eighth Congress need relations with the Bolsheviks of 43 (was 40).
+- The Left SR commissars' chances of staying in the government after Brest-Litovsk, and of surviving the 1919 squeeze, are computed from relations 4 and 8 points lower.
+- The Left SRs' bond with the SR party, before the split, no longer counts as a bloc: a faction inside a party shares no presidium with it.
+
 ### Changed (code)
 
 - The two sidebars are drawn once a click, instead of once for every scene the engine passes through (two or three a turn).

@@ -18,7 +18,7 @@ The railway union has no army. It has no need of one: its members run the trains
 
 Kamenev, Rykov and several others resigned from the Bolshevik Central Committee on 17 November, in protest at Lenin's refusal to share power. The Bolsheviks in Moscow, meanwhile, are about to win the street fighting.
 
-*Where the talks stand: [+ vik_score_d +], out of the 68 that a government of all the socialists needs to survive its first months. What counts, most first: relations with the Bolsheviks; relations with the other socialist parties; having stayed in the Congress in October; an alliance with the Bolsheviks; a bloc on the left; and, a little, soviet democracy.*
+*Where the talks stand: [+ vik_score_d +], out of the 70 that a government of all the socialists needs to survive its first months. What counts, most first: relations with the Bolsheviks; relations with the other socialist parties; having stayed in the Congress in October; an alliance with the Bolsheviks; a bloc on the left; and, a little, soviet democracy.*
 
 - @refuse: Refuse the deal, and walk out of the talks.
 - @sign: Sign the draft agreement before the Bolsheviks win Moscow.
@@ -34,7 +34,7 @@ Our delegation left the talks. The railway union lost its nerve. The Bolsheviks,
 
 @sign
 on-arrival: {!
-Q.vik_ok = Q.vik_score >= 68 ? 1 : 0;
+Q.vik_ok = Q.vik_score >= 70 ? 1 : 0;
 if (Q.vik_ok) {
     Q.vikzhel_deal = 1;
     Q.vik_ever = 1;
@@ -71,4 +71,4 @@ The Bolsheviks received the Menshevik delegation, heard it out, and in the follo
 
 The signature on the draft was worth nothing. Our delegation was too far from the other socialists, and the Bolsheviks too close to the victory.
 
-*(Vikzhel deal score: [+ vik_score_d +]; at least 68 was needed.)*
+*(Vikzhel deal score: [+ vik_score_d +]; at least 70 was needed.)*

@@ -243,6 +243,7 @@ test('the Left SRs stay inside the SR party until the split, and a lent advisor 
   RO.alliancesTurn(Q, 1);
   assert.strictEqual(Q.ally_lvl, 3, 'inside the party');
   assert.ok(!Q.coalition_reached, 'the starting bond is not an achievement');
+  assert.strictEqual(Q.blocs, 0, 'a faction inside a party is not a bloc');
   Q.lsr_split = 1; RO.alliancesTurn(Q, 1);
   assert.strictEqual(Q.ally_lvl, 0, 'the split ends it');
   var M = state({player_party: 'menshevik', rel_ally: 80, ally_lvl: 3});
