@@ -183,7 +183,10 @@ MEM_SCALE = {'menshevik': 1, 'sr': 2.5, 'lsr': 0.8}
 GROUP_NAMES = {'workers': 'workers', 'soldiers': 'soldiers', 'peasants': 'peasants', 'middle': 'middle strata',
                'railway': 'railwaymen', 'nations': 'minorities'}
 STAT_NAMES = {'bolshevik': 'Bolshevik strength', 'ruble': 'the ruble', 'bread': 'bread supply', 'land_pressure': 'land pressure',
-              'soviet_democracy': 'soviet democracy', 'repression': 'repression', 'right_threat': 'threat from the Right'}
+              'soviet_democracy': 'soviet democracy', 'repression': 'repression', 'right_threat': 'threat from the Right',
+              'war_weariness': 'war weariness', 'army_discipline': 'army discipline', 'resources': 'resources',
+              'legality': 'legal standing', 'white_aid': 'foreign aid to the Whites', 'red_army': 'the Red Army',
+              'white_front': 'the White front', 'members': 'members'}
 # effects that are not numbers in the sidebar
 FLAG_TEXT = {
     'insight': 'better intelligence for the talks on an all-socialist government',
@@ -207,14 +210,14 @@ def describe(js, party):
     out = []
     for m in re.finditer(r'RO\.boost\(Q, \{([^}]*)\}\)', js):
         pairs = re.findall(r'(\w+): (-?[\d.]+)', m.group(1))
-        out.append('support among ' + ', '.join('%s %s' % (GROUP_NAMES[g], sign(v)) for g, v in pairs))
+        out.append('support among ' + ', '.join('%s %s' % (GROUP_NAMES.get(g, g), sign(v)) for g, v in pairs))
     for m in re.finditer(r'RO\.add\(Q, \{([^}]*)\}\)', js):
         for k, v in re.findall(r'(\w+): (-?[\d.]+)', m.group(1)):
             if k.startswith('rel_'):
                 who = 'the Bolsheviks' if k == 'rel_bol' else ('the Kadets' if k == 'rel_kad' else REL_NAMES[party][k])
                 out.append('relations with %s %s' % (who, sign(v)))
             else:
-                out.append('%s %s' % (STAT_NAMES[k], sign(v)))
+                out.append('%s %s' % (STAT_NAMES.get(k, k.replace('_', ' ')), sign(v)))
     m = re.search(r'Q\.members \+= ([\d.]+) \* Q\.mem_scale', js)
     if m:
         out.append('+{:,} members'.format(int(round(float(m.group(1)) * MEM_SCALE[party] * 1000))))
@@ -235,6 +238,10 @@ def describe(js, party):
     for flag, text in FLAG_TEXT.items():
         if re.search(r'Q\.%s (=|\+=)' % flag, js):
             out.append(text)
+    for m in re.finditer(r'RO\.(?:add|boost)\(Q, \{([^}]*)\}\)', js):
+        for k, v in re.findall(r'(\w+): ([^,}]+)', m.group(1)):
+            if not re.fullmatch(r'-?[\d.]+', v.strip()):
+                raise SystemExit('gen_advisors.py: cannot describe %s: %s in %r; give it a number or a FLAG_TEXT entry' % (k, v, js))
     s = '; '.join(out)
     return s[0].upper() + s[1:] + '.' if s else ''
 

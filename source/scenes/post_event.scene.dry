@@ -14,7 +14,7 @@ if (Q.month_actions >= 1) {
     Q.month_actions = 0;
     Q.turn += 1;
     // timers are measured in months, so each turn subtracts the turn length
-    for (timer of Q.timers) {
+    for (var timer of Q.timers) {
         if (Q[timer+'_timer'] && Q[timer+'_timer'] > 0) {
             Q[timer+'_timer'] = Math.max(0, Q[timer+'_timer'] - Q.turn_length);
         }
@@ -84,6 +84,8 @@ if (!Q.game_end) {
     } else if (Q.bol_regime && Q.legality <= 0 && Q.members <= 12 * Q.mem_scale) {
         Q.game_end = 1; Q.ending = 'exile';
     } else if (Q.year >= 1922) {
+        // a safety net only (a save from a build that turned the calendar past December 1921): the end of the
+        // game is set at the month change above
         Q.game_end = 1; Q.ending = 'final';
     }
 }

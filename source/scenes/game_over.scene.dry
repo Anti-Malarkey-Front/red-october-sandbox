@@ -4,9 +4,10 @@ on-arrival: {!
 Q.game_over = 1;
 // resolve the ending from the final state
 if (Q.ending == 'final') {
+    var sdWin = Q.soviet_democracy >= 45 && Q.legality >= 2 && (Q.nep_early || Q.program_adopted) && Q.free_soviets && Q.repression <= 40;
     if (Q.bol_regime == 0) {
         Q.ending = Q.vikzhel_deal ? 'all_socialist' : 'constituent_republic';
-    } else if (Q.sd_win_check = (Q.soviet_democracy >= 45 && Q.legality >= 2 && (Q.nep_early || Q.program_adopted) && Q.free_soviets && Q.repression <= 40)) {
+    } else if (sdWin) {
         Q.ending = 'soviet_democracy';
     } else if (Q.legality <= (Q.difficulty < 0 ? 0 : 1) || Q.members <= (Q.difficulty < 0 ? 12 : 20) * Q.mem_scale) {
         // on Easy a party that is banned in name but still has its members has not been driven abroad
@@ -17,7 +18,8 @@ if (Q.ending == 'final') {
 }
 if (Q.player_party == 'sr' && (Q.ending == 'exile' || Q.ending == 'one_party')) { Q.ending = 'sr_historical'; }
 if (Q.player_party == 'lsr' && (Q.ending == 'exile' || Q.ending == 'one_party' || Q.ending == 'soviet_democracy')) {
-    Q.ending = (Q.bol_regime && Q.lsr_in_gov && !Q.lsr_rising) ? 'soviet_coalition' : ((Q.bol_regime && Q.lsr_peasant_soviets && Q.legality >= 1) ? 'peasant_soviets' : 'lsr_historical');
+    // governing beside the Bolsheviks needs a party that is still in the soviets (legal or tolerated), not one expelled
+    Q.ending = (Q.bol_regime && Q.lsr_in_gov && !Q.lsr_rising && Q.legality >= 2) ? 'soviet_coalition' : ((Q.bol_regime && Q.lsr_peasant_soviets && Q.legality >= 1) ? 'peasant_soviets' : 'lsr_historical');
 }
 var earned = RO.achievementsAtEnd(Q, this.state.achievements);
 for (var i = 0; i < earned.length; i++) { this.achieve(earned[i]); }
@@ -33,7 +35,7 @@ go-to: eg_kornilov if ending = 'kornilov'; eg_right_coup if ending = 'right_coup
 
 On 14 September 1917 cavalry units of General Kornilov entered Petrograd. The Soviet was dissolved, its leaders arrested, and the revolution of February ended in the barracks. Kornilov proclaimed himself head of a National Defence Council, and the war went on.
 
-The party [? if player_party = 'menshevik' : did not govern in 1917, but it had held the Soviet ?][? if player_party = 'sr' : had governed in 1917 only through Kerensky, but it had the votes of the peasants and the garrison ?], and with it the only legitimate counterweight to the generals. It was not enough. In the months that followed the Mensheviks, the SRs and the Bolsheviks, who had been at each other's throats in the summer, were in the same prisons.
+The party [? if player_party = 'menshevik' : did not govern in 1917, but it had held the Soviet ?][? if player_party = 'sr' : had governed in 1917 only through Kerensky, but it had the votes of the peasants and the garrison ?][? if player_party = 'lsr' : was in 1917 still the left wing of the SR party, without a seat in the government, but it had the sailors of the Baltic Fleet and the land committees ?], and with it the only legitimate counterweight to the generals. It was not enough. In the months that followed the Mensheviks, the SRs and the Bolsheviks, who had been at each other's throats in the summer, were in the same prisons.
 
 Historians have argued that Kornilov's march was ill-prepared and doomed. It was, in this game, a close thing.
 
@@ -59,7 +61,7 @@ The dictatorship of the officers does not need an ideology. It needs a reason, a
 
 The Whites reached Moscow. Whatever the party had done in the Civil War, however it had decided between the Bolsheviks and their enemies, it had not been enough. Kolchak had dispersed the SR Directory in November 1918, and Denikin's government does not need to be told that the Mensheviks are socialists.
 
-The soviets are dissolved and the workers' organisations banned. The party's leaders have been jailed; [? if player_party = 'menshevik' : Dan and Abramovich went into hiding, and the Socialist Courier, if it is ever published, will be published abroad. ?][? if player_party = 'sr' : Chernov has gone abroad, and the rest sit in the officers' prisons, with the Bolsheviks. ?]
+The soviets are dissolved and the workers' organisations banned. The party's leaders have been jailed; [? if player_party = 'menshevik' : Dan and Abramovich went into hiding, and the Socialist Courier, if it is ever published, will be published abroad. ?][? if player_party = 'sr' : Chernov has gone abroad, and the rest sit in the officers' prisons, with the Bolsheviks. ?][? if player_party = 'lsr' : Spiridonova and Kamkov, who had quarrelled with the Bolsheviks over Brest and the grain requisitions, now share their cells with them. ?]
 
 - @eg_menu: Continue.
 

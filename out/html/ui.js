@@ -196,7 +196,7 @@
       var c = byId[id];
       var lead = null, best = -1;
       Object.keys(c.rows).forEach(function(p) { if (c.rows[p] > best && !(p === 'lsr' && !Q.lsr_split)) { best = c.rows[p]; lead = p; } });
-      var leadTxt = (lead === Q.player_slot || (Q.player_slot === 'lsr' && !Q.lsr_split && lead === 'sr' && false)) ? 'you lead' : 'leads: ' + PARTY_LABEL[lead] + ' ' + Math.round(best) + '%';
+      var leadTxt = (lead === Q.player_slot) ? 'you lead' : 'leads: ' + PARTY_LABEL[lead] + ' ' + Math.round(best) + '%';
       h += '<div class="rs-class" data-id="' + id + '"><div class="sb-label"><span>' + esc(c.name) + '</span><span class="sb-word">' + Math.round(c.you) + '%</span></div>' +
            '<div class="sb-bar"><div class="sb-fill" style="width:' + clamp(c.you, 0, 100) + '%;background:' + color + '"></div></div>' +
            '<div class="rs-meta">' + (c.share < 1 ? '<1' : Math.round(c.share)) + '% of the electorate · ' + esc(leadTxt) + '</div>';
@@ -315,7 +315,7 @@
            '<i class="opp-tick" style="left:' + window.RO.SANCTION_AT + '%"></i><i class="opp-tick" style="left:' + window.RO.REVOLT_AT + '%"></i></div>';
       var pw = Math.round(c.power);
       h += '<div class="rs-meta">Its strength: ' + pw + ' · ' + (!c.canAct ? 'too weak to act, it can only grumble' : (!c.canArm ? 'strong enough to sanction you, not to take up arms' : 'strong enough to take up arms')) + '.</div>';
-      if (st >= 18) { h += '<div class="rs-meta">Chance to break it by force:' + Math.round(c.odds * 100) + '%' + (c.odds < 0.45 ? ' (a law\'s force option leaves it alone below 45%)' : '') + '.</div>'; }
+      if (st >= 18) { h += '<div class="rs-meta">Chance to break it by force: ' + Math.round(c.odds * 100) + '%' + (c.odds < 0.45 ? ' (a law\'s force option leaves it alone below 45%)' : '') + '.</div>'; }
       if (c.pending) { h += '<div class="rs-meta opp-alert">' + (c.pending === 2 ? 'An uprising is under way.' : 'Sanctions are coming.') + '</div>'; }
       else if (c.cooling) { h += '<div class="rs-meta">It has just acted, and is regrouping.</div>'; }
       if (objects.length) { h += '<div class="rs-meta">Objects to: ' + objects.map(function(w) { return esc(w.t); }).join('; ') + '.</div>'; }
@@ -398,19 +398,14 @@
   });
 
   var previousUpdate = window.updateSidebar;
-  window.updateSidebar = function() {
+  // The engine shows every scene it passes through (post_event, then an event or the main page), and each calls
+  // onDisplayContent: the derived numbers are refreshed at once, so the "what changed" chips stay exact, but the two
+  // panels are drawn once, after the click has finished.
+  var sidebarTimer = null;
+  function drawSidebar() {
+    sidebarTimer = null;
     var Q = qualities();
-    var box = $('#qualities');
-    var side = $('#stats_sidebar');
-    if (!Q || Q.started !== 1 || !window.RO || sceneId().indexOf('root.') === 0) {
-      side.hide();
-      $('#support_sidebar').hide();
-      renderMobileBar(Q || {}, false);
-      return;
-    }
-    side.show();
-    // refresh the derived numbers (polls, rounded stats) before drawing
-    try { window.RO.updateFactions(Q); window.RO.updatePolls(Q); window.RO.display(Q); } catch (e) { /* the engine will recompute at the next turn */ }
+    if (!Q || Q.started !== 1 || !window.RO || sceneId().indexOf('root.') === 0) { return; }
     var opp = oppositionOf(Q);
     renderMobileBar(Q, true, opp);
     var html;
@@ -420,8 +415,22 @@
       case 'status.polls': html = renderSupport(Q); break;
       default: html = renderMain(Q);
     }
-    box.empty().append('<div class="sb">' + html + '</div>');
+    $('#qualities').empty().append('<div class="sb">' + html + '</div>');
     renderRight(opp);
+  }
+  window.updateSidebar = function() {
+    var Q = qualities();
+    if (!Q || Q.started !== 1 || !window.RO || sceneId().indexOf('root.') === 0) {
+      clearTimeout(sidebarTimer); sidebarTimer = null;
+      $('#stats_sidebar').hide();
+      $('#support_sidebar').hide();
+      renderMobileBar(Q || {}, false);
+      return;
+    }
+    $('#stats_sidebar').show();
+    // refresh the derived numbers (polls, rounded stats) before drawing
+    try { window.RO.updateFactions(Q); window.RO.updatePolls(Q); window.RO.display(Q); } catch (e) { /* the engine will recompute at the next turn */ }
+    if (!sidebarTimer) { sidebarTimer = setTimeout(drawSidebar, 0); }
   };
 
   // ---------- what did that choice change? ----------
@@ -491,7 +500,7 @@
   }
   function showEffects() {
     var Q = qualities();
-    if (!Q || Q.started !== 1) { lastSnap = null; return; }
+    if (!Q || Q.started !== 1) { lastSnap = null; turnSnap = null; prevTurnSnap = null; return; }
     var id = sceneId();
     var now = snapshot(Q);
     if (lastSnap && !quietScene(id)) {

@@ -18,10 +18,14 @@ go-to: start_menu_2
 
 @start
 on-arrival: {!
+// a game begun from the menu after another one in the same session starts from a clean slate: the engine only
+// clears its visits, hands and qualities when the page is loaded, so every max-visits event, the run's record (hist,
+// laws_log, parl_*) and the cards in hand would otherwise carry over. Only the achievements earned are kept.
+var st = this.state;
+st.visits = {}; st.currentHands = {}; st.sceneStack = []; st.lastDrawnCard = null; st.lastPlayedCard = null; st.jumpSceneId = null;
+for (var qk in Q) { if (qk.indexOf('achievement_') !== 0) { delete Q[qk]; } }
 Q.started = 1;
 Q.game_over = 0;
-// the achievements of the last game, if one was played in this session, are not this game's
-for (var ak in Q) { if (ak.indexOf('game_achievement_') === 0) { Q[ak] = 0; } }
 Q.game_end = 0;
 Q.ending = '';
 
@@ -51,7 +55,6 @@ Q.saves_disabled = 0;
 Q.player_party = 'menshevik';
 Q.player_slot = 'men';
 Q.resources = 3;
-Q.dues = 2;
 // membership in thousands
 Q.members = 60;
 Q.mem_scale = 1;

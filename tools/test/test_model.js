@@ -206,14 +206,11 @@ test('an alliance that cannot go further says why', function() {
   assert.ok(['power', 'lines'].indexOf(Q.alliance_why) >= 0, Q.alliance_why);
 });
 
-test('relations fade slowly, and a formal alliance does not fade away by itself', function() {
-  var Q = state({at_war: 0, rel_ally: 80, rel_base_ally: 55, ally_lvl: 0, rel_bol: 10, rel_base_bol: 25, ally_bol: 0});
+test('goodwill fades more slowly than quarrels heal', function() {
+  var Q = state({at_war: 0, rel_ally: 80, rel_base_ally: 55, rel_bol: 10, rel_base_bol: 25});
   for (var i = 0; i < 6; i++) { RO.drift(Q, 1); }
-  assert.ok(Q.rel_ally > 65 && Q.rel_ally < 80, 'untended goodwill ' + Q.rel_ally);
+  assert.ok(Q.rel_ally > 72 && Q.rel_ally < 80, 'untended goodwill ' + Q.rel_ally);
   assert.ok(Q.rel_bol > 15 && Q.rel_bol < 25, 'a quarrel heals ' + Q.rel_bol);
-  var C = state({player_party: 'menshevik', at_war: 0, rel_ally: 80, rel_base_ally: 55, ally_lvl: 3});
-  for (i = 0; i < 48; i++) { RO.drift(C, 1); RO.alliancesTurn(C, 1); }
-  assert.strictEqual(C.ally_lvl, 3, 'coalition held at ' + C.rel_ally);
 });
 
 test('achievements at the end: endings, wins, and the ones counted across games', function() {
@@ -239,6 +236,20 @@ test('achievements at the end: endings, wins, and the ones counted across games'
     var e = m.match(/'(\w+)'/)[1];
     assert.ok(ids.indexOf('ending_' + e) >= 0, 'ending achievement for ' + e);
   });
+});
+
+test('the Left SRs stay inside the SR party until the split, and a lent advisor goes home when a coalition ends', function() {
+  var Q = state({player_party: 'lsr', rel_ally: 45, ally_lvl: 3, lsr_split: 0});
+  RO.alliancesTurn(Q, 1);
+  assert.strictEqual(Q.ally_lvl, 3, 'inside the party');
+  assert.ok(!Q.coalition_reached, 'the starting bond is not an achievement');
+  Q.lsr_split = 1; RO.alliancesTurn(Q, 1);
+  assert.strictEqual(Q.ally_lvl, 0, 'the split ends it');
+  var M = state({player_party: 'menshevik', rel_ally: 80, ally_lvl: 3});
+  RO.alliancesTurn(M, 1);
+  assert.strictEqual(M.chernov_advisor, 1, 'Chernov lent at the coalition');
+  M.rel_ally = 40; RO.alliancesTurn(M, 1);
+  assert.ok(M.ally_lvl < 3 && !M.chernov_advisor && !M.lent_chernov, 'Chernov returned');
 });
 
 console.log(passed + ' passed, ' + failed + ' failed');

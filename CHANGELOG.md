@@ -11,11 +11,27 @@ This changelog covers the Red October fork only and follows the format of [Keep 
 
 ### Changed
 
-- Relations with the other parties fade more slowly: goodwill above a party's resting point now drifts back at 4% of the gap a month (was 8%), and a formal alliance rests just above the level that holds it, so it is lost only to events and choices, never to drift alone. Quarrels heal at the old pace.
+- Relations with the other parties fade more slowly: goodwill above a party's base now drifts back at 6% of the gap a month (was 8%), so an alliance needs tending a little less often. Quarrels heal at the old pace. (A first version, which also let formal alliances rest above the level that holds them, made the scripted strategies win up to twice as often, and was dropped.)
 
 ### Fixed
 
+A code review of the whole game found these; each was checked against the code and fixed.
+
+- Starting a second game from the menu, without reloading the page, carried the first game over: every one-off event (February, the July Days, Kornilov, October, Brest-Litovsk...) was skipped as already seen, the cards in hand stayed, and the run's record (the recap chart, the laws, the parliaments) mixed the two games. A new game now starts from a clean slate, keeping only the achievements.
+- The Left SRs lost their place inside the SR party on the first turn: the coalition level they start at eroded at once, because relations of 55 are below what holds a coalition between separate parties. The bond now lasts until the split, as intended.
+- An advisor lent at the coalition level never went home when the coalition fell: Chernov could stay on a Menshevik council after the bloc broke over Komuch. A lent advisor now returns to their party when the coalition ends.
+- The Soviet Coalition ending could be reached by a Left SR party already expelled from the soviets. It now needs the party to be legal or tolerated.
+- Left SR players saw empty or cut-off paragraphs in the Kornilov and White endings, the Democratic Conference, the Constituent Assembly election, Kolchak's coup, Wrangel's evacuation and the Party Line card. Each now has a Left SR text.
+- The sidebar arrows compared the first turn of a new game with the last game.
+- The Opposition panel read "Chance to break it by force:45%".
 - The "Achievements in this playthrough" page could show the achievements of the previous game played in the same session.
+
+### Changed (code)
+
+- The two sidebars are drawn once a click, instead of once for every scene the engine passes through (two or three a turn).
+- The council's reserve is shuffled only when there is a seat to fill.
+- `gen_advisors.py` stops with a clear message, instead of a KeyError or a silent gap, if an advisor's effect cannot be described.
+- Removed unused qualities (`dues`, `rel_men`, `historical_mode`), an implicit global in the turn loop and in `game.js`, and a stat computed twice in `RO.display`; corrected the comment on phased-in laws (they carry two fifths of the anger, not a fifth).
 
 ## 2026-10-11
 

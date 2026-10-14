@@ -64,7 +64,7 @@ var RO = (function() {
     menshevik: {
       slot: 'men', name: 'Mensheviks', pname: 'the Mensheviks', partner: 'SRs', partner_slot: 'sr',
       members: 60, memDiv: 60, memScale: 1, memCap: 400, resources: 3, legality: 3,
-      rel: {ally: 65, lsr: 30, bol: 25, kad: 30, men: 0}, relBase: {ally: 55, lsr: 30, bol: 25, kad: 30},
+      rel: {ally: 65, lsr: 30, bol: 25, kad: 30}, relBase: {ally: 55, lsr: 30, bol: 25, kad: 30},
       factions: {
         defencist: [50, 0, 'The Revolutionary Defencists'], intl: [20, 20, 'The Internationalists'],
         rightdef: [12, 10, 'The Right Defencists'], unions: [10, 5, 'The trade unionists and cooperators'],
@@ -77,7 +77,7 @@ var RO = (function() {
       slot: 'lsr', name: 'Left SRs', pname: 'the Left SRs', partner: 'SRs', partner_slot: 'sr',
       members: 40, memDiv: 40, memScale: 0.8, memCap: 200, resources: 2, legality: 3, pollNeutral: 3,
       // rel_ally is the relation with the SR party; rel_lsr stands for the Mensheviks in this campaign
-      rel: {ally: 55, lsr: 40, bol: 40, kad: 15, men: 40}, relBase: {ally: 45, lsr: 35, bol: 40, kad: 15},
+      rel: {ally: 55, lsr: 40, bol: 40, kad: 15}, relBase: {ally: 45, lsr: 35, bol: 40, kad: 15},
       factions: {
         defencist: [45, 0, 'The Kamkov-Spiridonova leadership'], intl: [20, 15, 'The pro-Bolshevik Left SRs'],
         rightdef: [20, 10, 'The pro-coalition Left SRs (Natanson, Kolegaev)'], unions: [15, 5, 'The village organisers'],
@@ -89,7 +89,7 @@ var RO = (function() {
     sr: {
       slot: 'sr', name: 'SRs', pname: 'the SRs', partner: 'Mensheviks', partner_slot: 'men',
       members: 300, memDiv: 150, memScale: 2.5, memCap: 1200, resources: 3, legality: 3,
-      rel: {ally: 65, lsr: 70, bol: 20, kad: 35, men: 65}, relBase: {ally: 55, lsr: 60, bol: 25, kad: 35},
+      rel: {ally: 65, lsr: 70, bol: 20, kad: 35}, relBase: {ally: 55, lsr: 60, bol: 25, kad: 35},
       factions: {
         defencist: [30, 0, 'The Centre (Chernov)'], intl: [20, 25, 'The Left SRs'],
         rightdef: [25, 5, 'The Right SRs'], unions: [25, 5, 'The Right Centre (Gots, Zenzinov)'],
@@ -123,7 +123,7 @@ var RO = (function() {
     Q.poll_neutral = c.pollNeutral || 9;
     Q.resources = c.resources;
     Q.legality = c.legality;
-    Q.rel_ally = c.rel.ally; Q.rel_lsr = c.rel.lsr; Q.rel_bol = c.rel.bol; Q.rel_kad = c.rel.kad; Q.rel_men = c.rel.men;
+    Q.rel_ally = c.rel.ally; Q.rel_lsr = c.rel.lsr; Q.rel_bol = c.rel.bol; Q.rel_kad = c.rel.kad;
     Q.rel_base_ally = c.relBase.ally; Q.rel_base_lsr = c.relBase.lsr; Q.rel_base_bol = c.relBase.bol; Q.rel_base_kad = c.relBase.kad;
     Q.factions = Object.keys(c.factions);
     for (var i = 0; i < FACTIONS.length; i++) {
@@ -303,9 +303,8 @@ var RO = (function() {
     }
   }
 
-  // the relations that hold each formal alliance, and the relations below which a level is lost
-  var REL_LVL = {rel_ally: 'ally_lvl', rel_lsr: 'ally_lsr', rel_bol: 'ally_bol'};
-  var HOLD = [0, 30, 50, 65];
+  // how fast goodwill above a party's base fades, a share of the gap a month
+  var REL_FADE = 0.06;
 
   // Per-turn drift of the stats. tl is the turn length in months (0.5 or 1).
   function drift(Q, tl) {
@@ -343,13 +342,11 @@ var RO = (function() {
       Q.repression += (Q.legality <= 1 ? 0.6 : 0.3) * tl;
       Q.red_army += 1.2 * tl * (Q.red_army < 70 ? 1 : 0);
     }
-    // relations with other parties drift back toward where they started unless tended: goodwill fades slowly and
-    // quarrels heal faster, and a formal alliance holds its partner just above the level that keeps it
+    // relations with other parties drift back toward where they started unless tended: goodwill fades a little more
+    // slowly than quarrels heal
     var relBase = {rel_ally: Q.rel_base_ally || 55, rel_lsr: Q.rel_base_lsr || 30, rel_bol: Q.rel_base_bol || 25, rel_kad: Q.rel_base_kad || 30};
     for (var rk in relBase) {
-      var lvlKey = REL_LVL[rk], held = lvlKey ? HOLD[clamp(Q[lvlKey] || 0, 0, 3)] : 0;
-      var home = (held && Q[rk] >= held) ? Math.max(relBase[rk], held + 5) : relBase[rk];
-      Q[rk] += (home - Q[rk]) * (Q[rk] > home ? 0.04 : 0.08) * tl;
+      Q[rk] += (relBase[rk] - Q[rk]) * (Q[rk] > relBase[rk] ? REL_FADE : 0.08) * tl;
     }
     // the player's campaign boosts fade slowly
     for (var g = 0; g < BOOST_GROUPS.length; g++) {
@@ -367,7 +364,7 @@ var RO = (function() {
 
   // Rounded copies of the stats (Q.d_<name>) for the sidebar and event text.
   function display(Q) {
-    var names = STATS.concat(['war_weariness', 'resources']);
+    var names = STATS.concat(['resources']);
     for (var i = 0; i < names.length; i++) {
       if (Q[names[i]] !== undefined) { Q['d_' + names[i]] = Math.round(Q[names[i]]); }
     }
@@ -502,7 +499,8 @@ var RO = (function() {
   }
   function levelName(l) { return LEVEL_NAMES[clamp(Math.round(l), 0, 3)]; }
 
-  // Alliances erode when relations fall well below what holds them (HOLD is declared with drift, which uses it too).
+  // Alliances erode when relations fall well below what holds them.
+  var HOLD = [0, 30, 50, 65];
   function alliancesTurn(Q, tl) {
     var i, who, blocs = 0, feed = 0;
     // Left SRs start inside the SR party; the split ends that
@@ -512,14 +510,19 @@ var RO = (function() {
     for (i = 0; i < WHO.length; i++) {
       who = WHO[i];
       var lvl = Q[LVL[who]] || 0;
-      while (lvl > 0 && Q[REL[who]] < HOLD[lvl]) { lvl--; }
+      // until the split the Left SRs are a faction of the SR party, not its ally: that bond does not erode
+      var inside = who === 'ally' && Q.player_party === 'lsr' && !Q.lsr_split;
+      if (!inside) { while (lvl > 0 && Q[REL[who]] < HOLD[lvl]) { lvl--; } }
       Q[LVL[who]] = lvl;
       if (lvl >= 2) { blocs++; }
+      var adv = LEND[Q.player_party] && LEND[Q.player_party][who];
       if (lvl >= 3) {
-        Q.coalition_reached = 1;
+        if (!inside) { Q.coalition_reached = 1; }
         feed += Q['turmoil_' + allySlot(Q, who)] || 0;
-        var adv = LEND[Q.player_party] && LEND[Q.player_party][who];
         if (adv && !Q['lent_' + adv] && !Q[adv + '_advisor']) { Q[adv + '_advisor'] = 1; Q['lent_' + adv] = 1; }
+      } else if (adv && Q['lent_' + adv]) {
+        // a lent advisor goes back to their own party when the coalition ends
+        Q[adv + '_advisor'] = 0; Q['lent_' + adv] = 0;
       }
     }
     Q.blocs = blocs;
@@ -658,7 +661,9 @@ var RO = (function() {
     var avail = advisorsAvailable(Q), active = [], i, id;
     var prev = Q.adv_active || [];
     for (i = 0; i < prev.length; i++) { if (avail.indexOf(prev[i]) >= 0) { active.push(prev[i]); } }
-    var pool = shuffled(avail.filter(function(x) { return active.indexOf(x) < 0; }));
+    var pool = avail.filter(function(x) { return active.indexOf(x) < 0; });
+    // draw at random only when there is a seat to fill (this also keeps the seeded random stream short)
+    if (active.length < COUNCIL_SIZE) { pool = shuffled(pool); }
     while (active.length < COUNCIL_SIZE && pool.length) { active.push(pool.shift()); }
     Q.adv_active = active;
     for (id in ADVISORS) {
@@ -996,8 +1001,8 @@ var RO = (function() {
   }
 
   // ---- laws with a choice of implementation ----
-  // Run a law's effects (fn) in one of three styles: 'slow' (phased in, with compensation: 60% of the effects, a
-  // fifth of the anger, costs a resource), 'decree' (as written) or 'force' (as written, and the camps it angers are
+  // Run a law's effects (fn) in one of three styles: 'slow' (phased in, with compensation: 60% of the effects, two
+  // fifths of the anger, costs a resource), 'decree' (as written) or 'force' (as written, and the camps it angers are
   // broken by force if the party is strong enough). Q.law_text holds the result of the force.
   var LAW_KEYS = ['bread', 'ruble', 'army_discipline', 'land_pressure', 'bolshevik', 'right_threat', 'soviet_democracy', 'repression',
                   'war_weariness', 'rel_ally', 'rel_lsr', 'rel_bol', 'rel_kad'].concat(['workers', 'soldiers', 'peasants', 'middle', 'railway', 'nations'].map(function(g) { return 'boost_' + g; }));

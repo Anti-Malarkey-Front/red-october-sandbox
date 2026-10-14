@@ -217,7 +217,7 @@ Then, on every visit: clamp, recalculate the factions, polls and derived numbers
 | Poll neutral point (`poll_neutral`) | 9 | 3 | 9 |
 | Legal status at start | 3 (legal) | 3 | 3 |
 
-The Mensheviks and the SRs begin as a bloc (`ally_lvl = 2`). The Left SRs begin inside the SR party and in a coalition with it (`ally_lvl = 3`). Their relations are in Alliances.
+The Mensheviks and the SRs begin as a bloc (`ally_lvl = 2`). The Left SRs begin inside the SR party and in a coalition with it (`ally_lvl = 3`); that bond does not erode with relations until the split, which ends it. Their relations are in Alliances.
 
 Hard and Easy change the starting resources and dissent (see Difficulty). Income is `dues_income` (a leftover quality, `dues`, is unused).
 
@@ -525,7 +525,7 @@ Levels, and what the relation must be for each:
 | 2 | bloc | relation ≥ 60, and the lines are compatible | 50 |
 | 3 | coalition | relation ≥ 75, lines compatible, and shared power | 65 |
 
-**Relations drift.** Each relation moves towards a resting point: 4% of the gap a month when it is above it (goodwill fades slowly), 8% when it is below (quarrels heal). The resting point is the base, except that a formal alliance whose relations still hold it rests at 5 above the level that keeps it (cooperation 35, bloc 55, coalition 70), so an alliance is never lost to drift alone, only to events and choices. Mensheviks: ally 55, Left SRs 30, Bolsheviks 25, Kadets 30. SRs: ally 55, Left SRs 60, Bolsheviks 25, Kadets 35. Left SRs: ally 45, Mensheviks 35, Bolsheviks 40, Kadets 15.
+**Relations drift.** Each relation moves towards its base: 6% of the gap a month when it is above the base (goodwill fades), 8% when it is below (quarrels heal). Mensheviks: ally 55, Left SRs 30, Bolsheviks 25, Kadets 30. SRs: ally 55, Left SRs 60, Bolsheviks 25, Kadets 35. Left SRs: ally 45, Mensheviks 35, Bolsheviks 40, Kadets 15.
 
 **Left SR start.** The Left SRs start in coalition with the SRs (level 3, relation 55). On the first turn the relation is below the coalition hold (65), so the level drops to 2. Its drift towards 45 then drops it again, to 1 (cooperation), since 45 is below the bloc hold of 50. The alliance only holds if the relation is tended.
 
@@ -2010,7 +2010,7 @@ The Left SRs' currents are the leadership of Kamkov and Spiridonova (defencist, 
 
 ### Shared advisors (lent)
 
-No advisor belongs to two parties, but four can be lent to another party. An advisor is lent when the party's alliance with the partner or the third party reaches the coalition level (relations of 75 or more). The lending happens once, and only if the advisor is not already available to that party. A lent advisor keeps their own departure date.
+No advisor belongs to two parties, but four can be lent to another party. An advisor is lent when the party's alliance with the partner or the third party reaches the coalition level (relations of 75 or more). The lending happens only if the advisor is not already available to that party, and the advisor goes back to their own party when the coalition falls (to be lent again if it is rebuilt). A lent advisor keeps their own departure date.
 
 | Advisor | Own party | Lent to, at coalition with the partner | Lent to, at coalition with the third party |
 |---|---|---|---|
@@ -2063,7 +2063,7 @@ At the end of every game, the **recap** shows the run as a chart and lists the p
    - Otherwise: `one_party`.
 3. **Party remapping:**
    - SRs: `exile` and `one_party` become `sr_historical`.
-   - Left SRs: `exile`, `one_party` and `soviet_democracy` become `soviet_coalition` if the Bolsheviks rule, the Left SRs are in government, and they have not risen (`lsr_in_gov` and not `lsr_rising`). Otherwise `peasant_soviets` if the Bolsheviks rule, `lsr_peasant_soviets` is set and legality is 1 or more. Otherwise `lsr_historical`.
+   - Left SRs: `exile`, `one_party` and `soviet_democracy` become `soviet_coalition` if the Bolsheviks rule, the Left SRs are in government, they have not risen, and the party is still in the soviets (`lsr_in_gov`, not `lsr_rising`, legality 2 or more). Otherwise `peasant_soviets` if the Bolsheviks rule, `lsr_peasant_soviets` is set and legality is 1 or more. Otherwise `lsr_historical`.
    - So `exile` and `one_party` remain only for the Mensheviks, and a Left SR cannot end in `soviet_democracy`.
 
 The endings `kornilov` and `right_coup` are set by events: `kornilov` by the Kornilov Affair (force greater than resistance), `right_coup` by the generals' plot (the threat from the Right at 65 or more) or by a lost landowners' rising or generals' march.
