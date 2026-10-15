@@ -23,7 +23,7 @@ Liber (1880-1937) is a Bundist and a member of the Soviet executive. He speaks f
 title: Jewish Workers' Link
 subtitle: Liber rallies the Jewish workers' organisations. Support among minorities +4, workers +2; the Bund: strength +1, dissent −5.
 choose-if: advisor_action_timer <= 0
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

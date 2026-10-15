@@ -376,7 +376,8 @@ var RO = (function() {
     Q.d_dissent = Math.round(Q.dissent * 100);
     Q.d_grievance = Math.round(grievance(Q));
     Q.strength = Math.round(strength(Q));
-    CAMPS.forEach(function(k) { Q['odds_' + k] = Math.round(100 * squashOdds(Q, k)); });
+    // rounded down, so that a chance shown as 45% always passes the rules' 0.45 test (oppositionTurn, law)
+    CAMPS.forEach(function(k) { Q['odds_' + k] = Math.floor(100 * squashOdds(Q, k)); });
   }
 
   // ---- helpers for cards and events ----
@@ -391,7 +392,9 @@ var RO = (function() {
     }
   }
   // Move a faction's strength and dissent.
+  // A current that has left the party (Q.<name>_gone) no longer moves.
   function fac(Q, name, strength, dissentChange) {
+    if (Q[name + '_gone']) { return; }
     Q[name + '_strength'] += strength;
     Q[name + '_dissent'] += (dissentChange || 0);
   }
@@ -636,7 +639,8 @@ var RO = (function() {
     gots: 82,          // arrested in 1920, and tried in 1922
     martov: 92,        // leaves for Berlin in the autumn of 1920; gone by the end of the Civil War (November)
     abramovich: 92,    // abroad with Martov in 1920
-    chernov: 92        // leaves Russia in 1920
+    chernov: 92,       // leaves Russia in 1920
+    proshian: 46       // dies of typhus in December 1918
   };
   function advisorsAvailable(Q) {
     var out = [];
@@ -944,12 +948,19 @@ var RO = (function() {
     return 0.3 * a + (k === 'kad' ? 8 : (k === 'gen' ? 10 + 0.4 * Q.right_threat : 8 + 0.4 * Q.bolshevik));
   }
   function squashOdds(Q, k) { return clamp(0.5 + (strength(Q, k) - campStrength(Q, k)) / 40, 0.1, 0.9); }
+  // win: the first, second and any later victory over the camp (Q.<camp>_broken counts them)
   var SQUASH = {
-    kad: {win: 'Rech was closed, two bankers and a Duma deputy were arrested, and the Kadet committee has gone quiet.',
+    kad: {win: ['Rech was closed, two bankers and a Duma deputy were arrested, and the Kadet committee has gone quiet.',
+                'Nash Vek, which took Rech\'s place, was closed in its turn, and the Kadet clubs of Moscow were searched. The liberals have gone quiet again.',
+                'The Kadet committees were searched once more, and what is left of their leadership is keeping its head down.'],
           lose: 'The arrests were bungled, the courts released the Kadet leaders within the day, and the liberals have made a martyr of each.'},
-    gen: {win: 'The Officers\' Union was dissolved and its leaders were posted to the farthest garrisons. The Stavka has understood.',
+    gen: {win: ['The Officers\' Union was dissolved and its leaders were posted to the farthest garrisons. The Stavka has understood.',
+                'A second purge of the staffs sent another batch of officers to the farthest garrisons, and the officers\' circles have broken up.',
+                'The officers\' plotting was broken up once more, and its organisers were arrested before they could meet.'],
           lose: 'The officers\' orders were ignored in three garrisons, and the Officers\' Union has gone underground with a grievance.'},
-    bol: {win: 'Pravda was closed, the agitators were arrested in the barracks and the factory committees reported to the Soviet.',
+    bol: {win: ['Pravda was closed, the agitators were arrested in the barracks and the factory committees reported to the Soviet.',
+                'Pravda, under its new name, was closed again, and the Bolshevik agitators were arrested in the barracks.',
+                'The Bolshevik committees were raided once more, and their agitators were sent before the courts.'],
           lose: 'The Bolshevik agitators were warned in time. Pravda reappeared under another name, and the arrests have made them heroes.'}
   };
   // One attempt to break a camp. Applies the effects, adds a sentence to Q.sq_text and returns true if it worked.
@@ -957,8 +968,9 @@ var RO = (function() {
   // event (inEvent): then the event's cooldown stands, and the anger waits for it.
   function squash(Q, k, inEvent) {
     if (!campActive(Q, k)) { return false; }
-    var win = chance(squashOdds(Q, k)), sent = SQUASH[k][win ? 'win' : 'lose'];
+    var win = chance(squashOdds(Q, k)), sent = win ? SQUASH[k].win[Math.min(Q[k + '_broken'] || 0, 2)] : SQUASH[k].lose;
     if (win) {
+      Q[k + '_broken'] = (Q[k + '_broken'] || 0) + 1;
       Q['ant_' + k] = Math.max(0, (Q['ant_' + k] || 0) - 45);
       Q['opp_' + k + '_timer'] = Math.max(Q['opp_' + k + '_timer'] || 0, 8);
       Q['opp_' + k + '_ev'] = 0;
@@ -1125,7 +1137,7 @@ var RO = (function() {
     {id: 'chto_delat', title: "Chto Delat'", desc: 'Adopt the 1919 programme before 1920.'},
     {id: 'free_georgia', title: 'Free Georgia', desc: 'Georgia survives the invasion.'},
     {id: 'komuch_without_kolchak', title: 'Komuch Without Kolchak', desc: 'An SR government on the Volga that the Whites never capture.', party: 'sr'},
-    {id: 'one_party_sr', title: 'One Party', desc: 'The SRs never split.', party: 'sr'},
+    {id: 'one_party_sr', title: 'One Party', desc: 'The SRs never split: the Left SRs stay, and no current walks out.', party: 'sr'},
     {id: 'seven_commissars', title: 'Seven Commissars', desc: 'The Left SR coalition outlives Brest-Litovsk.', party: 'lsr'},
     {id: 'dustbin_of_history', title: 'Dustbin of History', desc: 'Reach a historical ending.'},
     {id: 'soviet_democracy_win', title: 'Soviet Democracy', desc: 'Reach the best ending.'},
@@ -1157,7 +1169,7 @@ var RO = (function() {
       if (Q.difficulty > 0) { out.push('against_the_current'); }
     }
     if (p === 'sr' && Q.komuch_alive && Q.white_front < 72 && Q.bol_regime) { out.push('komuch_without_kolchak'); }
-    if (p === 'sr' && Q.lsr_kept && !Q.lsr_split) { out.push('one_party_sr'); }
+    if (p === 'sr' && Q.lsr_kept && !Q.lsr_split && !Q.crisis_count) { out.push('one_party_sr'); }
     if (p === 'lsr' && Q.seven_commissars && Q.bol_regime) { out.push('seven_commissars'); }
     if (Q.capitals_won >= 19 && Q.spring_honoured) { out.push('nineteen_of_thirty'); }
     if (Q.program_adopted && Q.program_dix < 72) { out.push('chto_delat'); }

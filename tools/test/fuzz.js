@@ -117,7 +117,7 @@ L.push('## The numbers over a game', '', 'For each game, its lowest and highest 
 var withMem = games.filter(function(g) { return g.hi && g.hi.members !== undefined && g.fin; });
 L.push('', 'Members (thousands): mean low ' + Math.round(mean(withMem, function(g) { return g.lo.members; })) + ', mean high ' + Math.round(mean(withMem, function(g) { return g.hi.members; })) +
   ', mean at the end ' + Math.round(mean(withMem, function(g) { return g.fin.members; })) + '; ' + pct(withMem.filter(function(g) { return g.hi.members >= (g.fin.mem_cap || 400) - 0.5; }).length, withMem.length) + '% of games hit the party\'s membership limit. ' +
-  'Legal status at the end: ' + fmt(tally(withMem, function(g) { return ['banned', 'persecuted', 'harassed', 'legal'][Math.max(0, Math.min(3, Math.round(g.fin.legality)))]; }), withMem.length) + ' (%).');
+  'Legal status at the end: ' + fmt(tally(withMem, function(g) { return ['banned', 'expelled', 'tolerated', 'legal'][Math.max(0, Math.min(3, Math.round(g.fin.legality)))]; }), withMem.length) + ' (%).');
 // does the ruble come back?
 var rubleLow = games.filter(function(g) { return g.lo && g.lo.ruble <= 10 && g.fin; });
 L.push('', 'The ruble: of the ' + rubleLow.length + ' games where it fell to 10 or less, it ended above 25 in ' + pct(rubleLow.filter(function(g) { return g.fin.ruble > 25; }).length, rubleLow.length) +

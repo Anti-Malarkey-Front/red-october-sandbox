@@ -48,6 +48,7 @@ RO.fac(Q, 'intl', 0, 3);
 A series of articles took apart the Bolshevik programme point by point. It was convincing to those who were already convinced.
 
 @assembly
+view-if: dix < 25
 on-arrival: {!
 RO.boost(Q, {peasants: 3, middle: 2, nations: 1});
 RO.add(Q, {rel_ally: 2, land_pressure: -1});

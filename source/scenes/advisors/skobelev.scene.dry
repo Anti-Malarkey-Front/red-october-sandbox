@@ -23,7 +23,7 @@ Skobelev (1885-1938) is a young Social Democrat from Baku and the Soviet's man f
 title: Labour Arbitration
 subtitle: Skobelev settles a strike through conciliation boards. Support among workers −1; the ruble +2; relations with the Kadets +2; the trade unionists: strength +1, dissent −1.
 choose-if: advisor_action_timer <= 0 and in_coalition = 1 and bol_regime = 0
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (in_coalition = 1 and bol_regime = 0) : We are not in a coalition government. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?][? if not (in_coalition = 1 and bol_regime = 0) : We are not in a coalition government. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

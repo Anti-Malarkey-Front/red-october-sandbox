@@ -35,7 +35,7 @@ go-to: eg_kornilov if ending = 'kornilov'; eg_right_coup if ending = 'right_coup
 
 On 14 September 1917 cavalry units of General Kornilov entered Petrograd. The Soviet was dissolved, its leaders arrested, and the revolution of February ended in the barracks. Kornilov proclaimed himself head of a National Defence Council, and the war went on.
 
-The party [? if player_party = 'menshevik' : did not govern in 1917, but it had held the Soviet ?][? if player_party = 'sr' : had governed in 1917 only through Kerensky, but it had the votes of the peasants and the garrison ?][? if player_party = 'lsr' : was in 1917 still the left wing of the SR party, without a seat in the government, but it had the sailors of the Baltic Fleet and the land committees ?], and with it the only legitimate counterweight to the generals. It was not enough. In the months that followed the Mensheviks, the SRs and the Bolsheviks, who had been at each other's throats in the summer, were in the same prisons.
+The party [? if player_party = 'menshevik' : did not govern in 1917, but it had held the Soviet?][? if player_party = 'sr' : had governed in 1917 only through Kerensky, but it had the votes of the peasants and the garrison?][? if player_party = 'lsr' : was in 1917 still the left wing of the SR party, without a seat in the government, but it had the sailors of the Baltic Fleet and the land committees?], and with it the only legitimate counterweight to the generals. It was not enough. In the months that followed the Mensheviks, the SRs and the Bolsheviks, who had been at each other's throats in the summer, were in the same prisons.
 
 Historians have argued that Kornilov's march was ill-prepared and doomed. It was, in this game, a close thing.
 
@@ -71,9 +71,9 @@ The soviets are dissolved and the workers' organisations banned. The party's lea
 
 *The historical ending.*
 
-In January 1922 the leaders of the party were expelled from Russia. Martov, who died the next year in Germany, had already left; Dan, Abramovich and Lidia Dan followed. In Berlin, they founded the Socialist Courier, a newspaper which reported on the Soviet Union for forty years.
+In January 1922 the leaders of the party were expelled from Russia. Martov, who died the next year in Germany, and Abramovich had already left; Dan and Lidia Dan followed. In Berlin, they founded the Socialist Courier, a newspaper which reported on the Soviet Union for forty years.
 
-The party that had led the Petrograd Soviet in March 1917, that had held 248 delegates at the First Congress of Soviets and the largest bloc on its executive, ended its history in prisons, in emigration and, in Georgia, in the gold of a short and brilliant independence. It was always a party of a revolution that its enemies and its friends both said was premature.
+The party that had led the Petrograd Soviet in March 1917, that had led the First Congress of Soviets and its executive with the SRs, ended its history in prisons, in emigration and, in Georgia, in the gold of a short and brilliant independence. It was always a party of a revolution that its enemies and its friends both said was premature.
 
 It was right about almost everything, and it lost.
 
@@ -101,7 +101,7 @@ The party that had received more votes than any other in the free elections of N
 
 [? if lsr_rising = 1 : The party's Central Committee ordered the assassination of the German ambassador on 6 July 1918, and the rising that followed lasted an afternoon. ?][? if lsr_rising = 0 and lsr_squeezed = 1 : The party avoided the rising of July 1918, and was squeezed out of the government a year later, one commissariat at a time. ?][? if lsr_rising = 0 and lsr_squeezed = 0 : The party never made its way into the government for long, and was never able to leave it with its dignity. ?] By the end of the year, the Narodnik Communists had joined the Bolsheviks, and the Revolutionary Communists were an addition to the government that nobody noticed.
 
-Spiridonova was arrested in 1919 and sent to a sanatorium, from which she escaped to give speeches. Kamkov, Steinberg and the others went into exile or into prison; Natanson died in Switzerland in 1919. By May 1921 the party's activity had ceased. In the 1930s most of its former members were shot.
+[? if lsr_rising = 1 : Spiridonova was arrested in 1919 and sent to a sanatorium, from which she escaped to give speeches. Kamkov, Steinberg and the others went into exile or into prison; ?][? if lsr_rising = 0 : With no rising to answer for, the leaders were not tried; they were arrested one at a time, as the Cheka found reasons. Spiridonova, Kamkov and Steinberg ended in prison, in a sanatorium under guard or abroad; ?]Natanson died in Switzerland in 1919. [? if lsr_squeezed = 1 or lsr_rising = 1 : By May 1921 the party's activity had ceased. ?][? if lsr_squeezed = 0 and lsr_rising = 0 : By the end of 1921 the party was a name in the files of the Cheka. ?] In the 1930s most of its former members were shot.
 
 It was the party of the peasants' land and of the Baltic sailors, and it had the best slogan of the revolution, and the best martyrs.
 
@@ -163,7 +163,7 @@ The Bolsheviks sat in the Council of Ministers. Lenin was there, and Martov, and
 
 *A win.*
 
-The Constituent Assembly, which in our world sat for thirteen hours, sat in this one for a long time. It passed the land law, ended the war and drafted a constitution[? if constitution = 2 : , and elected a President ?][? if constitution = 3 : , and kept the government answerable to itself alone ?][? if constitution = 1 : , for a federal republic with the soviets as its local government ?]. [? if vikzhel_deal = 1 : The Bolsheviks sat in the all-socialist government to the end, and in the end they accepted that they would not rule alone. ?][? if vikzhel_deal = 0 and vik_ever = 1 : The Bolsheviks sat in the government for a time and then left it, and in the end they accepted that they had lost. ?][? if vikzhel_deal = 0 and vik_ever = 0 : The Bolsheviks sat on the left, in opposition, and in the end they accepted that they had lost. ?]
+The Constituent Assembly, which in our world sat for thirteen hours, sat in this one for a long time. It passed the land law, ended the war and drafted a constitution[? if constitution = 2 : , and elected a President?][? if constitution = 3 : , and kept the government answerable to itself alone?][? if constitution = 1 : , for a federal republic with the soviets as its local government?]. [? if vikzhel_deal = 1 : The Bolsheviks sat in the all-socialist government to the end, and in the end they accepted that they would not rule alone. ?][? if vikzhel_deal = 0 and vik_ever = 1 : The Bolsheviks sat in the government for a time and then left it, and in the end they accepted that they had lost. ?][? if vikzhel_deal = 0 and vik_ever = 0 : The Bolsheviks sat on the left, in opposition, and in the end they accepted that they had lost. ?]
 
 Russia in December 1921 is a poor, damaged, hungry republic. It is also a republic. [? if player_party = 'menshevik' : The Mensheviks, who said in March 1917 that Russia was not ready for socialism, are now the party that tells the peasants and workers what is possible. ?][? if player_party = 'lsr' : The Left SRs, who said in 1917 that the republic had to give the peasants the land and the soldiers the peace, sit in the Assembly as a party of the left, and have lived to see it. ?][? if player_party = 'sr' : The SRs, who have had the votes of the peasants since February, have the government, too. [? if land_socialised = 1 : The land has been socialised, as Chernov's law proposed, and is allocated by the village communities. ?] ?]
 
@@ -175,7 +175,7 @@ Russia in December 1921 is a poor, damaged, hungry republic. It is also a republ
 
 *The best ending.*
 
-The Eighth Congress of Soviets in December 1920 voted for free elections. By 1921 the NEP was an accomplished fact, [? if player_party = 'menshevik' : the economic programme that the Mensheviks published in 1919 was a good part of it ?][? if player_party = 'sr' : the peasant programme that the SRs' congresses had put forward in 1919 was a good part of it ?], and a number of Bolsheviks, in the party's left and right, were beginning to say that the soviets should be real. [? if player_party = 'menshevik' : The Mensheviks were a legal opposition, and the Socialist Courier is published in Moscow. ?][? if player_party = 'sr' : The SRs are a legal party in the villages, and Delo Naroda is printed in Moscow again. ?]
+The Eighth Congress of Soviets in December 1920 voted for free elections. By 1921 the NEP was an accomplished fact, [? if player_party = 'menshevik' : the economic programme that the Mensheviks published in 1919 was a good part of it?][? if player_party = 'sr' : the peasant programme that the SRs' congresses had put forward in 1919 was a good part of it?], and a number of Bolsheviks, in the party's left and right, were beginning to say that the soviets should be real. [? if player_party = 'menshevik' : The Mensheviks were a legal opposition, and the Socialist Courier is published in Moscow. ?][? if player_party = 'sr' : The SRs are a legal party in the villages, and Delo Naroda is printed in Moscow again. ?]
 
 It is not a democracy yet. It is a one-party state that is willing to listen, and a party of the opposition that is willing to wait. Historians such as Brovkin and Getzler have argued that this was possible, and the evidence for it is in the soviet elections of the spring of 1918.
 

@@ -23,7 +23,7 @@ Eva Broido (1876-1941), an Internationalist, becomes the party's secretary in Au
 title: Party Secretary
 subtitle: Broido strengthens the party's organisation and its work among women workers. Support among workers +2, middle strata +1; +8,000 members; the Internationalists: strength +1, dissent −2.
 choose-if: advisor_action_timer <= 0
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

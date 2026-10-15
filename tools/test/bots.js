@@ -26,7 +26,7 @@ var common = {
   military_policy: [/Trust the committees/, /Restore officers/],
   constitutional_reform: [/Demand an election/],
   nationalities: [/Ukrainian Rada/, /Transcaucasia/],
-  police: [/answerable to the city dumas/, /workers' guards/],
+  police: [/under the dumas and the soviets/, /workers' guards/],
   economic_democracy: [/Support the assemblies/, /Keep the party out/],
   labor_rights: [/Petition/, /compromise/],
   social_welfare: [/Expand cooperative/, /cooperative credit/],

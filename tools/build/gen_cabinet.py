@@ -24,7 +24,7 @@ AREAS = [
     "The land question is left to the Constituent Assembly, as the liberals ask. The peasants are told to be patient."),
    ('committees regulate the transfers', "Let the land committees regulate the transfers of land.", '', '',
     "RO.add(Q, {land_pressure: -4, rel_kad: -3, right_threat: 1, ant_kad: 4, ant_gen: 2}); RO.boost(Q, {peasants: 2}); Q.land_committees = (Q.land_committees || 0) + 1;",
-    "The land committees now have the government's authority to regulate the transfers until the Assembly meets."),
+    "The land committees now have the government's authority to regulate the transfers of land."),
    ('land socialised now', 'Socialise the land now, by decree.', 'rel_ally >= 50 or player_party = \'sr\' or player_party = \'lsr\'', 'The party that holds the peasants does not agree.',
     "RO.add(Q, {land_pressure: -8, rel_kad: -8, right_threat: 3, ant_kad: 14, ant_gen: 8, ant_bol: -3}); RO.boost(Q, {peasants: 4}); RO.fac(Q, 'rightdef', 0, 6); Q.land_committees = (Q.land_committees || 0) + 1;",
     "A decree abolished private ownership of land, and put it in the hands of the village communities. The landowners, and everyone who sits on their boards, are in uproar."),
@@ -86,6 +86,9 @@ AREAS = [
  ]),
 ]
 
+# extra view-if conditions for single settings: the Assembly cannot be waited for once it has sat or the land is decreed
+EXTRA_VIEW = {('land', 0): 'dix < 25 and land_decree = 0'}
+
 POLITICS = [
  ('kadets_in', "Invite the Kadets back into the government.", "in_coalition = 1 and bol_regime = 0 and gov_kadets = 0 and rel_kad >= 25", 'The Kadets will not return.',
   "Q.gov_kadets = 1; Q.homogeneous_gov = 0; RO.add(Q, {rel_kad: 10, right_threat: -4}); RO.boost(Q, {middle: 3}); RO.fac(Q, 'intl', 0, 8);",
@@ -120,7 +123,7 @@ view-if: (in_coalition = 1 and bol_regime = 0) or lsr_in_gov = 1
 
 [? if ant_kad >= 40 : The liberals are in an angry mood. ?][? if ant_gen >= 40 : The generals are muttering about the government. ?][? if ant_bol >= 40 and bol_regime = 0 : Pravda has begun to campaign against the cabinet. ?][? if bol_regime = 0 : Each camp that opposes a policy will first try sanctions, and then, if it is angry enough, take up arms: see the Opposition tab on the right. An unpopular law can be phased in gently, passed by decree, or, if the party is strong enough (its strength is shown there), passed and enforced against its opponents: the odds are shown for each camp, and a failure makes the camp angrier. ?]
 
-Land: [+ pol_land : pol_land +]. [? if in_coalition = 1 and bol_regime = 0 : Food: [+ pol_food : pol_food +]. Finance: [+ pol_finance : pol_finance +]. Labour: [+ pol_labour : pol_labour +]. ?][? if at_war = 1 and in_coalition = 1 and bol_regime = 0 : The war: [+ pol_war : pol_war +]. ?]Order: [+ pol_order : pol_order +].
+Land: [? if land_decree = 1 and pol_land = 0 : the land decree is in force ?][? if land_decree = 0 or pol_land > 0 : [+ pol_land : pol_land +] ?]. [? if in_coalition = 1 and bol_regime = 0 : Food: [+ pol_food : pol_food +]. Finance: [+ pol_finance : pol_finance +]. Labour: [+ pol_labour : pol_labour +]. ?][? if at_war = 1 and in_coalition = 1 and bol_regime = 0 : The war: [+ pol_war : pol_war +]. ?]Order: [+ pol_order : pol_order +].
 ''')
     for key, title, when, settings in AREAS:
         for i, st in enumerate(settings):
@@ -132,6 +135,8 @@ Land: [+ pol_land : pol_land +]. [? if in_coalition = 1 and bol_regime = 0 : Foo
     for key, title, when, settings in AREAS:
         for i, (name, label, cond, un, js, res) in enumerate(settings):
             v = 'view-if: (%s) and pol_%s != %d' % (when, key, i)
+            if (key, i) in EXTRA_VIEW:
+                v += ' and %s' % EXTRA_VIEW[(key, i)]
             ch = 'cabinet_timer <= 0' + (' and (%s)' % cond if cond else '')
             sub = '[? if cabinet_timer > 0 : The cabinet has changed course too recently. ?]' + ('[? if not (%s) : %s ?]' % (cond, un) if cond else '')
             if law_camps(js):

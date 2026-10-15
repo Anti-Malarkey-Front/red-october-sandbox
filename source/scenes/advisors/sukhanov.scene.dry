@@ -1,5 +1,5 @@
 title: Nikolai Sukhanov
-subtitle: Insider Chronicler: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the talks on an all-socialist government.
+subtitle: Insider Chronicler: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the Vikzhel talks on an all-socialist government (November 1917).
 is-pinned-card: true
 card-image: img/portraits/sukhanov.jpg
 tags: advisor, intl
@@ -12,7 +12,7 @@ Sukhanov (1882-1940), an Internationalist writer and a founding member of the So
 
 **Insider Chronicler.** Sukhanov's table talk reveals what the other parties intend.
 
-*Effect:* Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the talks on an all-socialist government.
+*Effect:* Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the Vikzhel talks on an all-socialist government (November 1917).
 
 *Calling on an advisor takes the turn, and then no advisor can act again for six months.*
 
@@ -21,9 +21,9 @@ Sukhanov (1882-1940), an Internationalist writer and a founding member of the So
 
 @action
 title: Insider Chronicler
-subtitle: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the talks on an all-socialist government.
+subtitle: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the Vikzhel talks on an all-socialist government (November 1917).
 choose-if: advisor_action_timer <= 0
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

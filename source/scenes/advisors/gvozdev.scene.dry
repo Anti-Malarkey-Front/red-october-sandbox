@@ -23,7 +23,7 @@ Gvozdev (1880-?), a lathe worker and chairman of the Central War Industries Comm
 title: Defence-Industry Pact
 subtitle: Gvozdev wins the war-industry workers' loyalty, at some cost among the radical ones. Support among workers +4, railwaymen +1; Bolshevik strength +1; the ruble +1; the trade unionists: strength +2, dissent −2.
 choose-if: advisor_action_timer <= 0 and at_war = 1
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (at_war = 1) : The war is over. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?][? if not (at_war = 1) : The war is over. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

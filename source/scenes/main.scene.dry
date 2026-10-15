@@ -1,6 +1,7 @@
 title: Next turn
 is-hand: true
 on-arrival: {!
+Q.advisor_wait = Math.ceil(Q.advisor_action_timer || 0);
 if (Q.advisor_action_timer <= 0) {
     Q.pinnedCardsDescription = 'Advisors - an action is available.';
 } else if (Q.advisor_action_timer <= 1) {
@@ -21,6 +22,7 @@ max-cards: 3
 @main_easy
 is-hand: true
 on-arrival: {!
+Q.advisor_wait = Math.ceil(Q.advisor_action_timer || 0);
 if (Q.advisor_action_timer <= 0) {
     Q.pinnedCardsDescription = 'Advisors - an action is available.';
 } else if (Q.advisor_action_timer <= 1) {

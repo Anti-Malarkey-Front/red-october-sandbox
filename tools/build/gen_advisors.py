@@ -173,11 +173,15 @@ FACTION_NAMES = {
            'bund': 'the Ufa delegation'},
     'lsr': {'defencist': 'the leadership', 'intl': 'the pro-Bolshevik Left SRs', 'rightdef': 'the pro-coalition Left SRs',
             'unions': 'the village organisers', 'bund': 'the Narodnik Communists'},
+    # for the pinned card of an advisor who can be lent: its subtitle is not re-evaluated, so it names no party's currents
+    'neutral': {'defencist': "the party's main line", 'intl': "the party's left wing", 'rightdef': "the party's right wing",
+                'unions': "the party's organisers", 'bund': "the party's late current"},
 }
 REL_NAMES = {
     'menshevik': {'rel_ally': 'the SRs', 'rel_lsr': 'the Left SRs'},
     'sr': {'rel_ally': 'the Mensheviks', 'rel_lsr': 'the Left SRs'},
     'lsr': {'rel_ally': 'the SRs', 'rel_lsr': 'the Mensheviks'},
+    'neutral': {'rel_ally': 'the main partner', 'rel_lsr': 'the third party'},
 }
 MEM_SCALE = {'menshevik': 1, 'sr': 2.5, 'lsr': 0.8}
 GROUP_NAMES = {'workers': 'workers', 'soldiers': 'soldiers', 'peasants': 'peasants', 'middle': 'middle strata',
@@ -189,12 +193,13 @@ STAT_NAMES = {'bolshevik': 'Bolshevik strength', 'ruble': 'the ruble', 'bread': 
               'white_front': 'the White front', 'members': 'members'}
 # effects that are not numbers in the sidebar
 FLAG_TEXT = {
-    'insight': 'better intelligence for the talks on an all-socialist government',
+    'insight': 'better intelligence for the Vikzhel talks on an all-socialist government (November 1917)',
     'foreign_pressure': 'more pressure from the socialists abroad',
     'peasant_organised': "the peasants' soviets better organised",
     'cheka_shield': 'a shield for the party when the Red Terror comes',
     'land_law_draft': 'a land law ready for the Constituent Assembly',
     'armed_struggle': 'the party takes up arms: a government on the Volga, relying on foreign aid',
+    'white_aid': 'raises the White front',
 }
 
 
@@ -220,7 +225,10 @@ def describe(js, party):
                 out.append('%s %s' % (STAT_NAMES.get(k, k.replace('_', ' ')), sign(v)))
     m = re.search(r'Q\.members \+= ([\d.]+) \* Q\.mem_scale', js)
     if m:
-        out.append('+{:,} members'.format(int(round(float(m.group(1)) * MEM_SCALE[party] * 1000))))
+        if party in MEM_SCALE:
+            out.append('+{:,} members'.format(int(round(float(m.group(1)) * MEM_SCALE[party] * 1000))))
+        else:
+            out.append('more members')
     m = re.search(r'Q\.resources \+= (\d+)', js)
     if m:
         out.append('resources %s' % sign(m.group(1)))
@@ -413,7 +421,9 @@ def write_advisor(aid, title, tag, flag, bio, party, actions):
     acts, scenes, plan = '', '', ''
     for i, (atitle, asub, cond, unavail, js, result) in enumerate(actions):
         choose = 'advisor_action_timer <= 0' + (' and ' + cond if cond else '')
-        un = '[? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]'
+        # advisor_wait is the timer rounded up (set in main.scene.dry)
+        un = ('[? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?]'
+              '[? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?]')
         if cond:
             un += '[? if not (' + cond + ') : ' + unavail + ' ?]'
         own, eff = effects(aid, party, js)
@@ -437,7 +447,9 @@ Q.month_actions += 1;
 - @root: Continue.
 
 """
-    summary = offers([(a[0], a[1], describe(a[4], party)) for a in actions])
+    # a lent advisor's pinned card is seen by other parties too, and its subtitle is static: name no party's currents
+    who = 'neutral' if aid in LENT_TO else party
+    summary = offers([(a[0], a[1], describe(a[4], who)) for a in actions])
     text = f"""title: {title}
 subtitle: {summary}
 is-pinned-card: true

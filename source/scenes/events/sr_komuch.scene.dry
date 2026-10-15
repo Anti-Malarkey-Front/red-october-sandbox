@@ -15,8 +15,8 @@ In late May a Czechoslovak Legion of about 40,000 men, travelling east on the Tr
 
 It is the party's own government. It has a programme: the Assembly, the land to the peasants, the eight-hour day. It also has foreign bayonets, and every officer in the neighbourhood.
 
-- @join: Join Komuch, and raise an army.
-- @guarantees: Join Komuch, but only with the Mensheviks' guarantees for the workers.
+- @join: Join Komuch, and raise an army. (raises the White front)
+- @guarantees: Join Komuch, but only with the Mensheviks' guarantees for the workers. (raises the White front)
 - @refuse: Refuse: there will be no armed struggle against the soviets.
 
 @join

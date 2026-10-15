@@ -24,7 +24,8 @@
     ruble: [[15, 'worthless'], [30, 'collapsing'], [50, 'weak'], [70, 'strained'], [1e9, 'stable']],
     rel: [[20, 'hostile'], [40, 'cold'], [60, 'cooperative'], [75, 'friendly'], [1e9, 'close']],
     dissent: [[5, 'very low'], [15, 'low'], [31, 'medium'], [50, 'high'], [1e9, 'very high']],
-    front: [[15, 'Whites contained'], [35, 'Whites on the offensive'], [55, 'front wavering'], [75, 'Whites advancing'], [1e9, 'Whites near Moscow']]
+    // the game is lost when the front reaches 72 (post_event.scene.dry): the bar has a tick there
+    front: [[15, 'Whites contained'], [35, 'Whites on the offensive'], [55, 'front wavering'], [65, 'Whites advancing'], [72, 'Whites near Moscow'], [1e9, 'Moscow lost']]
   };
   var ALLIANCE = ['no alliance', 'cooperation', 'bloc', 'coalition'];
   var LEGALITY = ['banned', 'expelled', 'tolerated', 'legal'];
@@ -57,9 +58,9 @@
     return '<div class="sb-row"><div class="sb-label"><span>' + label + '</span><span class="sb-word">' + esc(word) + (extra || '') + '</span></div>' +
       '<div class="sb-bar"><div class="sb-fill" style="width:' + w + '%;background:' + color + '"></div>' + t + '</div></div>';
   }
-  function statRow(Q, key, label, words, goodHigh) {
+  function statRow(Q, key, label, words, goodHigh, ticks) {
     var v = num(Q[key]);
-    return barRow(label, v, pick(v, WORDS[words]), scoreColor(v, goodHigh), arrow(key, goodHigh, Q));
+    return barRow(label, v, pick(v, WORDS[words]), scoreColor(v, goodHigh), arrow(key, goodHigh, Q), ticks);
   }
 
   // ---------- the tabs ----------
@@ -72,7 +73,7 @@
     var risk = window.RO && window.RO.exileRisk ? window.RO.exileRisk(Q) : null;
     if (risk) {
       h += '<div class="sb-warn" title="Standing with the Red Army against the Whites, readmission to the soviets and keeping repression down win back the party\'s standing.">⚠ ' +
-        (risk.level === 2 ? 'If the war ended now, the party would be driven abroad: ' : 'The party is close to exile: ') + esc(risk.reasons.join('; ')) + '.</div>';
+        (risk.level === 2 ? 'As things stand, the party will be driven abroad when the game ends in December 1921: ' : 'The party is close to exile: ') + esc(risk.reasons.join('; ')) + '.</div>';
     }
     var d = num(Q.dissent) * 100;
     h += barRow('Party dissent', d, pick(d, WORDS.dissent), scoreColor(d * 1.6, false), '');
@@ -88,7 +89,12 @@
     }
     h += statRow(Q, 'soviet_democracy', 'Soviet democracy', 'level', true);
     if (num(Q.repression) > 4) { h += statRow(Q, 'repression', 'Repression', 'level', false); }
-    if (Q.bol_regime && num(Q.dix) >= 34) { h += statRow(Q, 'white_front', 'The front', 'front', false); }
+    if (Q.bol_regime && num(Q.dix) >= 34) {
+      h += statRow(Q, 'white_front', 'The front', 'front', false, [72]);
+      if (num(Q.white_front) >= 60) {
+        h += '<div class="sb-warn" title="Joining Komuch, the Directory or the Admiral, and the other options marked (raises the White front), push it up; the Red Army holds it back.">⚠ The Whites are close. If the front reaches the tick, they take Moscow and the game is lost.</div>';
+      }
+    }
     if (DEBUG) { h += renderDebug(Q); }
     return h;
   }
@@ -315,7 +321,7 @@
            '<i class="opp-tick" style="left:' + window.RO.SANCTION_AT + '%"></i><i class="opp-tick" style="left:' + window.RO.REVOLT_AT + '%"></i></div>';
       var pw = Math.round(c.power);
       h += '<div class="rs-meta">Its strength: ' + pw + ' · ' + (!c.canAct ? 'too weak to act, it can only grumble' : (!c.canArm ? 'strong enough to sanction you, not to take up arms' : 'strong enough to take up arms')) + '.</div>';
-      if (st >= 18) { h += '<div class="rs-meta">Chance to break it by force: ' + Math.round(c.odds * 100) + '%' + (c.odds < 0.45 ? ' (a law\'s force option leaves it alone below 45%)' : '') + '.</div>'; }
+      if (st >= 18) { h += '<div class="rs-meta">Chance to break it by force: ' + Math.floor(c.odds * 100) + '%' + (c.odds < 0.45 ? ' (a law\'s force option leaves it alone below 45%)' : '') + '.</div>'; }
       if (c.pending) { h += '<div class="rs-meta opp-alert">' + (c.pending === 2 ? 'An uprising is under way.' : 'Sanctions are coming.') + '</div>'; }
       else if (c.cooling) { h += '<div class="rs-meta">It has just acted, and is regrouping.</div>'; }
       if (objects.length) { h += '<div class="rs-meta">Objects to: ' + objects.map(function(w) { return esc(w.t); }).join('; ') + '.</div>'; }

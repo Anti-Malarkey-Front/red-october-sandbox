@@ -1,5 +1,5 @@
 title: Julius Martov
-subtitle: All-Socialist Government: Martov opens talks with the SRs, Left SRs and moderate Bolsheviks. Relations with the SRs +4; relations with the Left SRs +6; relations with the Bolsheviks +6; the Internationalists: strength +2, dissent −2; the Right Defencists: dissent +4.
+subtitle: All-Socialist Government: Martov opens talks with the SRs, Left SRs and moderate Bolsheviks. Relations with the main partner +4; relations with the third party +6; relations with the Bolsheviks +6; the party's left wing: strength +2, dissent −2; the party's right wing: dissent +4.
 is-pinned-card: true
 card-image: img/portraits/martov.jpg
 tags: advisor, intl
@@ -23,7 +23,7 @@ Martov (1873-1923) is the leader of the Internationalists and the old friend and
 title: All-Socialist Government
 subtitle: Martov opens talks with the SRs, Left SRs and moderate Bolsheviks. [? if player_party = 'menshevik' : Relations with the SRs +4; relations with the Left SRs +6; relations with the Bolsheviks +6; the Internationalists: strength +2, dissent −2; the Right Defencists: dissent +4. ?][? if player_party = 'lsr' : Relations with the SRs +4; relations with the Mensheviks +6; relations with the Bolsheviks +6; the pro-Bolshevik Left SRs: strength +2, dissent −2; the pro-coalition Left SRs: dissent +4. ?]
 choose-if: advisor_action_timer <= 0
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

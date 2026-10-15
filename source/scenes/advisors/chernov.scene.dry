@@ -1,5 +1,5 @@
 title: Viktor Chernov
-subtitle: Land Socialisation: Chernov pushes the land law forward. Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the Right SRs: dissent +5; the Centre: strength +1, dissent −1; a land law ready for the Constituent Assembly.
+subtitle: Land Socialisation: Chernov pushes the land law forward. Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the party's right wing: dissent +5; the party's main line: strength +1, dissent −1; a land law ready for the Constituent Assembly.
 is-pinned-card: true
 card-image: img/portraits/chernov.jpg
 tags: advisor, defencist
@@ -23,7 +23,7 @@ Chernov (1873-1952) is the party's leader and its theorist of land socialisation
 title: Land Socialisation
 subtitle: Chernov pushes the land law forward. [? if player_party = 'sr' : Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the Right SRs: dissent +5; the Centre: strength +1, dissent −1; a land law ready for the Constituent Assembly. ?][? if player_party = 'menshevik' : Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the Right Defencists: dissent +5; the Revolutionary Defencists: strength +1, dissent −1; a land law ready for the Constituent Assembly. ?][? if player_party = 'lsr' : Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the pro-coalition Left SRs: dissent +5; the leadership: strength +1, dissent −1; a land law ready for the Constituent Assembly. ?]
 choose-if: advisor_action_timer <= 0
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

@@ -18,6 +18,7 @@ The party has always been a party of tendencies, and the tendencies do not like 
 - @easy_discard
 
 @intl
+view-if: intl_strength > 0
 on-arrival: {!
 RO.fac(Q, 'intl', 0, -10);
 RO.fac(Q, 'defencist', 0, 2);

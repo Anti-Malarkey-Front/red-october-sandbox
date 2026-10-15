@@ -4,7 +4,7 @@ subtitle: Choose the moment to found the party, or never.
 new-page: true
 is-card: true
 tags: party_affairs
-view-if: player_party = 'lsr' and lsr_split = 0 and the_split_timer <= 0 and dix >= 8
+view-if: player_party = 'lsr' and lsr_split = 0 and split_planned = 0 and lsr_kept = 0 and the_split_timer <= 0 and dix >= 8
 on-arrival: month_actions += 1; the_split_timer = 4
 
 Every month inside the SR party means the party's money, its votes and its legitimacy. Every month inside also means supporting a coalition, an offensive and a policy of waiting, which the left wing does not believe in. The Central Committee has begun to talk about expelling the left. When should it be the one to leave?

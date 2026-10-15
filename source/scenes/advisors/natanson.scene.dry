@@ -23,7 +23,7 @@ Natanson (1850-1919), a veteran populist and a founder of the party, has the aut
 title: Elder's Authority
 subtitle: Natanson's authority calms the party's quarrels. Dissent in every current −6; the pro-coalition Left SRs: strength +1.
 choose-if: advisor_action_timer <= 0
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

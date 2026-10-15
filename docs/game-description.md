@@ -499,7 +499,7 @@ Starting values are for the Mensheviks at normal difficulty. Rates are per month
 | 96 | January 1921 | 8 |
 | 200 | (end) | 5 |
 
-- **Affects:** the White ending (front at 72 or more, under the Bolsheviks). The `komuch_without_kolchak` achievement needs the front under 72 at the end. The sidebar shows the front by word: contained (under 15), on the offensive (under 35), wavering (under 55), advancing (under 75), near Moscow (75 or more). The front stat is shown only from `dix` 34 under the Bolsheviks.
+- **Affects:** the White ending (front at 72 or more, under the Bolsheviks). The `komuch_without_kolchak` achievement needs the front under 72 at the end. The sidebar shows the front by word, with a tick at 72: contained (under 15), on the offensive (under 35), wavering (under 55), advancing (under 65), near Moscow (under 72); from 60 it warns that the Whites are close. The options that add `white_aid` say "(raises the White front)". The front stat is shown only from `dix` 34 under the Bolsheviks.
 - `white_aid` (raised by joining Komuch, the People's Army and the Directory; lowered by refusing them) raises the target by 8 for each point. At the peak of 85, with no Red Army and no aid, the front takes several months to pass 72.
 
 ### Alliances
@@ -1483,8 +1483,8 @@ These are the reactions of the three opposition camps (the Kadets and propertied
 
 ### A Current Walks Out (party crisis; any party, either timeline)
 - File: `party_crisis`; Who sees: all parties, in either timeline, when party dissent reaches 0.4 or more; can fire at most twice, with a 12-turn cooldown. No choices.
-- What happens: the party's quarrels go past speeches. The most dissenting current, weighed by its discontent and its strength, leaves the party with its local organisations, press and funds. About one member in seven goes with it. The remaining members agree on a common line.
-- Outcome (automatic): the leaving current's strength falls to 40% of its value; members fall by 15%; every current's discontent falls by 20 (not below zero). If the leaving current is the internationalists, Bolshevik standing rises by 4 and Bolshevik relations by 5; if it is the right-wing defencists (or the defencists), the right threat rises by 3 and Kadet relations by 4. Workers support falls by 3. The text says the internationalists have gone over to the Bolsheviks if they are the ones who left.
+- What happens: the party's quarrels go past speeches. The most dissenting current, weighed by its discontent and its strength (never the main line, and never a current that has already left), leaves the party with its local organisations, press and funds. About one member in seven goes with it. The remaining members agree on a common line.
+- Outcome (automatic): the leaving current is gone for good (`<current>_gone`): its strength is 0, nothing moves it again (`RO.fac` ignores it), and the Party Line, Reshuffle the Leadership and Party Unity no longer offer it. Members fall by 15%; every current's discontent falls by 20 (not below zero). If the leaving current is the internationalists, Bolshevik standing rises by 4 and Bolshevik relations by 5; if it is the right-wing defencists, the right threat rises by 3 and Kadet relations by 4. Workers support falls by 3. The text says the internationalists have gone over to the Bolsheviks if they are the ones who left.
 - Why it matters: it is the party's safety valve. It makes the party smaller and more united, but it costs members and support, and the number of crises is limited to two.
 
 ### The Sealed Train Back (exile warning; Mensheviks only, under the Bolshevik regime)

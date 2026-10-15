@@ -91,13 +91,13 @@ The advisors were thanked and sent home, and a new circle was called together.
 
 @bring_martov
 view-if: avail_martov = 1 and on_martov = 0
-subtitle: Offers: All-Socialist Government: Martov opens talks with the SRs, Left SRs and moderate Bolsheviks. Relations with the SRs +4; relations with the Left SRs +6; relations with the Bolsheviks +6; the Internationalists: strength +2, dissent −2; the Right Defencists: dissent +4.
+subtitle: Offers: All-Socialist Government: Martov opens talks with the SRs, Left SRs and moderate Bolsheviks. Relations with the main partner +4; relations with the third party +6; relations with the Bolsheviks +6; the party's left wing: strength +2, dissent −2; the party's right wing: dissent +4.
 on-arrival: {!
 Q.adv_in = 'martov';
 Q.adv_in_name = "Julius Martov";
 !}
 
-Julius Martov would offer: All-Socialist Government: Martov opens talks with the SRs, Left SRs and moderate Bolsheviks. Relations with the SRs +4; relations with the Left SRs +6; relations with the Bolsheviks +6; the Internationalists: strength +2, dissent −2; the Right Defencists: dissent +4.
+Julius Martov would offer: All-Socialist Government: Martov opens talks with the SRs, Left SRs and moderate Bolsheviks. Relations with the main partner +4; relations with the third party +6; relations with the Bolsheviks +6; the party's left wing: strength +2, dissent −2; the party's right wing: dissent +4.
 
 Who should give up a seat on the council?
 
@@ -134,13 +134,13 @@ Who should give up a seat on the council?
 
 @bring_dan
 view-if: avail_dan = 1 and on_dan = 0
-subtitle: Offers: Soviet Floor Manager: Dan whips the votes in the Soviet and prepares the speeches. Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the Revolutionary Defencists: strength +1, dissent −1.
+subtitle: Offers: Soviet Floor Manager: Dan whips the votes in the Soviet and prepares the speeches. Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the party's main line: strength +1, dissent −1.
 on-arrival: {!
 Q.adv_in = 'dan';
 Q.adv_in_name = "Fyodor Dan";
 !}
 
-Fyodor Dan would offer: Soviet Floor Manager: Dan whips the votes in the Soviet and prepares the speeches. Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the Revolutionary Defencists: strength +1, dissent −1.
+Fyodor Dan would offer: Soviet Floor Manager: Dan whips the votes in the Soviet and prepares the speeches. Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the party's main line: strength +1, dissent −1.
 
 Who should give up a seat on the council?
 
@@ -607,13 +607,13 @@ Who should give up a seat on the council?
 
 @bring_sukhanov
 view-if: avail_sukhanov = 1 and on_sukhanov = 0
-subtitle: Offers: Insider Chronicler: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the talks on an all-socialist government.
+subtitle: Offers: Insider Chronicler: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the Vikzhel talks on an all-socialist government (November 1917).
 on-arrival: {!
 Q.adv_in = 'sukhanov';
 Q.adv_in_name = "Nikolai Sukhanov";
 !}
 
-Nikolai Sukhanov would offer: Insider Chronicler: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the talks on an all-socialist government.
+Nikolai Sukhanov would offer: Insider Chronicler: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the Vikzhel talks on an all-socialist government (November 1917).
 
 Who should give up a seat on the council?
 
@@ -779,13 +779,13 @@ Who should give up a seat on the council?
 
 @bring_chernov
 view-if: avail_chernov = 1 and on_chernov = 0
-subtitle: Offers: Land Socialisation: Chernov pushes the land law forward. Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the Right SRs: dissent +5; the Centre: strength +1, dissent −1; a land law ready for the Constituent Assembly.
+subtitle: Offers: Land Socialisation: Chernov pushes the land law forward. Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the party's right wing: dissent +5; the party's main line: strength +1, dissent −1; a land law ready for the Constituent Assembly.
 on-arrival: {!
 Q.adv_in = 'chernov';
 Q.adv_in_name = "Viktor Chernov";
 !}
 
-Viktor Chernov would offer: Land Socialisation: Chernov pushes the land law forward. Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the Right SRs: dissent +5; the Centre: strength +1, dissent −1; a land law ready for the Constituent Assembly.
+Viktor Chernov would offer: Land Socialisation: Chernov pushes the land law forward. Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the party's right wing: dissent +5; the party's main line: strength +1, dissent −1; a land law ready for the Constituent Assembly.
 
 Who should give up a seat on the council?
 
@@ -994,13 +994,13 @@ Who should give up a seat on the council?
 
 @bring_volsky
 view-if: avail_volsky = 1 and on_volsky = 0
-subtitle: Offers: Komuch: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid. / Compromise: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
+subtitle: Offers: Komuch: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid; raises the White front. / Compromise: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
 on-arrival: {!
 Q.adv_in = 'volsky';
 Q.adv_in_name = "Vladimir Volsky";
 !}
 
-Vladimir Volsky would offer: Komuch: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid. / Compromise: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
+Vladimir Volsky would offer: Komuch: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid; raises the White front. / Compromise: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
 
 Who should give up a seat on the council?
 
@@ -1037,13 +1037,13 @@ Who should give up a seat on the council?
 
 @bring_spiridonova
 view-if: avail_spiridonova = 1 and on_spiridonova = 0
-subtitle: Offers: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the SRs −3; the leadership: strength +1, dissent −1; the peasants' soviets better organised.
+subtitle: Offers: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; the peasants' soviets better organised.
 on-arrival: {!
 Q.adv_in = 'spiridonova';
 Q.adv_in_name = "Maria Spiridonova";
 !}
 
-Maria Spiridonova would offer: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the SRs −3; the leadership: strength +1, dissent −1; the peasants' soviets better organised.
+Maria Spiridonova would offer: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; the peasants' soviets better organised.
 
 Who should give up a seat on the council?
 
@@ -1252,13 +1252,13 @@ Who should give up a seat on the council?
 
 @bring_proshian
 view-if: avail_proshian = 1 and on_proshian = 0
-subtitle: Offers: Telegraph Lines: Proshian's telegraph network carries news and the party's organisation. Support among workers +1, railwaymen +2; +8,000 members; the village organisers: strength +1, dissent −2; better intelligence for the talks on an all-socialist government.
+subtitle: Offers: Telegraph Lines: Proshian's telegraph network carries news and the party's organisation. Support among workers +1, railwaymen +2; +8,000 members; the village organisers: strength +1, dissent −2; better intelligence for the Vikzhel talks on an all-socialist government (November 1917).
 on-arrival: {!
 Q.adv_in = 'proshian';
 Q.adv_in_name = "Prosh Proshian";
 !}
 
-Prosh Proshian would offer: Telegraph Lines: Proshian's telegraph network carries news and the party's organisation. Support among workers +1, railwaymen +2; +8,000 members; the village organisers: strength +1, dissent −2; better intelligence for the talks on an all-socialist government.
+Prosh Proshian would offer: Telegraph Lines: Proshian's telegraph network carries news and the party's organisation. Support among workers +1, railwaymen +2; +8,000 members; the village organisers: strength +1, dissent −2; better intelligence for the Vikzhel talks on an all-socialist government (November 1917).
 
 Who should give up a seat on the council?
 
@@ -1339,7 +1339,7 @@ Who should give up a seat on the council?
 @out_martov
 view-if: on_martov = 1
 new-page: true
-subtitle: Gives up: All-Socialist Government: Martov opens talks with the SRs, Left SRs and moderate Bolsheviks. Relations with the SRs +4; relations with the Left SRs +6; relations with the Bolsheviks +6; the Internationalists: strength +2, dissent −2; the Right Defencists: dissent +4.
+subtitle: Gives up: All-Socialist Government: Martov opens talks with the SRs, Left SRs and moderate Bolsheviks. Relations with the main partner +4; relations with the third party +6; relations with the Bolsheviks +6; the party's left wing: strength +2, dissent −2; the party's right wing: dissent +4.
 on-arrival: {!
 Q.month_actions += 1; Q.council_timer = 3;
 RO.swapAdvisor(Q, Q.adv_in, 'martov');
@@ -1352,7 +1352,7 @@ Julius Martov has gone back to the party's work, and [+ adv_in_name +] has taken
 @out_dan
 view-if: on_dan = 1
 new-page: true
-subtitle: Gives up: Soviet Floor Manager: Dan whips the votes in the Soviet and prepares the speeches. Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the Revolutionary Defencists: strength +1, dissent −1.
+subtitle: Gives up: Soviet Floor Manager: Dan whips the votes in the Soviet and prepares the speeches. Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the party's main line: strength +1, dissent −1.
 on-arrival: {!
 Q.month_actions += 1; Q.council_timer = 3;
 RO.swapAdvisor(Q, Q.adv_in, 'dan');
@@ -1495,7 +1495,7 @@ Lidia Dan has gone back to the party's work, and [+ adv_in_name +] has taken the
 @out_sukhanov
 view-if: on_sukhanov = 1
 new-page: true
-subtitle: Gives up: Insider Chronicler: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the talks on an all-socialist government.
+subtitle: Gives up: Insider Chronicler: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the Vikzhel talks on an all-socialist government (November 1917).
 on-arrival: {!
 Q.month_actions += 1; Q.council_timer = 3;
 RO.swapAdvisor(Q, Q.adv_in, 'sukhanov');
@@ -1547,7 +1547,7 @@ Noe Zhordania has gone back to the party's work, and [+ adv_in_name +] has taken
 @out_chernov
 view-if: on_chernov = 1
 new-page: true
-subtitle: Gives up: Land Socialisation: Chernov pushes the land law forward. Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the Right SRs: dissent +5; the Centre: strength +1, dissent −1; a land law ready for the Constituent Assembly.
+subtitle: Gives up: Land Socialisation: Chernov pushes the land law forward. Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the party's right wing: dissent +5; the party's main line: strength +1, dissent −1; a land law ready for the Constituent Assembly.
 on-arrival: {!
 Q.month_actions += 1; Q.council_timer = 3;
 RO.swapAdvisor(Q, Q.adv_in, 'chernov');
@@ -1612,7 +1612,7 @@ Vladimir Zenzinov has gone back to the party's work, and [+ adv_in_name +] has t
 @out_volsky
 view-if: on_volsky = 1
 new-page: true
-subtitle: Gives up: Komuch: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid. / Compromise: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
+subtitle: Gives up: Komuch: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid; raises the White front. / Compromise: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
 on-arrival: {!
 Q.month_actions += 1; Q.council_timer = 3;
 RO.swapAdvisor(Q, Q.adv_in, 'volsky');
@@ -1625,7 +1625,7 @@ Vladimir Volsky has gone back to the party's work, and [+ adv_in_name +] has tak
 @out_spiridonova
 view-if: on_spiridonova = 1
 new-page: true
-subtitle: Gives up: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the SRs −3; the leadership: strength +1, dissent −1; the peasants' soviets better organised.
+subtitle: Gives up: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; the peasants' soviets better organised.
 on-arrival: {!
 Q.month_actions += 1; Q.council_timer = 3;
 RO.swapAdvisor(Q, Q.adv_in, 'spiridonova');
@@ -1690,7 +1690,7 @@ Andrei Kolegaev has gone back to the party's work, and [+ adv_in_name +] has tak
 @out_proshian
 view-if: on_proshian = 1
 new-page: true
-subtitle: Gives up: Telegraph Lines: Proshian's telegraph network carries news and the party's organisation. Support among workers +1, railwaymen +2; +8,000 members; the village organisers: strength +1, dissent −2; better intelligence for the talks on an all-socialist government.
+subtitle: Gives up: Telegraph Lines: Proshian's telegraph network carries news and the party's organisation. Support among workers +1, railwaymen +2; +8,000 members; the village organisers: strength +1, dissent −2; better intelligence for the Vikzhel talks on an all-socialist government (November 1917).
 on-arrival: {!
 Q.month_actions += 1; Q.council_timer = 3;
 RO.swapAdvisor(Q, Q.adv_in, 'proshian');
@@ -1715,13 +1715,13 @@ Pyotr Aleksandrovich has gone back to the party's work, and [+ adv_in_name +] ha
 
 @drop_martov
 view-if: on_martov = 1 and adv_reserve >= 1
-subtitle: Now offers: All-Socialist Government: Martov opens talks with the SRs, Left SRs and moderate Bolsheviks. Relations with the SRs +4; relations with the Left SRs +6; relations with the Bolsheviks +6; the Internationalists: strength +2, dissent −2; the Right Defencists: dissent +4.
+subtitle: Now offers: All-Socialist Government: Martov opens talks with the SRs, Left SRs and moderate Bolsheviks. Relations with the main partner +4; relations with the third party +6; relations with the Bolsheviks +6; the party's left wing: strength +2, dissent −2; the party's right wing: dissent +4.
 on-arrival: {!
 Q.adv_out = 'martov';
 Q.adv_out_name = "Julius Martov";
 !}
 
-Julius Martov offers: All-Socialist Government: Martov opens talks with the SRs, Left SRs and moderate Bolsheviks. Relations with the SRs +4; relations with the Left SRs +6; relations with the Bolsheviks +6; the Internationalists: strength +2, dissent −2; the Right Defencists: dissent +4.
+Julius Martov offers: All-Socialist Government: Martov opens talks with the SRs, Left SRs and moderate Bolsheviks. Relations with the main partner +4; relations with the third party +6; relations with the Bolsheviks +6; the party's left wing: strength +2, dissent −2; the party's right wing: dissent +4.
 
 Who should take the seat?
 
@@ -1759,13 +1759,13 @@ Who should take the seat?
 
 @drop_dan
 view-if: on_dan = 1 and adv_reserve >= 1
-subtitle: Now offers: Soviet Floor Manager: Dan whips the votes in the Soviet and prepares the speeches. Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the Revolutionary Defencists: strength +1, dissent −1.
+subtitle: Now offers: Soviet Floor Manager: Dan whips the votes in the Soviet and prepares the speeches. Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the party's main line: strength +1, dissent −1.
 on-arrival: {!
 Q.adv_out = 'dan';
 Q.adv_out_name = "Fyodor Dan";
 !}
 
-Fyodor Dan offers: Soviet Floor Manager: Dan whips the votes in the Soviet and prepares the speeches. Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the Revolutionary Defencists: strength +1, dissent −1.
+Fyodor Dan offers: Soviet Floor Manager: Dan whips the votes in the Soviet and prepares the speeches. Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the party's main line: strength +1, dissent −1.
 
 Who should take the seat?
 
@@ -2243,13 +2243,13 @@ Who should take the seat?
 
 @drop_sukhanov
 view-if: on_sukhanov = 1 and adv_reserve >= 1
-subtitle: Now offers: Insider Chronicler: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the talks on an all-socialist government.
+subtitle: Now offers: Insider Chronicler: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the Vikzhel talks on an all-socialist government (November 1917).
 on-arrival: {!
 Q.adv_out = 'sukhanov';
 Q.adv_out_name = "Nikolai Sukhanov";
 !}
 
-Nikolai Sukhanov offers: Insider Chronicler: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the talks on an all-socialist government.
+Nikolai Sukhanov offers: Insider Chronicler: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the Vikzhel talks on an all-socialist government (November 1917).
 
 Who should take the seat?
 
@@ -2419,13 +2419,13 @@ Who should take the seat?
 
 @drop_chernov
 view-if: on_chernov = 1 and adv_reserve >= 1
-subtitle: Now offers: Land Socialisation: Chernov pushes the land law forward. Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the Right SRs: dissent +5; the Centre: strength +1, dissent −1; a land law ready for the Constituent Assembly.
+subtitle: Now offers: Land Socialisation: Chernov pushes the land law forward. Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the party's right wing: dissent +5; the party's main line: strength +1, dissent −1; a land law ready for the Constituent Assembly.
 on-arrival: {!
 Q.adv_out = 'chernov';
 Q.adv_out_name = "Viktor Chernov";
 !}
 
-Viktor Chernov offers: Land Socialisation: Chernov pushes the land law forward. Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the Right SRs: dissent +5; the Centre: strength +1, dissent −1; a land law ready for the Constituent Assembly.
+Viktor Chernov offers: Land Socialisation: Chernov pushes the land law forward. Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the party's right wing: dissent +5; the party's main line: strength +1, dissent −1; a land law ready for the Constituent Assembly.
 
 Who should take the seat?
 
@@ -2639,13 +2639,13 @@ Who should take the seat?
 
 @drop_volsky
 view-if: on_volsky = 1 and adv_reserve >= 1
-subtitle: Now offers: Komuch: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid. / Compromise: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
+subtitle: Now offers: Komuch: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid; raises the White front. / Compromise: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
 on-arrival: {!
 Q.adv_out = 'volsky';
 Q.adv_out_name = "Vladimir Volsky";
 !}
 
-Vladimir Volsky offers: Komuch: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid. / Compromise: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
+Vladimir Volsky offers: Komuch: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid; raises the White front. / Compromise: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
 
 Who should take the seat?
 
@@ -2683,13 +2683,13 @@ Who should take the seat?
 
 @drop_spiridonova
 view-if: on_spiridonova = 1 and adv_reserve >= 1
-subtitle: Now offers: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the SRs −3; the leadership: strength +1, dissent −1; the peasants' soviets better organised.
+subtitle: Now offers: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; the peasants' soviets better organised.
 on-arrival: {!
 Q.adv_out = 'spiridonova';
 Q.adv_out_name = "Maria Spiridonova";
 !}
 
-Maria Spiridonova offers: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the SRs −3; the leadership: strength +1, dissent −1; the peasants' soviets better organised.
+Maria Spiridonova offers: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; the peasants' soviets better organised.
 
 Who should take the seat?
 
@@ -2903,13 +2903,13 @@ Who should take the seat?
 
 @drop_proshian
 view-if: on_proshian = 1 and adv_reserve >= 1
-subtitle: Now offers: Telegraph Lines: Proshian's telegraph network carries news and the party's organisation. Support among workers +1, railwaymen +2; +8,000 members; the village organisers: strength +1, dissent −2; better intelligence for the talks on an all-socialist government.
+subtitle: Now offers: Telegraph Lines: Proshian's telegraph network carries news and the party's organisation. Support among workers +1, railwaymen +2; +8,000 members; the village organisers: strength +1, dissent −2; better intelligence for the Vikzhel talks on an all-socialist government (November 1917).
 on-arrival: {!
 Q.adv_out = 'proshian';
 Q.adv_out_name = "Prosh Proshian";
 !}
 
-Prosh Proshian offers: Telegraph Lines: Proshian's telegraph network carries news and the party's organisation. Support among workers +1, railwaymen +2; +8,000 members; the village organisers: strength +1, dissent −2; better intelligence for the talks on an all-socialist government.
+Prosh Proshian offers: Telegraph Lines: Proshian's telegraph network carries news and the party's organisation. Support among workers +1, railwaymen +2; +8,000 members; the village organisers: strength +1, dissent −2; better intelligence for the Vikzhel talks on an all-socialist government (November 1917).
 
 Who should take the seat?
 
@@ -2992,7 +2992,7 @@ Who should take the seat?
 @in_martov
 view-if: avail_martov = 1 and on_martov = 0
 new-page: true
-subtitle: Offers: All-Socialist Government: Martov opens talks with the SRs, Left SRs and moderate Bolsheviks. Relations with the SRs +4; relations with the Left SRs +6; relations with the Bolsheviks +6; the Internationalists: strength +2, dissent −2; the Right Defencists: dissent +4.
+subtitle: Offers: All-Socialist Government: Martov opens talks with the SRs, Left SRs and moderate Bolsheviks. Relations with the main partner +4; relations with the third party +6; relations with the Bolsheviks +6; the party's left wing: strength +2, dissent −2; the party's right wing: dissent +4.
 on-arrival: {!
 Q.month_actions += 1; Q.council_timer = 3;
 RO.swapAdvisor(Q, 'martov', Q.adv_out);
@@ -3005,7 +3005,7 @@ RO.swapAdvisor(Q, 'martov', Q.adv_out);
 @in_dan
 view-if: avail_dan = 1 and on_dan = 0
 new-page: true
-subtitle: Offers: Soviet Floor Manager: Dan whips the votes in the Soviet and prepares the speeches. Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the Revolutionary Defencists: strength +1, dissent −1.
+subtitle: Offers: Soviet Floor Manager: Dan whips the votes in the Soviet and prepares the speeches. Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the party's main line: strength +1, dissent −1.
 on-arrival: {!
 Q.month_actions += 1; Q.council_timer = 3;
 RO.swapAdvisor(Q, 'dan', Q.adv_out);
@@ -3148,7 +3148,7 @@ RO.swapAdvisor(Q, 'lidia', Q.adv_out);
 @in_sukhanov
 view-if: avail_sukhanov = 1 and on_sukhanov = 0
 new-page: true
-subtitle: Offers: Insider Chronicler: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the talks on an all-socialist government.
+subtitle: Offers: Insider Chronicler: Sukhanov's table talk reveals what the other parties intend. Relations with the Left SRs +2; relations with the Bolsheviks +2; better intelligence for the Vikzhel talks on an all-socialist government (November 1917).
 on-arrival: {!
 Q.month_actions += 1; Q.council_timer = 3;
 RO.swapAdvisor(Q, 'sukhanov', Q.adv_out);
@@ -3200,7 +3200,7 @@ RO.swapAdvisor(Q, 'zhordania', Q.adv_out);
 @in_chernov
 view-if: avail_chernov = 1 and on_chernov = 0
 new-page: true
-subtitle: Offers: Land Socialisation: Chernov pushes the land law forward. Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the Right SRs: dissent +5; the Centre: strength +1, dissent −1; a land law ready for the Constituent Assembly.
+subtitle: Offers: Land Socialisation: Chernov pushes the land law forward. Support among peasants +5, soldiers +1; land pressure −6; relations with the Kadets −3; the party's right wing: dissent +5; the party's main line: strength +1, dissent −1; a land law ready for the Constituent Assembly.
 on-arrival: {!
 Q.month_actions += 1; Q.council_timer = 3;
 RO.swapAdvisor(Q, 'chernov', Q.adv_out);
@@ -3265,7 +3265,7 @@ RO.swapAdvisor(Q, 'zenzinov', Q.adv_out);
 @in_volsky
 view-if: avail_volsky = 1 and on_volsky = 0
 new-page: true
-subtitle: Offers: Komuch: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid. / Compromise: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
+subtitle: Offers: Komuch: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid; raises the White front. / Compromise: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
 on-arrival: {!
 Q.month_actions += 1; Q.council_timer = 3;
 RO.swapAdvisor(Q, 'volsky', Q.adv_out);
@@ -3278,7 +3278,7 @@ RO.swapAdvisor(Q, 'volsky', Q.adv_out);
 @in_spiridonova
 view-if: avail_spiridonova = 1 and on_spiridonova = 0
 new-page: true
-subtitle: Offers: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the SRs −3; the leadership: strength +1, dissent −1; the peasants' soviets better organised.
+subtitle: Offers: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; the peasants' soviets better organised.
 on-arrival: {!
 Q.month_actions += 1; Q.council_timer = 3;
 RO.swapAdvisor(Q, 'spiridonova', Q.adv_out);
@@ -3343,7 +3343,7 @@ RO.swapAdvisor(Q, 'kolegaev', Q.adv_out);
 @in_proshian
 view-if: avail_proshian = 1 and on_proshian = 0
 new-page: true
-subtitle: Offers: Telegraph Lines: Proshian's telegraph network carries news and the party's organisation. Support among workers +1, railwaymen +2; +8,000 members; the village organisers: strength +1, dissent −2; better intelligence for the talks on an all-socialist government.
+subtitle: Offers: Telegraph Lines: Proshian's telegraph network carries news and the party's organisation. Support among workers +1, railwaymen +2; +8,000 members; the village organisers: strength +1, dissent −2; better intelligence for the Vikzhel talks on an all-socialist government (November 1917).
 on-arrival: {!
 Q.month_actions += 1; Q.council_timer = 3;
 RO.swapAdvisor(Q, 'proshian', Q.adv_out);

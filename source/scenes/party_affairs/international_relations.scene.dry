@@ -45,7 +45,7 @@ Q.resources += 1;
 RO.fac(Q, 'defencist', 1, -1);
 !}
 
-Axelrod, in Europe since August 1917, lobbied socialist parties on our behalf. He is the party's best-known name abroad.
+[? if player_party = 'menshevik' : Axelrod, abroad since the autumn of 1917, lobbied the socialist parties of Europe on our behalf. He is the party's best-known name abroad. ?][? if player_party = 'sr' : Rubanovich, the party's old delegate to the International Socialist Bureau, lobbied the socialist parties of Europe on our behalf. He is the party's best-known voice abroad. ?]
 
 @aid
 on-arrival: {!

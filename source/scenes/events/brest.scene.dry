@@ -126,7 +126,7 @@ go-to: lsr_stay_yes if stay_ok = 1; lsr_stay_no if stay_ok = 0
 
 @lsr_stay_yes
 
-The Left SR commissars voted against the treaty in the Council of People's Commissars and in the Congress of Soviets, which ratified it all the same by 784 votes to 261, and they stayed at their posts. Lenin, who needs the peasants' party more than he cares to say, allowed it. The first coalition in Russian history has survived a vote on a matter of principle.
+The Left SR commissars voted against the treaty in the Council of People's Commissars and in the Congress of Soviets, which ratified it all the same by 784 votes to 261, and they stayed at their posts. Lenin, who needs the peasants' party more than he cares to say, allowed it. The first Soviet coalition has survived a vote on a matter of principle.
 
 @lsr_stay_no
 

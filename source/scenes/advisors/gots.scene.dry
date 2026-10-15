@@ -23,7 +23,7 @@ Gots (1882-1940), a Right Centre leader, is chairman of the Soviet executive. He
 title: Soviet Majority
 subtitle: Gots votes the SR delegations together with the Mensheviks. Support among workers +2, soldiers +3, railwaymen +2; relations with the Mensheviks +6; soviet democracy +1; the Right Centre: strength +1, dissent −1.
 choose-if: advisor_action_timer <= 0
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

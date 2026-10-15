@@ -66,24 +66,46 @@ function pick(re) {
 }
 
 var MONTHS = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+// the browser's words (out/html/ui.js): print what a player there would see
+var LEGALITY = ['banned', 'expelled', 'tolerated', 'legal'];
+var ALLIANCE = ['no alliance', 'cooperation', 'bloc', 'coalition'];
+function word(v, steps) { for (var i = 0; i < steps.length - 1; i++) { if (v < steps[i][0]) { return steps[i][1]; } } return steps[steps.length - 1][1]; }
+var REL_WORDS = [[20, 'hostile'], [40, 'cold'], [60, 'cooperative'], [75, 'friendly'], [1e9, 'close']];
+var FRONT_WORDS = [[15, 'Whites contained'], [35, 'Whites on the offensive'], [55, 'front wavering'], [65, 'Whites advancing'], [72, 'Whites near Moscow'], [1e9, 'Moscow lost']];
+function antWord(a) { return a < 20 ? 'calm' : (a < 40 ? 'uneasy' : (a < 70 ? 'hostile' : 'on the brink')); }
+function thirdLabel(q) { return q.player_party === 'lsr' ? 'Mensheviks' : (q.player_party === 'sr' && !q.lsr_split ? 'Left SR faction' : 'Left SRs'); }
 function numbers() {
-  var q = Q(), r = Math.round;
+  // relations and chances are rounded down, as the rules compare them (>= 75 for a coalition, 45% for force)
+  var q = Q(), r = Math.round, fl = Math.floor;
   if (!q.started) { return ''; }
   var date = (q.turn_length < 1 ? (q.half_month ? 'Late ' : 'Early ') : '') + MONTHS[q.month] + ' ' + q.year;
+  var arena = ({soviets: 'Congress of Soviets', assembly: 'Constituent Assembly', provincial: 'city soviets'})[RO.currentArena(q)];
+  var you = q.player_party === 'lsr' && !q.lsr_split ? 'Left SRs (on SR lists)' : (q.pname || q.player_party);
+  function rel(label, key, lvl) {
+    var v = fl(q[key] || 0);
+    return label + ' ' + v + ' ' + word(v, REL_WORDS) + (lvl ? ' (' + ALLIANCE[Math.max(0, Math.min(3, q[lvl] || 0))] + ')' : '');
+  }
   var lines = ['--- ' + date + ' · ' + (q.pname || q.player_party) + ' ---',
-    'Resources ' + r(q.resources) + ' · Members ' + (r(q.members) * 1000).toLocaleString('en-GB') + (q.members >= (q.mem_cap || 400) - 0.5 ? ' (the most the party can hold)' : '') + ' · Legal status ' + ['banned', 'persecuted', 'harassed', 'legal'][Math.max(0, Math.min(3, r(q.legality)))] +
-      ' · Dissent ' + r(q.dissent * 100) + '% · Your support ' + r(q.player_poll) + '% (' + ({soviets: 'in the Congress of Soviets', assembly: 'in the Constituent Assembly', provincial: 'in the city soviets'})[RO.currentArena(q)] + ')',
+    'Resources ' + r(q.resources) + ' · Members ' + (r(q.members) * 1000).toLocaleString('en-GB') + (q.members >= (q.mem_cap || 400) - 0.5 ? ' (the most the party can hold)' : '') + ' · Legal status ' + LEGALITY[Math.max(0, Math.min(3, r(q.legality)))] +
+      ' · Dissent ' + r(q.dissent * 100) + '% · Support: ' + you + ' ' + r(q.player_poll) + '% (' + arena + ', projected)',
     'Bread ' + r(q.bread) + ' · Ruble ' + r(q.ruble) + ' · War weariness ' + r(q.war_weariness) + ' · Army discipline ' + r(q.army_discipline) +
       ' · Land pressure ' + r(q.land_pressure) + (q.bol_regime ? '' : ' · Bolsheviks ' + r(q.bolshevik) + ' · Right ' + r(q.right_threat)) + ' · Soviet democracy ' + r(q.soviet_democracy) +
-      (q.bol_regime ? ' · Repression ' + r(q.repression) + ' · White front ' + r(q.white_front) : ''),
-    'In government: ' + (q.in_coalition && !q.bol_regime ? 'yes' : (q.lsr_in_gov ? 'a few commissariats' : 'no')) + ' · Bolshevik regime: ' + (q.bol_regime ? 'yes' : 'no') +
-      ' · Relations: ally ' + r(q.rel_ally) + ', Bolsheviks ' + r(q.rel_bol) + ', Kadets ' + r(q.rel_kad)];
+      (q.bol_regime ? ' · Repression ' + r(q.repression) : '') +
+      (q.bol_regime && q.dix >= 34 ? ' · White front ' + fl(q.white_front) + ' (' + word(q.white_front, FRONT_WORDS) + '; the Whites take Moscow and the game is lost at 72)' : ''),
+    'In government: ' + (q.in_coalition && !q.bol_regime ? 'yes' : (q.lsr_in_gov ? 'a few commissariats' : 'no')) + ' · Bolshevik regime: ' + (q.bol_regime ? 'yes' : 'no'),
+    'Relations: ' + rel(q.partner_name + ' (main partner)', 'rel_ally', 'ally_lvl') + ' · ' + rel(thirdLabel(q), 'rel_lsr', 'ally_lsr') + ' · ' + rel('Bolsheviks', 'rel_bol', 'ally_bol') + ' · ' + rel('Kadets', 'rel_kad', null) +
+      '. (Alliances: cooperation at 40, bloc at 60, coalition at 75.)'];
   var risk = RO.exileRisk(q);
-  if (risk) { lines.push('WARNING: ' + (risk.level === 2 ? 'if the war ended now, the party would be driven abroad: ' : 'the party is close to exile: ') + risk.reasons.join('; ') + '.'); }
+  if (risk) { lines.push('WARNING: ' + (risk.level === 2 ? 'as things stand, the party will be driven abroad when the game ends in December 1921: ' : 'the party is close to exile: ') + risk.reasons.join('; ') + '.'); }
+  if (q.bol_regime && q.dix >= 34 && q.white_front >= 60) { lines.push('WARNING: the Whites are close. If the front reaches 72, they take Moscow and the game is lost.'); }
   try {
-    var opp = RO.opposition(q);
+    var opp = RO.opposition(q), st = r(RO.strength(q));
     if (opp.length) {
-      lines.push('Opposition hostility: ' + opp.map(function(c) { return c.id + ' ' + r(c.ant) + ' (strength ' + r(c.power) + ')'; }).join(', ') + ' · your strength ' + r(RO.strength(q)));
+      lines.push('Opposition: ' + opp.map(function(c) {
+        return c.name + ': ' + antWord(c.ant) + ' ' + r(c.ant) + ' (its strength ' + r(c.power) + (st >= 18 ? '; your chance to break it ' + fl(100 * c.odds) + '%' : '') + ')';
+      }).join('; ') + ' · Your strength ' + st + (st >= 18 ? ', enough to strike' : ', too weak to strike'));
+      lines.push('  (Hostility: at ' + RO.SANCTION_AT + ' a camp tries sanctions, at ' + RO.REVOLT_AT + ' it takes up arms; it needs strength ' + RO.ACT_FROM + ' to act and ' + RO.ARMS_AT +
+        ' to take up arms. At strength 18 you can pass an unpopular law by force; a camp where your chance is under 45% is left alone.)');
     }
   } catch (e) { /* not started */ }
   return lines.join('\n') + '\n';
@@ -100,11 +122,12 @@ function show() {
   var scene = eng.getCurrentScene();
   if (scene && scene.isHand) {
     out.push(numbers());
-    out.push('DECKS (draw <n>): ' + (ui.decks.length ? ui.decks.map(function(d, i) { return i + ') ' + flat(d.title) + (d.canChoose === false ? ' [empty]' : ''); }).join('   ') : 'none'));
+    out.push('DECKS (draw <n>):' + (ui.decks.length ? '' : ' none'));
+    ui.decks.forEach(function(d, i) { out.push('  ' + i + ') ' + flat(d.title) + (flat(d.subtitle) ? ' - ' + flat(d.subtitle) : '') + (d.canChoose === false ? ' [empty]' : '')); });
     var hand = eng.state.currentHands[eng.state.sceneId] || [];
     out.push('HAND (play <n>): ' + (hand.length ? '' : 'empty - draw a card first'));
     hand.forEach(function(c, i) { out.push('  ' + i + ') ' + flat(c.title) + ' - ' + flat(c.subtitle)); });
-    out.push('PINNED (advisor <n>):');
+    out.push('PINNED (advisor <n>): ' + (Q().pinnedCardsDescription || ''));
     ui.pinned.forEach(function(c, i) { out.push('  ' + i + ') ' + flat(c.title) + ' - ' + flat(c.subtitle) + (c.canChoose === false ? ' [unavailable]' : '')); });
     out.push('Playing a card or an advisor action usually ends the turn.');
   } else if (ui.choices && ui.choices.length) {

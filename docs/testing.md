@@ -73,6 +73,8 @@ node tools/test/play_cli.js choose 0         # pick option 0
 node tools/test/play_cli.js stats            # every number the game keeps
 ```
 
+The summary under each main page prints what the browser's sidebar shows, in its words: the legal status (legal, tolerated, expelled, banned), the support "projected" in the current arena, relations with each party by name, word and alliance level (rounded down, as the gates compare them), the White front against the 72 at which the game is lost, the opposition camps with a key to hostility and strength, the decks' subtitles and the advisors' cooldown.
+
 ## Fuzz testing: `tools/test/fuzz.js`
 
 ```bash

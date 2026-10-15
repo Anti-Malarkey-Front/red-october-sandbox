@@ -23,7 +23,7 @@ Batursky (1879-1920) is a trade union leader who argues that unions must remain 
 title: Independent Unions
 subtitle: Batursky builds union influence and argues the case for independence. Support among workers +3, railwaymen +3; repression +1; the trade unionists: strength +3, dissent −3.
 choose-if: advisor_action_timer <= 0
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

@@ -9,7 +9,7 @@ on-arrival: month_actions += 1; police_timer = 4
 
 The police were swept away in February, and the replacement militias were improvised in the streets. Order is uncertain, and every party has an opinion about who should keep it.
 
-- @democratic: Build a militia answerable to the city dumas and the soviets.
+- @democratic: Put the city militia under the dumas and the soviets.
 - @old: Recall the experienced police officers.
 - @workers: Rely on the workers' guards.
 - @easy_discard
@@ -20,7 +20,7 @@ RO.add(Q, {right_threat: -3, soviet_democracy: 2, rel_kad: -1});
 RO.boost(Q, {workers: 1, middle: 2});
 !}
 
-A militia chosen and supervised by the city dumas has taken shape. It is poorly armed and slow, but it answers to the elected authorities.
+The city militia now answers to the dumas and the soviets. It is poorly armed and slow, and it is no armed force for the party, but it answers to the elected authorities.
 
 @old
 

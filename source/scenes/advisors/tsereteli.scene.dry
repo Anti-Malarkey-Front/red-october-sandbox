@@ -23,7 +23,7 @@ Tsereteli (1881-1959), a Georgian Menshevik returned from Siberian exile, is the
 title: Coalition Broker
 subtitle: Tsereteli keeps the cabinet together and smooths over disputes with the Kadets. Relations with the Kadets +5; relations with the SRs +4; threat from the Right −2; the Internationalists: dissent +3; the Revolutionary Defencists: strength +1, dissent −1.
 choose-if: advisor_action_timer <= 0 and in_coalition = 1 and bol_regime = 0
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (in_coalition = 1 and bol_regime = 0) : We are not in a coalition government. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?][? if not (in_coalition = 1 and bol_regime = 0) : We are not in a coalition government. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

@@ -13,7 +13,7 @@ Q.opp_why = RO.mainGrievance(Q, 'kad');
 
 = The Liberals Strike Back
 
-The Kadet central committee, the bankers of the Moscow Exchange Committee and the landowners' union have met in the same room, which is rare. They will not tolerate [+ opp_why +]. Rech has called it robbery. The banks have stopped discounting the government's paper, and the donors who paid for half the newspapers in Petrograd are asking for their money back.
+The Kadet central committee, the bankers of the Moscow Exchange Committee and the landowners' union have met in the same room, which is rare. They will not tolerate [+ opp_why +]. [? if kad_broken = 0 : Rech has called it robbery. ?][? if kad_broken > 0 : Nash Vek, which took Rech's place, has called it robbery. ?] The banks have stopped discounting the government's paper, and the donors who paid for half the newspapers in Petrograd are asking for their money back.
 
 Milyukov has said that the party "will use every means at its disposal". The Kadets cannot send an army yet, but they can still make our lives difficult. How do we answer?
 
@@ -21,7 +21,7 @@ Milyukov has said that the party "will use every means at its disposal". The Kad
 - @firm: Hold firm.
 - @soviet: Appeal to the Soviet and the factories over their heads.
 - @bargain: Negotiate through the banks and the Allied ambassadors.
-- @break: Break the opposition: close Rech and arrest the financiers.
+- @break: Break the opposition: close [? if kad_broken = 0 : Rech and arrest ?][? if kad_broken > 0 : their paper again and arrest ?]the financiers.
 
 @concede
 on-arrival: {!

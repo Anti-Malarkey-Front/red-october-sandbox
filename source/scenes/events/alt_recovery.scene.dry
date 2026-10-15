@@ -7,6 +7,8 @@ priority: 20
 max-visits: 1
 on-arrival: {!
 Q.recovered = (Q.bread >= 40 && Q.ruble >= 25) ? 1 : 0;
+Q.rec_bread_bad = Q.bread < 40 ? 1 : 0;
+Q.rec_ruble_bad = Q.ruble < 25 ? 1 : 0;
 if (Q.recovered) {
     RO.add(Q, {bread: 8, ruble: 8, soviet_democracy: 2, bolshevik: -4, right_threat: -2});
 } else {
@@ -27,6 +29,6 @@ It is not a prosperous country. It is a country in which the bread supply is no 
 
 = The Republic Is Struggling
 
-By 1920 the harvest is poor, the railways are failing and the ruble has lost most of its remaining value. The republic is a legal government in a hungry country, and every month the opposition on the Left and on the Right says that the experiment has failed.
+By 1920 [? if rec_bread_bad = 1 : the harvest is poor and the railways are failing?][? if rec_bread_bad = 1 and rec_ruble_bad = 1 : , and ?][? if rec_ruble_bad = 1 : the ruble has lost most of its remaining value?]. The republic is a legal government in a [? if rec_bread_bad = 1 : hungry ?][? if rec_bread_bad = 0 : penniless ?] country, and every month the opposition on the Left and on the Right says that the experiment has failed.
 
-A government that cannot feed its cities will not survive for ever.
+A government that cannot [? if rec_bread_bad = 1 : feed its cities ?][? if rec_bread_bad = 0 : pay its way ?]will not survive for ever.

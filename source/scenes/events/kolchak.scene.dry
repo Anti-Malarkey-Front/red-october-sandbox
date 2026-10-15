@@ -32,7 +32,7 @@ The other side of the civil war has now shown its hand. A White Russia would be 
 [? if player_party = 'menshevik' : For the Mensheviks it is a sign that the policy of "neither side" is not so foolish after all, and that armed struggle against the Bolsheviks can only help the Whites. ?][? if player_party = 'sr' and directory_joined = 1 : The party had joined the Directory, and its leaders were arrested in their beds. It was the party's attempt to make a democratic government with the help of generals, foreign troops and Cossack atamans, and the generals have answered. ?][? if player_party = 'sr' and directory_joined = 0 and armed_struggle = 1 : The party had kept Komuch apart from the Directory. Its people in Omsk were arrested all the same, but the People's Army on the Volga is still the party's own. ?][? if player_party = 'lsr' : For the Left SRs it settles an old argument with the party they left: the Right SRs tried to build a democratic government with generals and foreign troops, and the generals have answered. Whatever its quarrels with the Bolsheviks, the party's place is on the Red side of this front. ?][? if player_party = 'sr' and armed_struggle = 0 : The party had laid down its arms before the officers struck, and its leaders in Moscow, though in prison, have not been shot by officers. ?]
 
 - @sr_turn: Turn the People's Army against Kolchak, and seek a truce with the soviets.
-- @sr_fight_on: Fight on against the Bolsheviks, beside the Admiral.
+- @sr_fight_on: Fight on against the Bolsheviks, beside the Admiral. (raises the White front)
 
 @sr_turn
 view-if: player_party = 'sr' and armed_struggle = 1

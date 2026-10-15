@@ -69,7 +69,7 @@ Strength and dissent of each current:
 
 [+ flabel_defencist +]: [+ d_defencist_strength +]% (dissent [+ d_defencist_dissent +])
 
-[+ flabel_intl +]: [+ d_intl_strength +]% (dissent [+ d_intl_dissent +])
+[? if intl_strength > 0 : [+ flabel_intl +]: [+ d_intl_strength +]% (dissent [+ d_intl_dissent +]) ?]
 
 [? if rightdef_strength > 0 : [+ flabel_rightdef +]: [+ d_rightdef_strength +]% (dissent [+ d_rightdef_dissent +]) ?]
 

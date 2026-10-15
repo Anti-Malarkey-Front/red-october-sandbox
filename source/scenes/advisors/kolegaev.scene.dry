@@ -23,7 +23,7 @@ Kolegaev (1886-1937), a Left SR, is the party's expert on the land, and one of t
 title: Land Decree
 subtitle: Kolegaev carries out the redistribution of land. Support among peasants +5; land pressure −8; the village organisers: strength +1, dissent −1.
 choose-if: advisor_action_timer <= 0 and lsr_in_gov = 1
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (lsr_in_gov = 1) : We are not in the government. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?][? if not (lsr_in_gov = 1) : We are not in the government. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

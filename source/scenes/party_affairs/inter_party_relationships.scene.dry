@@ -30,7 +30,7 @@ RO.add(Q, {rel_ally: 8});
 RO.fac(Q, 'intl', 0, 1);
 !}
 
-Delegations of the two parties met in the Soviet executive. We agreed on the war, the Assembly and everything except the land.
+[? if player_party != 'lsr' and bol_regime = 0 : Delegations of the two parties met in the Soviet executive. We agreed on the war, the Assembly and everything except the land. ?][? if player_party != 'lsr' and bol_regime = 1 : Delegations of the two parties met in a private flat. We agreed on the Assembly, the free soviets and the Bolsheviks; we still disagree about how far to go against them. ?][? if player_party = 'lsr' and bol_regime = 0 : We met the SR leaders. They want the war carried on and the land left to the Assembly, and we want neither; both sides agreed that a quarrel helps nobody but Lenin. ?][? if player_party = 'lsr' and bol_regime = 1 : We met the SR leaders. They want the Assembly back and we want the soviets freed; both sides agreed that the Bolshevik dictatorship is the danger. ?]
 
 @lsr
 on-arrival: {!
@@ -40,7 +40,7 @@ if (Q.player_party == 'sr') { RO.fac(Q, 'intl', 0, -2); }
 if (Q.player_party == 'lsr') { RO.fac(Q, 'rightdef', 2, -2); }
 !}
 
-[? if player_party = 'menshevik' : Spiridonova and Kamkov are not our natural allies, but they speak for the villages and the Baltic Fleet, and they are not afraid to speak to us. ?][? if player_party = 'sr' : Spiridonova and Kamkov are inside our party, and they say that the party has forgotten the peasants. We have listened, and promised to listen again. ?][? if player_party = 'lsr' : Dan and Martov are not our natural allies, but the Menshevik Internationalists oppose the war and the coalition, as we do. They listened. ?]
+[? if player_party = 'menshevik' and bol_regime = 0 : Spiridonova and Kamkov are not our natural allies, but they speak for the villages and the Baltic Fleet, and they are not afraid to speak to us. ?][? if player_party = 'menshevik' and bol_regime = 1 : Spiridonova and Kamkov are not our natural allies, and they stood with Lenin in October. But they still speak for the villages, and they are not afraid to speak to us. ?][? if player_party = 'sr' and lsr_split = 0 : Spiridonova and Kamkov are inside our party, and they say that the party has forgotten the peasants. We have listened, and promised to listen again. ?][? if player_party = 'sr' and lsr_split = 1 : Spiridonova and Kamkov left our party to found their own, and they say that we have forgotten the peasants. We listened, and so, a little, did they. ?][? if player_party = 'lsr' and bol_regime = 0 : Dan and Martov are not our natural allies, but the Menshevik Internationalists oppose the war and the coalition, as we do. They listened. ?][? if player_party = 'lsr' and bol_regime = 1 : Dan and Martov are not our natural allies, but the Menshevik Internationalists want the soviets freely elected and the arrests ended, as we do. They listened. ?]
 
 @bol
 on-arrival: {!
@@ -49,7 +49,7 @@ RO.fac(Q, 'intl', 0, -2);
 RO.fac(Q, 'rightdef', 0, 4);
 !}
 
-Kamenev's wing of the Bolsheviks would rather work with the other socialists than against them. Lenin does not agree.
+[? if bol_regime = 0 : Kamenev's wing of the Bolsheviks would rather work with the other socialists than against them. Lenin does not agree. ?][? if bol_regime = 1 : Kamenev's wing of the Bolsheviks would rather the other socialists sat in the soviets than in prison. Lenin does not agree. ?]
 
 @kad
 on-arrival: {!
@@ -58,7 +58,7 @@ RO.fac(Q, 'rightdef', 0, -3);
 RO.fac(Q, 'intl', 0, 4);
 !}
 
-The Kadets are the coalition's only serious bourgeois party. Milyukov listened politely.
+[? if bol_regime = 0 : The Kadets are the only serious bourgeois party. Milyukov listened politely. ?][? if bol_regime = 1 : The Kadets have been declared enemies of the people, and their leaders are in prison, in hiding or on the Don. Those who are left listened politely. ?]
 
 @formalize
 choose-if: can_form_ally = 1 or can_form_third = 1 or can_form_bol = 1

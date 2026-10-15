@@ -11,7 +11,11 @@ var extra = {men: 1.0 + 0.004 * Q.soviet_democracy, sr: 1.0 + 0.003 * Q.soviet_d
 RO.setResults(Q, 'provincial', extra, 100);
 RO.recordParliament(Q, 'spring', 'The spring soviet elections: share of the vote');
 Q.opp_share = Q.res_men + Q.res_sr + Q.res_lsr + Q.res_oth * 0.5;
-Q.capitals_won = Math.round(30 * RO.clamp((Q.opp_share - 30) / 32, 0, 1));
+// up to 19 capitals (the line for spring_won) the count is linear in the vote, as before; above it the curve is gentler,
+// so that a large opposition vote does not always win all 30 (the 10 and 19 lines are unchanged)
+var capRaw = 30 * (Q.opp_share - 30) / 32, capTop = 30 * (50.2667 - 30) / 32;
+if (capRaw > capTop) { capRaw = capTop + 11 * (Q.opp_share - 50.2667) / (90 - 50.2667); }
+Q.capitals_won = Math.round(RO.clamp(capRaw, 0, 30));
 Q.spring_honoured = 0;
 Q.poll_men_d = Math.round(Q.res_men);
 !}

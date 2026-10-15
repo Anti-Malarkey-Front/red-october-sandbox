@@ -1,5 +1,5 @@
 title: Fyodor Dan
-subtitle: Soviet Floor Manager: Dan whips the votes in the Soviet and prepares the speeches. Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the Revolutionary Defencists: strength +1, dissent −1.
+subtitle: Soviet Floor Manager: Dan whips the votes in the Soviet and prepares the speeches. Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the party's main line: strength +1, dissent −1.
 is-pinned-card: true
 card-image: img/portraits/dan.jpg
 tags: advisor, defencist
@@ -23,7 +23,7 @@ Dan (1871-1947) is a physician and a leading figure in the Soviet executive. He 
 title: Soviet Floor Manager
 subtitle: Dan whips the votes in the Soviet and prepares the speeches. [? if player_party = 'menshevik' : Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the Revolutionary Defencists: strength +1, dissent −1. ?][? if player_party = 'sr' : Support among workers +3, soldiers +3, railwaymen +2; soviet democracy +1; the Centre: strength +1, dissent −1. ?]
 choose-if: advisor_action_timer <= 0
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

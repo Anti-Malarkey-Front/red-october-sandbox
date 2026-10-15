@@ -23,7 +23,7 @@ Potresov (1869-1934), co-founder of the Russian social democratic movement and L
 title: Den Editorial
 subtitle: Potresov writes a sharp editorial against the Bolsheviks. Support among middle strata +3, workers +1; Bolshevik strength −4; relations with the Bolsheviks −3; the Right Defencists: strength +2, dissent +5; the Internationalists: dissent +3.
 choose-if: advisor_action_timer <= 0
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

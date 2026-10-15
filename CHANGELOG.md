@@ -2,6 +2,31 @@
 
 This changelog covers the Red October fork only and follows the format of [Keep a Changelog](https://keepachangelog.com). The game has no numbered releases yet, so entries are grouped by date, newest first, and the history of the original game is in [docs/upstream/social-democracy-changes.txt](docs/upstream/social-democracy-changes.txt).
 
+## 2026-10-15
+
+The fixes from the third playtest round (`docs/reports/playtest-round-3.md`) that do not touch the balance, checked by playing every balance row 300 times with the same seeds before and after (all within noise). The Denikin timing (M15) and war weariness in a republic at peace (M16) wait for bot measurements, and so does the other half of M3: closing Land Committees, Agricultural Policy and Chernov's land event once the Cabinet has socialised the land raised the `socializer` and `breaker` strategies from 36% and 40% wins to 47% and 51%, so it was left out.
+
+### Added
+
+- The White front bar has a tick at 72, where the Whites take Moscow and the game is lost, and new words to match (advancing from 55, near Moscow from 65); from 60 the sidebar warns that the Whites are close. The nine options that add foreign aid to the Whites say "(raises the White front)", and so does Volsky's card.
+- `play_cli.js` prints what the browser shows: the advisors' cooldown line, the partner's name, the legal status in the game's words (tolerated, expelled), the deck subtitles, "projected" on the support line, the White front against its 72, and the opposition camps with a one-line key to hostility and strength. Testers had reported each of these as hidden.
+
+### Fixed
+
+- A current that "left the party in a body" kept acting inside it: it was still offered on the Party Line, Reshuffle the Leadership and Party Unity, still wrote letters to the newspapers and still gained strength from advisors. A walk-out now removes the current for good, never takes the main line, and cannot take the same current twice. "October Was Historically Necessary" no longer says the Right Defencists leave before the vote.
+- Constituent Assembly options were offered after the Assembly had sat or been dispersed (the Peasant Meeting, the Party Press, Nationalities, the Cabinet's "Leave the land to the Assembly").
+- After a May 1917 split, Left SR events spoke as if the party were still inside the SRs (the First Congress of Soviets, the Democratic Conference, "Stay on the SR lists" at the Assembly election).
+- The Red Terror said the Left SRs "were crushed in July" even when they had called the rising off; "The Last Party Congress" put Left SR members in the government when they were not.
+- After the land decree the Cabinet still read "Land: wait for the Assembly"; it now says the decree is in force.
+- The Assembly dispersal gives the Bolsheviks' and Left SRs' real share of the seats, not "about a third".
+- The Left SR "Split" card came back after "Plan to split" or "Stay", stacking its effects.
+- A lent advisor's pinned card named the home party's currents (Chernov showed "the Right SRs" to a Left SR); those cards now speak of the party's left wing, right wing and main line. The advisor cooldown reads "One month", not "1 months" or "0.5 months". Sukhanov's and Proshian's intelligence is marked as being for the Vikzhel talks of November 1917. Proshian leaves the council at his death in December 1918.
+- Text: Axelrod was the SRs' "best-known name abroad"; Left SR voters "had decided that they are an SR"; the Cheka arrested strikers before it existed; "Relations with Other Parties" used 1917 text in 1921; Famine Relief was offered after the Pomgol was broken up; every win by force printed "Rech was closed", and later options still offered to close it; the Party Line offered the Menshevik alliance with the liberals under the Bolsheviks; stray spaces before full stops; "the Mensheviks's support"; Party Dues said "few members are left" at 89,000 members (it now says what the dues bring in); the 1919 pogroms in a 1917 card; "A Second Bolshevik Attempt" on the third; the struggling republic blamed the ruble when only bread had failed; the "first coalition in Russian history"; Chernov's resignation accepted before the choice; the exile warning's "if the war ended now"; the Motion to Expel's date; Georgia's hindsight in June 1918; "(The front: the front is wavering.)"; Abramovich following Dan into exile; the "248 delegates"; the static Left SR epilogue; the Factory Representatives' backwards sentence; the SR election intro after the Right SRs left.
+- "Have the workers' militia clear the hall" needs a militia; "Build a militia" (which adds none) is now "Put the city militia under the dumas and the soviets".
+- The spring 1918 elections no longer give the opposition all 30 provincial capitals in almost every game. The count above 19 grows more slowly; the 10 and 19 that the rules test are unchanged.
+- Chances to break a camp by force are shown rounded down, so a camp shown at 45% is never left alone as "under 45%".
+- "One Party: The SRs never split" is no longer earned after a current walked out.
+
 ## 2026-10-14
 
 ### Added

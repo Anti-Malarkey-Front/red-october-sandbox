@@ -7,19 +7,20 @@ priority: 35
 on-arrival: {!
 Q.crisis_count = (Q.crisis_count || 0) + 1;
 Q.crisis_timer = 12;
-// the most dissenting current leaves
+// the most dissenting current leaves (never the main line, never one that has already gone)
 var worst = null, wd = -1;
 for (var f of Q.factions) {
+    if (f == 'defencist' || Q[f + '_gone'] || Q[f + '_strength'] <= 0) { continue; }
     var v = Q[f + '_dissent'] * Math.sqrt(Q[f + '_strength']);
     if (v > wd) { wd = v; worst = f; }
 }
 Q.crisis_faction = worst;
 Q.crisis_label = Q['flabel_' + worst] || 'One of its currents';
 Q.members -= Math.round(Q.members * 0.15);
-Q[worst + '_strength'] = Q[worst + '_strength'] * 0.4;
+if (worst) { Q[worst + '_strength'] = 0; Q[worst + '_dissent'] = 0; Q[worst + '_gone'] = 1; }
 for (var f of Q.factions) { Q[f + '_dissent'] = Math.max(0, Q[f + '_dissent'] - 20); }
 if (worst == 'intl') { Q.bolshevik += 4; RO.add(Q, {rel_bol: 5}); }
-if (worst == 'rightdef' || worst == 'defencist') { Q.right_threat += 3; RO.add(Q, {rel_kad: 4}); }
+if (worst == 'rightdef') { Q.right_threat += 3; RO.add(Q, {rel_kad: 4}); }
 RO.boost(Q, {workers: -3});
 !}
 
@@ -27,4 +28,4 @@ RO.boost(Q, {workers: -3});
 
 The party's quarrels have gone past the point of speeches. [+ crisis_label +] have left the party in a body, with their local organisations, their press and their funds; perhaps one member in seven has gone with them. The remaining members hold a meeting and agree on a common line.
 
-[? if crisis_faction = 'intl' : Many of them have gone over to the Bolsheviks. ?][? if crisis_faction = 'rightdef' or crisis_faction = 'defencist' : The liberals have welcomed them, and the Right is bolder for it. ?]The party is smaller, and much more united.
+[? if crisis_faction = 'intl' : Many of them have gone over to the Bolsheviks. ?][? if crisis_faction = 'rightdef' : The liberals have welcomed them, and the Right is bolder for it. ?]The party is smaller, and much more united.

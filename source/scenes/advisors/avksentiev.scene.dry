@@ -23,7 +23,7 @@ Avksentiev (1878-1943) is a Right SR, a leader of the peasant soviets and a defe
 title: Order and Republic
 subtitle: Avksentiev steadies the government, and angers the left. Threat from the Right −4; relations with the Kadets +3; soviet democracy −1; the Right SRs: strength +1, dissent −3; the Left SRs: dissent +6.
 choose-if: advisor_action_timer <= 0
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

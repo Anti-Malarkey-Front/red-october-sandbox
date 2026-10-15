@@ -27,6 +27,8 @@ RO.fac(Q, 'intl', 1, 0);
 We stayed, and we were heard out by about half of the hall. A speech to a hostile crowd does not win it over, but a few workers who came to jeer left asking questions.
 
 @militia_guard
+choose-if: militia >= 1
+unavailable-subtitle: The party has no workers' militia to call on.
 on-arrival: {!
 RO.boost(Q, {workers: -2, soldiers: -2});
 RO.add(Q, {bolshevik: 2, soviet_democracy: -1});

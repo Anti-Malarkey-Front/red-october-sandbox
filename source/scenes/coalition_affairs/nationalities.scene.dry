@@ -12,7 +12,7 @@ The empire's peoples want autonomy or independence: the Ukrainian Central Rada, 
 - @rada: Recognise the Ukrainian Rada's autonomy.
 - @finland: Let the Finnish Diet govern its own affairs.
 - @caucasus: Support a federal Transcaucasia led by the Georgian Mensheviks.
-- @unity: Insist on the unity of the Russian state until the Assembly meets.
+- @unity: Insist on the unity of the Russian state.
 - @easy_discard
 
 @rada
@@ -91,7 +91,7 @@ RO.add(Q, {rel_kad: -2, right_threat: 1});
 }, "Let the Finnish Diet govern its own affairs");
 !}
 
-The Finns are to govern their internal affairs. The question of independence is left for the Assembly. (It was done cautiously, with compromises.)
+The Finns are to govern their internal affairs. The question of independence is left open. (It was done cautiously, with compromises.)
 
 
 
@@ -105,7 +105,7 @@ RO.add(Q, {rel_kad: -2, right_threat: 1});
 }, "Let the Finnish Diet govern its own affairs");
 !}
 
-The Finns are to govern their internal affairs. The question of independence is left for the Assembly.
+The Finns are to govern their internal affairs. The question of independence is left open.
 
 
 
@@ -122,7 +122,7 @@ RO.add(Q, {rel_kad: -2, right_threat: 1});
 }, "Let the Finnish Diet govern its own affairs");
 !}
 
-The Finns are to govern their internal affairs. The question of independence is left for the Assembly. [+ law_text +]
+The Finns are to govern their internal affairs. The question of independence is left open. [+ law_text +]
 
 @caucasus
 on-arrival: {!

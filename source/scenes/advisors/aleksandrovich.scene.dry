@@ -23,7 +23,7 @@ Aleksandrovich (1887-1918) is a Left SR who knows the Cheka from the inside. He 
 title: Inside the Cheka
 subtitle: Aleksandrovich blocks a wave of arrests before it begins. Repression −2; relations with the Bolsheviks −1; the pro-coalition Left SRs: strength +1, dissent −2; a shield for the party when the Red Terror comes.
 choose-if: advisor_action_timer <= 0 and lsr_in_gov = 1 and dix >= 24
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (lsr_in_gov = 1 and dix >= 24) : We have no seat on the Cheka board yet. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?][? if not (lsr_in_gov = 1 and dix >= 24) : We have no seat on the Cheka board yet. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

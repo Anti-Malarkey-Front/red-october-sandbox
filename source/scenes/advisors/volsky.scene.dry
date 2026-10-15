@@ -1,5 +1,5 @@
 title: Vladimir Volsky
-subtitle: Komuch: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid. / Compromise: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
+subtitle: Komuch: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid; raises the White front. / Compromise: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
 is-pinned-card: true
 card-image: img/portraits/volsky.jpg
 tags: advisor, bund
@@ -12,7 +12,7 @@ Volsky (1877-1946) is a Right SR deputy from the Volga, ready to fight for the C
 
 **Komuch.** Volsky builds a government on the Volga with an armed force.
 
-*Effect:* Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid.
+*Effect:* Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid; raises the White front.
 
 **Compromise.** Volsky opens talks with the soviets.
 
@@ -26,9 +26,9 @@ Volsky (1877-1946) is a Right SR deputy from the Volga, ready to fight for the C
 
 @action
 title: Komuch
-subtitle: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid.
+subtitle: Volsky builds a government on the Volga with an armed force. Support among peasants +3, middle strata +2; relations with the Bolsheviks −6; repression +4; the Right SRs: strength +2, dissent −4; the Left SRs: dissent +5; the party takes up arms: a government on the Volga, relying on foreign aid; raises the White front.
 choose-if: advisor_action_timer <= 0 and bol_regime = 1
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (bol_regime = 1) : There is no Bolshevik government to fight. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?][? if not (bol_regime = 1) : There is no Bolshevik government to fight. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;
@@ -44,7 +44,7 @@ Volsky's Komuch has a government, a flag and an army of volunteers. It also has 
 title: Compromise
 subtitle: Volsky opens talks with the soviets. Relations with the Bolsheviks +6; repression −2; the Ufa delegation: strength +3, dissent −3; the Right SRs: dissent +6; the Left SRs: dissent −3.
 choose-if: advisor_action_timer <= 0 and bol_regime = 1
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (bol_regime = 1) : There is no Bolshevik government to talk to. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?][? if not (bol_regime = 1) : There is no Bolshevik government to talk to. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

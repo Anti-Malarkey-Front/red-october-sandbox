@@ -12,7 +12,7 @@ view-if: (in_coalition = 1 and bol_regime = 0) or lsr_in_gov = 1
 
 [? if ant_kad >= 40 : The liberals are in an angry mood. ?][? if ant_gen >= 40 : The generals are muttering about the government. ?][? if ant_bol >= 40 and bol_regime = 0 : Pravda has begun to campaign against the cabinet. ?][? if bol_regime = 0 : Each camp that opposes a policy will first try sanctions, and then, if it is angry enough, take up arms: see the Opposition tab on the right. An unpopular law can be phased in gently, passed by decree, or, if the party is strong enough (its strength is shown there), passed and enforced against its opponents: the odds are shown for each camp, and a failure makes the camp angrier. ?]
 
-Land: [+ pol_land : pol_land +]. [? if in_coalition = 1 and bol_regime = 0 : Food: [+ pol_food : pol_food +]. Finance: [+ pol_finance : pol_finance +]. Labour: [+ pol_labour : pol_labour +]. ?][? if at_war = 1 and in_coalition = 1 and bol_regime = 0 : The war: [+ pol_war : pol_war +]. ?]Order: [+ pol_order : pol_order +].
+Land: [? if land_decree = 1 and pol_land = 0 : the land decree is in force ?][? if land_decree = 0 or pol_land > 0 : [+ pol_land : pol_land +] ?]. [? if in_coalition = 1 and bol_regime = 0 : Food: [+ pol_food : pol_food +]. Finance: [+ pol_finance : pol_finance +]. Labour: [+ pol_labour : pol_labour +]. ?][? if at_war = 1 and in_coalition = 1 and bol_regime = 0 : The war: [+ pol_war : pol_war +]. ?]Order: [+ pol_order : pol_order +].
 
 - @land_0: Leave the land to the Assembly.
 - @land_1: Let the land committees regulate the transfers of land.
@@ -37,7 +37,7 @@ Land: [+ pol_land : pol_land +]. [? if in_coalition = 1 and bol_regime = 0 : Foo
 - @root: Return to main
 
 @land_0
-view-if: (in_coalition = 1 or lsr_in_gov = 1) and pol_land != 0
+view-if: (in_coalition = 1 or lsr_in_gov = 1) and pol_land != 0 and dix < 25 and land_decree = 0
 choose-if: cabinet_timer <= 0
 unavailable-subtitle: [? if cabinet_timer > 0 : The cabinet has changed course too recently. ?]
 on-arrival: {!
@@ -78,7 +78,7 @@ RO.add(Q, {land_pressure: -4, rel_kad: -3, right_threat: 1, ant_kad: 4, ant_gen:
 }, "Let the land committees regulate the transfers of land");
 !}
 
-The land committees now have the government's authority to regulate the transfers until the Assembly meets. (It was phased in, with compensation where it was owed.)
+The land committees now have the government's authority to regulate the transfers of land. (It was phased in, with compensation where it was owed.)
 
 - @root: Continue.
 
@@ -94,7 +94,7 @@ RO.add(Q, {land_pressure: -4, rel_kad: -3, right_threat: 1, ant_kad: 4, ant_gen:
 }, "Let the land committees regulate the transfers of land");
 !}
 
-The land committees now have the government's authority to regulate the transfers until the Assembly meets.
+The land committees now have the government's authority to regulate the transfers of land.
 
 - @root: Continue.
 
@@ -113,7 +113,7 @@ RO.add(Q, {land_pressure: -4, rel_kad: -3, right_threat: 1, ant_kad: 4, ant_gen:
 }, "Let the land committees regulate the transfers of land");
 !}
 
-The land committees now have the government's authority to regulate the transfers until the Assembly meets. [+ law_text +]
+The land committees now have the government's authority to regulate the transfers of land. [+ law_text +]
 
 - @root: Continue.
 

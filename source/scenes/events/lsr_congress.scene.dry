@@ -9,7 +9,7 @@ on-arrival: {!
 RO.setResults(Q, 'soviets', null, 777);
 RO.recordParliament(Q, 'congress', 'The First Congress of Soviets');
 Q.seat_other = Q.seats_total - Q.seat_bol - Q.seat_lsr - Q.seat_sr - Q.seat_men - Q.seat_kad;
-Q.lsr_delegates = Math.round(Q.res_lsr_in * 7.77);
+Q.lsr_delegates = Q.lsr_split ? Q.seat_lsr : Math.round(Q.res_lsr_in * 7.77);
 !}
 
 = The Left Stands Out
@@ -20,7 +20,7 @@ The delegates, by our reckoning:
 
 {!<div class="parliament" data-name="congress"></div>!}
 
-Within the SR delegation, which is the largest in the hall (about [+ seat_sr +] delegates), the Left SRs number perhaps [+ lsr_delegates +]. They are enough to be heard, and not enough to decide.
+[? if lsr_split = 0 : Within the SR delegation, which is the largest in the hall (about [+ seat_sr +] delegates), the Left SRs number perhaps [+ lsr_delegates +]. ?][? if lsr_split = 1 : The SR delegation is the largest in the hall (about [+ seat_sr +] delegates). The Left SRs, a party of their own since the spring, sit apart from it with perhaps [+ lsr_delegates +]. ?]They are enough to be heard, and not enough to decide.
 
 - @power: Vote with the Bolsheviks: all power to the Soviets.
 - @bridge: Propose a government of all the socialist parties.
@@ -54,4 +54,4 @@ RO.fac(Q, 'intl', 0, 8);
 RO.boost(Q, {soldiers: -2});
 !}
 
-The Left SR delegates voted with the SR delegation, as the party's rules require. It was a matter of discipline. The pro-Bolshevik wing noticed, and so did the Baltic Fleet.
+[? if lsr_split = 0 : The Left SR delegates voted with the SR delegation, as the party's rules require. It was a matter of discipline. ?][? if lsr_split = 1 : The Left SR delegates voted with the SR delegation they had left in the spring. It was a matter of keeping the socialist front together. ?] The pro-Bolshevik wing noticed, and so did the Baltic Fleet.

@@ -1,5 +1,5 @@
 title: The Motion to Expel
-subtitle: The Soviet Executive votes, 14 June 1918.
+subtitle: The Soviet Executive voted on 14 June 1918.
 new-page: true
 tags: event
 view-if: player_party != 'lsr' and (dix >= 35 and bol_regime = 1)
@@ -60,12 +60,12 @@ RO.fac(Q, 'intl', 1, -3);
 RO.fac(Q, 'defencist', 0, 4);
 !}
 
-The Central Committee has pledged that the party will never resort to armed struggle against the Soviet government, and asked to be readmitted. The Bolsheviks have said that they will consider it. [+ Rlbl +] are aghast.
+The Central Committee has pledged that the party will never resort to armed struggle against the Soviet government, and asked to be readmitted. The Bolsheviks have said that they will consider it. [? if rightdef_gone = 0 : [+ Rlbl +] are aghast. ?]
 
 @expel_no
 
 = The Expulsion Is Averted
 
-On 14 June the Central Executive Committee considered a motion to expel [? if player_party = 'menshevik' : the Mensheviks ?][? if player_party = 'sr' : the Right SRs and the Mensheviks ?]. It was opposed by the Left SRs, by the moderate Bolsheviks, and by the evidence of the spring elections, which showed that [? if player_party = 'menshevik' : the Mensheviks speak for a large part of the workers ?][? if player_party = 'sr' : the SRs still speak for a large part of the countryside ?]. The motion was withdrawn.
+On 14 June the Central Executive Committee considered a motion to expel [? if player_party = 'menshevik' : the Mensheviks?][? if player_party = 'sr' : the Right SRs and the Mensheviks?]. It was opposed by the Left SRs, by the moderate Bolsheviks, and by the evidence of the spring elections, which showed that [? if player_party = 'menshevik' : the Mensheviks speak for a large part of the workers?][? if player_party = 'sr' : the SRs still speak for a large part of the countryside?]. The motion was withdrawn.
 
 We remain a legal party in the soviets, with all our rights, and the knowledge that nobody has any rights for long.

@@ -28,6 +28,7 @@ RO.fac(Q, 'bund', -1, 1);
 [+ flabel_defencist +] have a firmer hold on the committee.
 
 @intl
+view-if: intl_strength > 0
 on-arrival: {!
 RO.fac(Q, 'intl', 6, -5);
 RO.fac(Q, 'defencist', -3, 4);

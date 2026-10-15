@@ -8,9 +8,7 @@ max-visits: 1
 
 = "October Was Historically Necessary"
 
-In October 1918, the party's Central Committee, led by Martov, passed a resolution on the revolution: that October had been a historical necessity, that the party opposed any armed struggle against the Soviet power, and that it called for the democratisation of the Soviet system by peaceful means. The party that had called the Bolshevik takeover a crime recognised it as a stage in the revolution.
-
-The Right Defencists leave. The Internationalists are content. The Bolsheviks say that it is an attempt to regain legality by writing words.
+In October 1918, Martov put a resolution on the revolution to the party's Central Committee: that October had been a historical necessity, that the party opposed any armed struggle against the Soviet power, and that it called for the democratisation of the Soviet system by peaceful means. The party that had called the Bolshevik takeover a crime would recognise it as a stage in the revolution.
 
 - @martov: Adopt Martov's resolution.
 - @assembly: Keep the Constituent Assembly line.
@@ -25,7 +23,9 @@ RO.fac(Q, 'defencist', -2, 5);
 Q.readmission_hope = 1;
 !}
 
-The resolution was adopted. The party that said that the revolution had gone wrong has now said that it was inevitable, and that its task is to repair it.
+The resolution was adopted. [? if rightdef_gone = 0 : The Right Defencists talk of leaving. ?][? if intl_gone = 0 : The Internationalists are content. ?]The Bolsheviks say that it is an attempt to regain legality by writing words.
+
+The party that said that the revolution had gone wrong has now said that it was inevitable, and that its task is to repair it.
 
 @assembly
 on-arrival: {!

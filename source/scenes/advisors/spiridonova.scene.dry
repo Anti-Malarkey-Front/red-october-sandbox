@@ -1,5 +1,5 @@
 title: Maria Spiridonova
-subtitle: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the SRs −3; the leadership: strength +1, dissent −1; the peasants' soviets better organised.
+subtitle: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; the peasants' soviets better organised.
 is-pinned-card: true
 card-image: img/portraits/spiridonova.jpg
 tags: advisor, defencist
@@ -23,7 +23,7 @@ Spiridonova (1884-1941), who shot a governor in 1906 and was tortured for it, is
 title: Peasant Congress
 subtitle: Spiridonova turns the peasants' deputies to the left. [? if player_party = 'lsr' : Support among peasants +8, soldiers +2; relations with the SRs −3; the leadership: strength +1, dissent −1; the peasants' soviets better organised. ?][? if player_party = 'menshevik' : Support among peasants +8, soldiers +2; relations with the SRs −3; the Revolutionary Defencists: strength +1, dissent −1; the peasants' soviets better organised. ?][? if player_party = 'sr' : Support among peasants +8, soldiers +2; relations with the Mensheviks −3; the Centre: strength +1, dissent −1; the peasants' soviets better organised. ?]
 choose-if: advisor_action_timer <= 0
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

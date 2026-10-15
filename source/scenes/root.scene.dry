@@ -177,7 +177,8 @@ var flags = ['may_crisis_seen', 'larin_seen', 'crisis_count', 'vik_check_1', 'al
              'turmoil_men', 'turmoil_sr', 'turmoil_lsr', 'turmoil_bol', 'komuch_averted', 'lsr_uprising_averted',
              'split_alliance_done', 'anti_brest_front', 'lent_chernov', 'lent_dan', 'lent_spiridonova', 'lent_martov',
              'ant_kad', 'ant_gen', 'ant_bol', 'opp_kad_ev', 'opp_gen_ev', 'opp_bol_ev', 'opp_kad_n', 'opp_gen_n', 'opp_bol_n',
-             'directory_joined', 'late_coup', 'late_peace', 'lost_petrosoviet', 'vik_ever', 'kadets_back', 'assembly_met', 'opp_kad_age', 'opp_gen_age', 'opp_bol_age', 'opp_kad_base', 'opp_gen_base', 'opp_bol_base', 'coalition_reached'];
+             'directory_joined', 'late_coup', 'late_peace', 'lost_petrosoviet', 'vik_ever', 'kadets_back', 'assembly_met', 'opp_kad_age', 'opp_gen_age', 'opp_bol_age', 'opp_kad_base', 'opp_gen_base', 'opp_bol_base', 'coalition_reached',
+             'ca_left_pct', 'advisor_wait', 'kad_broken', 'gen_broken', 'bol_broken', 'rec_bread_bad', 'rec_ruble_bad', 'intl_gone', 'rightdef_gone', 'unions_gone', 'bund_gone'];
 Q.fault_text = '';
 Q.fault_flag = 0;
 // standing policies of the Cabinet: land, food, war, order, labour (food starts at the grain monopoly)

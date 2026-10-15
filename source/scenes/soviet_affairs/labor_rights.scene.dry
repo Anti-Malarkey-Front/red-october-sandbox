@@ -45,7 +45,7 @@ if (Q.legality > 1 && Q.repression >= 25) { Q.legality -= 1; }
 }, "Back a railway and printers' strike in defence of union rights");
 !}
 
-The railwaymen and printers stopped work for a day. The Cheka arrested several strike leaders, including two of our own. (It was done cautiously, with compromises.)
+The railwaymen and printers stopped work for a day. [? if bol_regime = 1 and dix >= 23 : The Cheka ?][? if bol_regime = 1 and dix < 23 : The Military Revolutionary Committee ?][? if bol_regime = 0 : The militia ?]arrested several strike leaders, including two of our own. (It was done cautiously, with compromises.)
 
 
 
@@ -61,7 +61,7 @@ if (Q.legality > 1 && Q.repression >= 25) { Q.legality -= 1; }
 }, "Back a railway and printers' strike in defence of union rights");
 !}
 
-The railwaymen and printers stopped work for a day. The Cheka arrested several strike leaders, including two of our own.
+The railwaymen and printers stopped work for a day. [? if bol_regime = 1 and dix >= 23 : The Cheka ?][? if bol_regime = 1 and dix < 23 : The Military Revolutionary Committee ?][? if bol_regime = 0 : The militia ?]arrested several strike leaders, including two of our own.
 
 
 
@@ -80,7 +80,7 @@ if (Q.legality > 1 && Q.repression >= 25) { Q.legality -= 1; }
 }, "Back a railway and printers' strike in defence of union rights");
 !}
 
-The railwaymen and printers stopped work for a day. The Cheka arrested several strike leaders, including two of our own. [+ law_text +]
+The railwaymen and printers stopped work for a day. [? if bol_regime = 1 and dix >= 23 : The Cheka ?][? if bol_regime = 1 and dix < 23 : The Military Revolutionary Committee ?][? if bol_regime = 0 : The militia ?]arrested several strike leaders, including two of our own. [+ law_text +]
 
 @compromise
 on-arrival: {!

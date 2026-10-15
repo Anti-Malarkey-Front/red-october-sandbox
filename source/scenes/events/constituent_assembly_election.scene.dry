@@ -11,7 +11,7 @@ max-visits: 1
 
 [? if assembly_early = 1 : The Provisional Government, under pressure from the Soviet, brought the elections forward. ?][? if assembly_early = 0 : The elections to the Constituent Assembly, postponed twice by the Provisional Government, have been held in the middle of a revolution. ?] Voting took place over several weeks, in 70 electoral districts. The election was the freest in Russia's history: some 44 million people voted.
 
-[? if player_party = 'menshevik' : The Mensheviks cannot count on the villages. The SRs will win the peasants, the Bolsheviks the capitals and the northern front, the national parties their regions. Our votes are in the towns, among the railwaymen, in Georgia. The question is whether to run alone. ?][? if player_party = 'sr' : The SRs will win the peasants. The Bolsheviks will win the capitals and the northern front, the national parties their regions. The Mensheviks are a party of the towns and of Georgia. The party's own lists carry the unity of the Left SRs and the Right: for now. The question is whether to run alone. ?][? if player_party = 'lsr' : The SR lists were drawn up in the summer, before the party's quarrel came to a head, and the Right and the Centre hold most of the places on them. Our candidates stand on those lists, where a peasant cannot tell a Left SR from a Right one. The question is whether to stay on them, or to break away and run our own. ?]
+[? if player_party = 'menshevik' : The Mensheviks cannot count on the villages. The SRs will win the peasants, the Bolsheviks the capitals and the northern front, the national parties their regions. Our votes are in the towns, among the railwaymen, in Georgia. The question is whether to run alone. ?][? if player_party = 'sr' : The SRs will win the peasants. The Bolsheviks will win the capitals and the northern front, the national parties their regions. The Mensheviks are a party of the towns and of Georgia. [? if lsr_split = 0 and intl_gone = 0 and rightdef_gone = 0 : The party's own lists carry the unity of the Left SRs and the Right: for now. ?][? if lsr_split = 1 or intl_gone = 1 or rightdef_gone = 1 : The party's own lists carry what is left of its unity. ?] The question is whether to run alone. ?][? if player_party = 'lsr' and lsr_split = 0 : The SR lists were drawn up in the summer, before the party's quarrel came to a head, and the Right and the Centre hold most of the places on them. Our candidates stand on those lists, where a peasant cannot tell a Left SR from a Right one. The question is whether to stay on them, or to break away and run our own. ?][? if player_party = 'lsr' and lsr_split = 1 : The SR lists were drawn up in the summer, and the Right and the Centre hold the places on them. We are a party of our own now, and will run our own lists, where a peasant can see at last which SRs want the land now. ?]
 
 - @alone: Run our own lists.
 - @joint: Run a joint list with the [+ partner_name +]. (Alliance level 2 or relations of 60 or better.)
@@ -67,6 +67,8 @@ RO.recordParliament(Q, 'assembly', 'The Constituent Assembly');
 Q.ca_elected = 1;
 Q.ca_moderate = (Q.res_men + Q.res_sr + Q.res_lsr + Q.res_pop + Q.res_nat >= 55) ? 1 : 0;
 Q.ca_men_pct = Q.res_men;
+// the Bolsheviks and the Left SRs together (on the SR lists or their own), for the dispersal
+Q.ca_left_pct = Math.round(Q.res_bol + (Q.lsr_split ? Q.res_lsr : Q.res_lsr_in));
 if (Q.assembly_early) { RO.add(Q, {bolshevik: -10, soviet_democracy: 2}); }
 !}
 
@@ -79,7 +81,7 @@ The results, by our count:
 [? if player_party = 'sr' : Your party has won more votes than any other party in the history of Russia. ?][? if player_party = 'lsr' and lsr_split = 0 : The Left SRs, who ran on the SR lists, count about [+ res_lsr_in +] percent of the vote, a quarter of the SR delegation. ?][? if player_party = 'lsr' and lsr_split = 1 : The Left SRs, who ran on lists of their own, have [+ res_lsr +] percent of the vote and [+ seat_lsr +] seats. ?][? if ca_moderate = 1 : The moderate socialists and the national parties have a clear majority. The Assembly is theirs, if it meets. ?][? if ca_moderate = 0 : The moderate socialists do not have a majority. The Assembly will be a quarrelsome place. ?]
 
 @lsr_inside
-view-if: player_party = 'lsr'
+view-if: player_party = 'lsr' and lsr_split = 0
 on-arrival: {!
 Q.ca_extra = 0;
 RO.add(Q, {rel_ally: 2});

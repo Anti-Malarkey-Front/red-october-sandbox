@@ -4,7 +4,7 @@ subtitle: The 1921 relief committee.
 new-page: true
 is-card: true
 tags: soviet_affairs
-view-if: fiscal_policy_timer <= 0 and dix >= 108 and famine_relief = 0
+view-if: fiscal_policy_timer <= 0 and dix >= 108 and (dix < 110 or bol_regime = 0) and famine_relief = 0
 on-arrival: month_actions += 1; fiscal_policy_timer = 2
 
 The Volga is starving. Maxim Gorky has proposed a committee of public figures, including socialists and Kadets, to collect relief at home and abroad. The government has agreed to allow it, for the moment.

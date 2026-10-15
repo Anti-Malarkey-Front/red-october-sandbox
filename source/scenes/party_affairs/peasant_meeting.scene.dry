@@ -7,7 +7,7 @@ tags: party_affairs
 view-if: (player_party = 'sr' or player_party = 'lsr') and peasant_meeting_timer <= 0
 on-arrival: month_actions += 1; peasant_meeting_timer = 3
 
-The party's voice carries furthest in the villages and the barracks, where almost everyone who can vote has already decided that they are an SR. What is the theme?
+The party's voice carries furthest in the villages and the barracks, where almost everyone who can vote has already decided that they are an SR[? if player_party = 'lsr' and lsr_split = 1 : , and must now be told which kind?]. What is the theme?
 
 - @land: Land and freedom: the land to those who work it.
 - @assembly: Wait for the Constituent Assembly, and trust it.
@@ -27,6 +27,7 @@ RO.fac(Q, 'rightdef', 0, 2);
 The assembly of the village listened in silence and then voted a resolution. The land, they said, is God's and the people's, and the landowner's claim is a bad joke.
 
 @assembly
+view-if: dix < 25
 on-arrival: {!
 RO.boost(Q, {peasants: 3, middle: 2, nations: 1});
 RO.add(Q, {rel_kad: 1});

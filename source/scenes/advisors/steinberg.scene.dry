@@ -23,7 +23,7 @@ Steinberg (1888-1957), a Left SR lawyer, is the party's conscience on the rights
 title: Revolutionary Legality
 subtitle: Steinberg fights the Cheka's powers from inside the government. Repression −5; soviet democracy +2; relations with the Bolsheviks −1; the pro-coalition Left SRs: strength +1, dissent −2.
 choose-if: advisor_action_timer <= 0 and lsr_in_gov = 1
-unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before the next advisor action. ?][? if not (lsr_in_gov = 1) : We are not in the government. ?]
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?][? if not (lsr_in_gov = 1) : We are not in the government. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;
