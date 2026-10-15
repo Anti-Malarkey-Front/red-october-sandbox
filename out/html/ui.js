@@ -51,10 +51,11 @@
     var good = (d > 0) === goodHigh;
     return ' <span class="sb-arrow ' + (good ? 'good' : 'bad') + '" title="since last turn">' + (d > 0 ? '▲' : '▼') + '</span>';
   }
-  function barRow(label, value, word, color, extra, ticks) {
+  function barRow(label, value, word, color, extra, ticks, gates) {
     var w = clamp(value, 0, 100);
     var t = '';
     if (ticks) { for (var i = 0; i < ticks.length; i++) { t += '<span class="sb-tick" style="left:' + ticks[i] + '%"></span>'; } }
+    if (gates) { for (var j = 0; j < gates.length; j++) { t += '<span class="sb-tick sb-gate" style="left:' + gates[j] + '%"></span>'; } }
     return '<div class="sb-row"><div class="sb-label"><span>' + label + '</span><span class="sb-word">' + esc(word) + (extra || '') + '</span></div>' +
       '<div class="sb-bar"><div class="sb-fill" style="width:' + w + '%;background:' + color + '"></div>' + t + '</div></div>';
   }
@@ -132,19 +133,26 @@
     if (Q.player_party === 'sr' && !Q.lsr_split) { return 'Left SR faction'; }
     return 'Left SRs';
   }
-  function relRow(Q, key, label, lvlKey) {
+  function relRow(Q, key, label, lvlKey, gates) {
     var v = num(Q[key]);
     var lvl = lvlKey ? num(Q[lvlKey]) : 0;
     var badge = lvlKey ? ' <span class="sb-badge lvl' + lvl + '">' + ALLIANCE[clamp(lvl, 0, 3)] + '</span>' : '';
-    return barRow(label, v, pick(v, WORDS.rel), '#7a5a2b', badge + arrow(key, true, Q), [40, 60, 75]);
+    return barRow(label, v, pick(v, WORDS.rel), '#7a5a2b', badge + arrow(key, true, Q), [40, 60, 75], gates);
   }
+  // under the Bolsheviks, the relations each party's way to a win needs (the rules are in the events named)
+  var BOL_GATES = {
+    menshevik: [[43], 'Red tick: 43, what the economic programme of summer 1919 and the demand for free soviets at the Eighth Congress (December 1920) need. Goodwill fades by itself, so keep it above the line.'],
+    sr: [[33, 35], 'Red ticks: 33, what the peasant programme of summer 1919 needs, and 35, the demand for free soviets in December 1920. Goodwill fades by itself.'],
+    lsr: [[38], 'Red tick: 38, what the peasant bargain of 1921 needs. Goodwill fades by itself.']
+  };
   function renderParties(Q) {
     var h = '<div class="sb-section">Relations and alliances</div>';
     h += relRow(Q, 'rel_ally', esc(Q.partner_name), 'ally_lvl');
     h += relRow(Q, 'rel_lsr', esc(thirdLabel(Q)), 'ally_lsr');
-    h += relRow(Q, 'rel_bol', 'Bolsheviks', 'ally_bol');
+    var gate = num(Q.bol_regime) === 1 ? BOL_GATES[Q.player_party] : null;
+    h += relRow(Q, 'rel_bol', 'Bolsheviks', 'ally_bol', gate ? gate[0] : null);
     h += relRow(Q, 'rel_kad', 'Kadets', null);
-    h += '<div class="sb-note">Ticks mark the levels: cooperation 40, bloc 60, coalition 75.</div>';
+    h += '<div class="sb-note">Ticks mark the levels: cooperation 40, bloc 60, coalition 75.' + (gate ? ' ' + gate[1] : '') + '</div>';
     return h;
   }
 

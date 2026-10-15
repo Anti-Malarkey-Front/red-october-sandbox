@@ -5,6 +5,10 @@ tags: event
 view-if: player_party = 'menshevik' and (dix >= 94 and bol_regime = 1)
 priority: 30
 max-visits: 1
+on-arrival: {!
+Q.cg_rb = Math.floor(Q.rel_bol); Q.cg_sd = Math.floor(Q.soviet_democracy);
+Q.free_ready = (Q.soviet_democracy >= 45 && Q.rel_bol >= 43 && Q.program_adopted) ? 1 : 0;
+!}
 
 = The Eighth Congress of Soviets
 
@@ -12,10 +16,13 @@ In December 1920, the Eighth All-Russia Congress of Soviets met in Moscow. Fyodo
 
 The war is won, and the state that won it is a party dictatorship. The question for the opposition is whether it can ask for a reform, or whether it must demand one.
 
+A demand for free elections can pass only with relations with the Bolsheviks of at least 43 (now [+ cg_rb +]), soviet democracy of at least 45 (now [+ cg_sd +]) and the party's economic programme published ([? if program_adopted = 1 : it is ?][? if program_adopted = 0 : it is not ?]). This congress is the only chance.
+
 - @loyal: Speak as a loyal opposition.
 - @demand: Demand free soviet elections now.
 
 @loyal
+subtitle: Relations with the Bolsheviks +1, repression -1. Safe, and changes nothing.
 on-arrival: {!
 RO.add(Q, {repression: -1, rel_bol: 1});
 RO.boost(Q, {workers: 1});
@@ -25,6 +32,7 @@ RO.fac(Q, 'rightdef', 0, 3);
 Dan spoke as a member of a loyal opposition, and was heard.
 
 @demand
+subtitle: [? if free_ready = 1 : The conditions are met: free soviet elections in the spring. ?][? if free_ready = 0 : The conditions are not met, so it will fail: relations with the Bolsheviks -5, repression +7, and the party may lose a step of legality. ?]
 on-arrival: {!
 Q.free_ok = (Q.soviet_democracy >= 45 && Q.rel_bol >= 43 && Q.program_adopted) ? 1 : 0;
 if (Q.free_ok) {

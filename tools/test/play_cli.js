@@ -94,7 +94,8 @@ function numbers() {
       (q.bol_regime && q.dix >= 34 ? ' · White front ' + fl(q.white_front) + ' (' + word(q.white_front, FRONT_WORDS) + '; the Whites take Moscow and the game is lost at 72)' : ''),
     'In government: ' + (q.in_coalition && !q.bol_regime ? 'yes' : (q.lsr_in_gov ? 'a few commissariats' : 'no')) + ' · Bolshevik regime: ' + (q.bol_regime ? 'yes' : 'no'),
     'Relations: ' + rel(q.partner_name + ' (main partner)', 'rel_ally', 'ally_lvl') + ' · ' + rel(thirdLabel(q), 'rel_lsr', 'ally_lsr') + ' · ' + rel('Bolsheviks', 'rel_bol', 'ally_bol') + ' · ' + rel('Kadets', 'rel_kad', null) +
-      '. (Alliances: cooperation at 40, bloc at 60, coalition at 75.)'];
+      '. (Alliances: cooperation at 40, bloc at 60, coalition at 75.' +
+      (q.bol_regime ? {menshevik: ' Bolsheviks at 43: what the 1919 programme and the 1920 demand for free soviets need.', sr: ' Bolsheviks at 33 and 35: what the 1919 peasant programme and the 1920 demand for free soviets need.', lsr: ' Bolsheviks at 38: what the 1921 peasant bargain needs.'}[q.player_party] || '' : '') + ')'];
   var risk = RO.exileRisk(q);
   if (risk) { lines.push('WARNING: ' + (risk.level === 2 ? 'as things stand, the party will be driven abroad when the game ends in December 1921: ' : 'the party is close to exile: ') + risk.reasons.join('; ') + '.'); }
   if (q.bol_regime && q.dix >= 34 && q.white_front >= 60) { lines.push('WARNING: the Whites are close. If the front reaches 72, they take Moscow and the game is lost.'); }

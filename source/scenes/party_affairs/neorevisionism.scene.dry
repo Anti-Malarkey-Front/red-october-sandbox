@@ -5,15 +5,21 @@ new-page: true
 is-card: true
 tags: party_affairs
 view-if: player_party = 'menshevik' and (neorevisionism_timer <= 0 and bol_regime = 1 and dix >= 44 and program_adopted = 0)
-on-arrival: month_actions += 1; neorevisionism_timer = 2
+on-arrival: {!
+Q.month_actions += 1; Q.neorevisionism_timer = 2;
+Q.nr_rb = Math.floor(Q.rel_bol);
+!}
 
 The Bolshevik economic policy, War Communism, takes grain from the peasants by force. The factories are idle, the cities are starving and the party's economists have drafted an alternative: end requisitioning, allow free trade in grain, give the unions independence and restore a regulated market.
+
+What it can win: if, in the summer of 1919, the programme is published and relations with the Bolsheviks are at least 43 (now [+ nr_rb +]), Lenin will try it, "the NEP before the NEP". The programme, relations of 43 and soviet democracy of 45 are also what the demand for free soviet elections at the Eighth Congress of Soviets, in December 1920, needs.
 
 - @adopt: Adopt the programme and publish it. (1 resource)
 - @study: Study it more before adopting.
 - @easy_discard
 
 @adopt
+subtitle: Workers, peasants, railwaymen and the middle classes +; relations with the Bolsheviks -2, repression +2.
 choose-if: resources >= 1
 unavailable-subtitle: We have no resources.
 on-arrival: {!

@@ -2,7 +2,7 @@ title: Chernov at the Ministry of Agriculture
 subtitle: The Kadets and the land.
 new-page: true
 tags: event
-view-if: player_party = 'sr' and dix >= 10 and chernov_gov = 1 and land_decree = 0
+view-if: player_party = 'sr' and dix >= 10 and chernov_gov = 1 and land_decree = 0 and pol_land < 2
 priority: 8
 max-visits: 1
 

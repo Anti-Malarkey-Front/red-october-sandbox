@@ -108,7 +108,7 @@ The SRs' left wing, who broke away in November 1917, shared Lenin's government f
 - **The centre column** tells the story: the event or card you are playing, its choices, and after each choice a **"What changed"** box listing every number it moved.
 - **The left sidebar** shows the party and the country:
   - *Main:* the date and phase, resources, members, legal status (with a warning when the party is heading for exile), party dissent, and bars for bread, the ruble, war weariness, army discipline, land pressure, Bolshevik strength, the threat from the Right, Soviet democracy, repression and the Civil War front, each with an arrow showing which way it moved last turn.
-  - *Parties:* relations and alliance levels with the other parties.
+  - *Parties:* relations and alliance levels with the other parties, with ticks at the alliance levels (40, 60, 75). Under the Bolsheviks a red tick on the Bolshevik bar marks what the party's way to a win needs: 43 for the Mensheviks (the 1919 programme and the free-soviets demand of December 1920), 33 and 35 for the SRs (the 1919 peasant programme and their 1920 demand), 38 for the Left SRs (the 1921 bargain).
   - *Currents:* the party's internal factions, their strength and their discontent.
   - *Support:* how your support is built.
 - **The right-hand panel** shows your support by class (nine voter groups), your popularity in each arena, the **Parliament** tab (each body as elected, and as it would be if it voted today, drawn seat by seat) and the **Opposition** tab (each camp's hostility, what it objects to, its strength, and the odds of breaking it).
@@ -864,7 +864,7 @@ The descriptions use the Menshevik names (Defencists, Internationalists, Right D
 - Why it matters: Keeping the Kadets or removing them is a lasting change to the cabinet, and the Democratic Conference's coalition option reads whether the Kadets are in government.
 
 ### Chernov at the Ministry of Agriculture (early June 1917)
-- File: `sr_chernov_land`; Who sees it: SRs only, from early June 1917, once. It appears only while Chernov is in government and no land decree has been issued (only a Bolshevik takeover issues the decree).
+- File: `sr_chernov_land`; Who sees it: SRs only, from early June 1917, once. It appears only while Chernov is in government, no land decree has been issued (only a Bolshevik takeover issues the decree) and the Cabinet has not socialised the land.
 - What happens: Chernov holds the ministry the peasants care about, and he is hampered by his Kadet colleagues, who say no land should be touched until the Assembly decides, and by the peasants, who have begun to take it. A tour of the provinces has shown him land committees in every volost and estates burning. The whole SR programme depends on what he can do in the next few months.
 - Choices:
   - Legalise the committees' transfers by decree. Land committees +2, land pressure -10, relations with the Kadets -8, the threat from the Right +4, peasant support +4, soldier support +2, Right Defencist discontent +6, Internationalist discontent -4. The landowners telegraph their complaints to every general.
@@ -1117,7 +1117,7 @@ After October 1917 the game runs on one of two timelines. Each event below says 
   - *Vote against ratification with the Left SRs.* SRs only. Left SR relations rise by 6 and Bolshevik relations fall by 3; soldiers and middle support rise; the internationalists gain strength and calm down, and the Right current becomes more restless.
   - *Abstain, and say the peasants have not been asked.* SRs only. Bolshevik relations rise by 1; the internationalists become much more restless; peasants support rises slightly.
   - *Leave the government over the treaty.* Left SRs in government only. The Left SRs leave the government and lose their seats (lsr_in_gov and lsr_seats are cleared). Bolshevik relations fall by 10. Soldiers, peasants and middle support rise, the defencists gain strength and calm down, the Right current also gains strength, and the internationalists become much more restless.
-  - *Stay in the government and fight the treaty from inside.* Left SRs in government only. This is a roll. The chance rises with Bolshevik relations, soviet democracy, bloc lean and the anti-Brest front, and is at least 5% and at most 90%. It also needs dissent below 0.45. If it succeeds, the party keeps its seven commissars: Bolshevik relations and soviet democracy rise a little, soldiers and peasants gain, and the Right current becomes more restless. If it fails, the party leaves the government: Bolshevik relations fall by 6 and soviet democracy by 2.
+  - *Stay in the government and fight the treaty from inside.* Left SRs in government only. This is a roll. The chance rises with Bolshevik relations, soviet democracy, bloc lean and the anti-Brest front, and is at least 5% and at most 90%. It also needs dissent below 0.45. The chance is shown on the option, rounded down. If it succeeds, the party keeps its seven commissars: Bolshevik relations and soviet democracy rise a little, soldiers and peasants gain, and the Right current becomes more restless. If it fails, the party leaves the government: Bolshevik relations fall by 6 and soviet democracy by 2.
   - *Vote for ratification.* Left SRs only. Bolshevik relations rise by 6; peasants and soldiers support fall by 3; the internationalists gain strength; the defencists lose strength and gain discontent; the Right current becomes more restless. If the party is in government, it keeps the seven commissars.
   - *Form an anti-Brest front with the Mensheviks.* Left SRs only. Requires Left SR relations of at least 40. Left SR relations rise by 10 and Bolshevik relations fall by 3. Sets the anti-Brest front and the ally link to the Mensheviks; soldiers, peasants and middle support rise. The treaty passes anyway.
   - *Vote against the treaty, from outside the government.* Left SRs not in government only. Bolshevik relations fall by 4; soldiers and peasants gain; the internationalists become more restless. The treaty passes.
@@ -1295,10 +1295,10 @@ After October 1917 the game runs on one of two timelines. Each event below says 
 - Why it matters: the constitution flag is read by the endings (game_over.scene.dry checks it), so this choice shapes the final text.
 
 ### The Coalition Is Squeezed (January 1919)
-- File: `lsr_squeeze`; Who sees: Left SRs only, under the Bolshevik regime, from January 1919, while the Left SRs are still in the government; once. The outcome is random and no choice is made.
+- File: `lsr_squeeze`; Who sees: Left SRs only, under the Bolshevik regime, from January 1919, while the Left SRs are still in the government; once. The page shows the chance, rounded down, and what it rises with, before a single "Continue" rolls it.
 - What happens: in 1919 the civil war makes the Bolsheviks stronger and every other party weaker. The Left SR commissariats are merged one by one into Bolshevik ones.
 - Outcomes:
-  - *The coalition holds.* The chance of staying in is set by Bolshevik relations, soviet democracy and bloc lean (between 10% and 90%); it also needs dissent below 0.45. If it holds, the Left SRs stay in government, though Lenin has not said how long the coalition will be useful.
+  - *The coalition holds.* The chance of staying in is set by Bolshevik relations, soviet democracy, bloc lean and the joint measures of 1918 (+5 points each, at most two; see the Joint Measures card), between 10% and 90%; it also needs dissent below 0.45. If it holds, the Left SRs stay in government, though Lenin has not said how long the coalition will be useful.
   - *The coalition is squeezed out.* If the roll fails, the Left SRs leave the government and lose their seats. Bolshevik relations fall by 6, repression rises by 5 and soviet democracy falls by 3; peasant support falls. By autumn the last Left SR commissar has resigned.
 - Why it matters: the outcome sets lsr_in_gov, which the 1921 Left SR events read.
 
@@ -1609,7 +1609,7 @@ Each turn the player draws cards into a hand (three cards, four on Easy) and pla
   - Return card to hand.
 
 #### Land Committees
-- **Drawn:** SRs only, until a land decree has been issued. Cooldown 4 months.
+- **Drawn:** SRs only, until a land decree has been issued or the Cabinet has socialised the land. Cooldown 4 months.
 - **What it is:** the peasants' committees that take stock of the landowners' estates and begin to divide them.
 - **Options:**
   - *Back the committees' temporary transfers of land* (free): land pressure falls sharply, Kadet relations fall, the right threat rises a little, the right wing's dissent rises a lot, the peasants and soldiers gain, and Left SR relations rise.
@@ -1732,6 +1732,14 @@ Each turn the player draws cards into a hand (three cards, four on Easy) and pla
   - *Defend the party's seats against the Bolsheviks' encroachments* (free): Bolshevik relations rise, soviet democracy rises a little, the workers gain a little, and the main line's dissent falls.
   - Return card to hand.
 
+#### Joint Measures
+- **Drawn:** Left SRs only, while they are in the government and the Bolsheviks rule, from April to December 1918, until two measures are done. Cooldown 3 months.
+- **What it is:** a measure the coalition carries out together, which makes it harder for Lenin to do without the Left SRs. Each one (at most two) adds 5 points to the chance that the coalition survives the squeeze of January 1919. The card shows how many are done.
+- **Options:**
+  - *Collect the grain levy through the village soviets, with Tsiurupa's commissariat* (free): a joint measure; Bolshevik relations +2, land pressure +2, peasants lose a little, and the pro-Bolshevik wing's dissent rises a little.
+  - *Defend the elected soviets, and the coalition, in Znamya Truda* (free): a joint measure; soviet democracy +3, Bolshevik relations −1, the peasants gain a little.
+  - Return card to hand.
+
 #### The Split
 - **Drawn:** Left SRs only, before the split, from May 1917 (dix 8). Cooldown 4 months.
 - **What it is:** the choice of when the left wing leaves the SR party, or stays to fight inside it.
@@ -1756,7 +1764,7 @@ Each turn the player draws cards into a hand (three cards, four on Easy) and pla
 ### Coalition Affairs
 
 #### The Land Question
-- **Drawn:** while the party is in the coalition, until a land decree has been issued. Cooldown 3 months.
+- **Drawn:** while the party is in the coalition, until a land decree has been issued or the Cabinet has socialised the land. Cooldown 3 months.
 - **What it is:** the land question, where the Kadets want nothing done until the Assembly meets and Chernov wants the transfers regulated by the committees.
 - **Options:**
   - *Back the land committees' temporary transfers now* (contested law, "committees"): land pressure and Kadet relations fall sharply, partner relations and the right threat rise a little, the peasants and soldiers gain, and the land committees are set up.

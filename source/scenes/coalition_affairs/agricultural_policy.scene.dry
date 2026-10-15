@@ -4,7 +4,7 @@ subtitle: Land committees now, or wait for the Constituent Assembly.
 new-page: true
 is-card: true
 tags: coalition_affairs
-view-if: agricultural_policy_timer <= 0 and land_decree = 0
+view-if: agricultural_policy_timer <= 0 and land_decree = 0 and pol_land < 2
 on-arrival: month_actions += 1; agricultural_policy_timer = 3
 
 The peasants want the landlords' land, and some of them are taking it. The SR minister Chernov wants to regulate the transfers through the land committees; the Kadets say that nothing should be done until the Assembly meets. (Land pressure: [+ land_pressure : level +].)

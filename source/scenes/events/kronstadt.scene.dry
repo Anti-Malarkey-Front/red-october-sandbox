@@ -9,6 +9,7 @@ max-visits: 1
 on-arrival: {!
 Q.georgia_survives = (Q.foreign_pressure >= 4 && Q.georgia_support >= 2) ? 1 : 0;
 if (!Q.georgia_survives) { Q.georgia_free = 0; Q.zhordania_advisor = 0; }
+Q.kr_loss = Math.round(10000 * Q.mem_scale).toLocaleString('en-GB');
 !}
 
 = Georgia, the Strikes and Kronstadt
@@ -24,6 +25,7 @@ Whether the revolt was an SR and Menshevik plot, or the real voice of the revolu
 - @quiet: Stay silent.
 
 @condemn
+subtitle: Relations with the Bolsheviks +4, repression -2, soviet democracy -2; both wings of the party are unhappy.
 on-arrival: {!
 RO.add(Q, {rel_bol: 4, soviet_democracy: -2, repression: -2});
 RO.boost(Q, {workers: -1});
@@ -35,6 +37,7 @@ Q.kronstadt_stance = 1;
 The party's Central Committee said that it had no connection with the Kronstadt revolt, and that an armed revolt, whatever its slogans, could only help the White Guards. The Bolsheviks received this with grim satisfaction.
 
 @back
+subtitle: Workers +5, railwaymen and soldiers +3, soviet democracy +3; relations with the Bolsheviks -10, repression +10, the party loses a step of legality and [+ kr_loss +] members to the arrests.
 on-arrival: {!
 RO.add(Q, {rel_bol: -10, soviet_democracy: 3, repression: 10});
 RO.boost(Q, {workers: 5, railway: 3, soldiers: 3});
@@ -48,6 +51,7 @@ Q.members -= 10 * Q.mem_scale;
 Our party's leaflets called on the government to negotiate with Kronstadt on the basis of its fifteen demands, which are close to our own. The Cheka made arrests within the week. Kronstadt will not hold out for long.
 
 @quiet
+subtitle: Workers -1; both wings of the party are unhappy.
 on-arrival: {!
 RO.fac(Q, 'intl', 0, 5);
 RO.fac(Q, 'defencist', 0, 3);

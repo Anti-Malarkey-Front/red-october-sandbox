@@ -1037,13 +1037,13 @@ Who should give up a seat on the council?
 
 @bring_spiridonova
 view-if: avail_spiridonova = 1 and on_spiridonova = 0
-subtitle: Offers: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; the peasants' soviets better organised.
+subtitle: Offers: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; one more peasant soviet organised.
 on-arrival: {!
 Q.adv_in = 'spiridonova';
 Q.adv_in_name = "Maria Spiridonova";
 !}
 
-Maria Spiridonova would offer: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; the peasants' soviets better organised.
+Maria Spiridonova would offer: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; one more peasant soviet organised.
 
 Who should give up a seat on the council?
 
@@ -1625,7 +1625,7 @@ Vladimir Volsky has gone back to the party's work, and [+ adv_in_name +] has tak
 @out_spiridonova
 view-if: on_spiridonova = 1
 new-page: true
-subtitle: Gives up: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; the peasants' soviets better organised.
+subtitle: Gives up: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; one more peasant soviet organised.
 on-arrival: {!
 Q.month_actions += 1; Q.council_timer = 3;
 RO.swapAdvisor(Q, Q.adv_in, 'spiridonova');
@@ -2683,13 +2683,13 @@ Who should take the seat?
 
 @drop_spiridonova
 view-if: on_spiridonova = 1 and adv_reserve >= 1
-subtitle: Now offers: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; the peasants' soviets better organised.
+subtitle: Now offers: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; one more peasant soviet organised.
 on-arrival: {!
 Q.adv_out = 'spiridonova';
 Q.adv_out_name = "Maria Spiridonova";
 !}
 
-Maria Spiridonova offers: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; the peasants' soviets better organised.
+Maria Spiridonova offers: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; one more peasant soviet organised.
 
 Who should take the seat?
 
@@ -3278,7 +3278,7 @@ RO.swapAdvisor(Q, 'volsky', Q.adv_out);
 @in_spiridonova
 view-if: avail_spiridonova = 1 and on_spiridonova = 0
 new-page: true
-subtitle: Offers: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; the peasants' soviets better organised.
+subtitle: Offers: Peasant Congress: Spiridonova turns the peasants' deputies to the left. Support among peasants +8, soldiers +2; relations with the main partner −3; the party's main line: strength +1, dissent −1; one more peasant soviet organised.
 on-arrival: {!
 Q.month_actions += 1; Q.council_timer = 3;
 RO.swapAdvisor(Q, 'spiridonova', Q.adv_out);

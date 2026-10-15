@@ -22,6 +22,7 @@ It is the first anti-Bolshevik socialist government, and it is protected by fore
 - @persuade: Persuade the SR leaders not to join Komuch.
 
 @neither
+subtitle: Relations with the SRs -4, with the Bolsheviks +2; the Right Defencists are angry.[? if ally_lvl >= 1 :  The SRs will go to Komuch without us, and the alliance with them breaks unless relations with them stay at 70 or more. ?]
 on-arrival: {!
 Q.activists_strength = 4;
 RO.fac(Q, 'rightdef', 0, 8);

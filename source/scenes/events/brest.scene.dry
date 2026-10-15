@@ -10,6 +10,9 @@ on-arrival: {!
 Q.at_war = 0;
 RO.add(Q, {war_weariness: -20, army_discipline: 0, land_pressure: -5});
 Q.fault_text = RO.fault(Q, 'brest');
+// the Left SR commissars' chance of staying, shown on the option and rolled there (rounded down, as the force odds are)
+Q.stay_p = RO.clamp((Q.rel_bol - 64) / 50 + (Q.soviet_democracy - 50) / 200 + 0.05 * Q.bloc_lean + 0.08 * Q.anti_brest_front, 0.05, 0.9);
+Q.stay_pct = Q.dissent < 0.45 ? Math.floor(100 * Q.stay_p) : 0;
 !}
 
 = Brest-Litovsk
@@ -105,9 +108,9 @@ The Congress ratified the treaty by 784 votes to 261. On 19 March the Left SR Pe
 
 @lsr_stay
 view-if: player_party = 'lsr' and lsr_in_gov = 1
+subtitle: Chance that Lenin lets the commissars stay: [+ stay_pct +]%[? if dissent >= 0.45 :  (none while the party's dissent is 45% or more) ?]. It rises with relations with the Bolsheviks and soviet democracy. If he refuses, the party is out of the government.
 on-arrival: {!
 Q.brest_rb = Q.rel_bol; Q.brest_sd = Q.soviet_democracy;
-Q.stay_p = RO.clamp((Q.rel_bol - 64) / 50 + (Q.soviet_democracy - 50) / 200 + 0.05 * Q.bloc_lean + 0.08 * Q.anti_brest_front, 0.05, 0.9);
 Q.stay_ok = (Q.dissent < 0.45 && RO.chance(Q.stay_p)) ? 1 : 0;
 if (Q.stay_ok) {
     Q.seven_commissars = 1;

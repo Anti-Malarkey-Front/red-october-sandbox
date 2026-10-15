@@ -1,0 +1,35 @@
+title: Joint Measures
+card-image: img/cards/joint_measures.svg?v=2
+subtitle: Make the coalition hard to do without. Each measure helps it survive the squeeze of January 1919.
+new-page: true
+is-card: true
+tags: party_affairs
+view-if: player_party = 'lsr' and lsr_in_gov = 1 and bol_regime = 1 and dix >= 30 and dix < 48 and coalition_record < 2 and joint_measures_timer <= 0
+on-arrival: month_actions += 1; joint_measures_timer = 3
+
+The coalition lives as long as Lenin finds it useful. The commissars can make it useful, with a measure the two parties carry out together, or with the party's paper, which can tell the soviets what a one-party government would cost them. (Joint measures so far: [+ coalition_record +] of 2.)
+
+- @food: Collect the grain levy through the village soviets, with Tsiurupa's commissariat.
+- @press: Defend the elected soviets, and the coalition, in Znamya Truda.
+- @easy_discard
+
+@food
+subtitle: Relations with the Bolsheviks +2; a joint measure.
+on-arrival: {!
+Q.coalition_record = (Q.coalition_record || 0) + 1;
+RO.add(Q, {rel_bol: 2, land_pressure: 2});
+RO.boost(Q, {peasants: -1});
+RO.fac(Q, 'intl', 0, 3);
+!}
+
+The Food Commissariat and Kolegaev's Agriculture issued a joint instruction: the grain levy is to be assessed and collected by the volost soviets, and the armed detachments are to act only on their request. It is still a levy, and the villages still hate it, but the peasants know whose names are on the order, and so does Lenin.
+
+@press
+subtitle: Soviet democracy +3, relations with the Bolsheviks -1; a joint measure.
+on-arrival: {!
+Q.coalition_record = (Q.coalition_record || 0) + 1;
+RO.add(Q, {soviet_democracy: 3, rel_bol: -1});
+RO.boost(Q, {peasants: 1});
+!}
+
+Znamya Truda ran a series on the soviets: who elects them, who sits in them, and what would become of them if one party sat in the government alone. The Bolshevik papers answered sharply. But the provincial soviets, where the Left SRs still hold a third of the seats, passed resolutions for the coalition, and those were read in Moscow.

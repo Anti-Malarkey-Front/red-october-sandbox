@@ -210,6 +210,7 @@ var lsrCommon = {
   lsr_oct18: [/hold the party together/i],
   lsr_government: [/Enter the government/],
   lsr_cheka: [/Take the four seats/],
+  joint_measures: [/grain levy/, /Znamya Truda/],
   lsr_start: [/caucus/],
   lsr_coalition: [/Oppose the coalition/, /Vote with the majority/],
   lsr_congress: [/all socialist parties/, /Vote with the Bolsheviks/],
@@ -231,7 +232,7 @@ var lsrCommon = {
 };
 var lsr_coalition_bot = {
   choices: merge(democrat.choices, lsrCommon),
-  cards: ['inter_party_relationships', 'sovnarkom_seats', 'cheka_board', 'treasury', 'inside_sr', 'the_split', 'peasant_congress', 'spiridonova', 'natanson', 'steinberg', 'kolegaev', 'campaigning', 'peasant_meeting', 'media', 'party_disunity', 'fundraising', 'domestic_enemies', 'judiciary']
+  cards: ['inter_party_relationships', 'joint_measures', 'sovnarkom_seats', 'cheka_board', 'treasury', 'inside_sr', 'the_split', 'peasant_congress', 'spiridonova', 'natanson', 'steinberg', 'kolegaev', 'campaigning', 'peasant_meeting', 'media', 'party_disunity', 'fundraising', 'domestic_enemies', 'judiciary']
 };
 var lsr_rising_bot = {
   choices: merge(democrat.choices, merge(lsrCommon, { lsr_july: [/Carry out/], brest: [/Leave the government/], lsr_government: [/Stay outside/] })),

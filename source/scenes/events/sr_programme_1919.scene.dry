@@ -9,6 +9,7 @@ on-arrival: {!
 Q.nep_early = 0;
 Q.prog_rb = Q.rel_bol;
 Q.prog_po = Q.peasant_organised;
+Q.prog_rbd = Math.floor(Q.rel_bol);
 if (Q.peasant_organised >= 2 && Q.rel_bol >= 33 && Q.dix < 72) {
     Q.nep_early = 1;
     RO.add(Q, {bread: 10, soviet_democracy: 5, repression: -8, land_pressure: -5});
@@ -33,4 +34,4 @@ It was called, in later years, "the NEP before the NEP".
 
 The summer of 1919 is a season of crisis: Denikin is advancing, the villages are in revolt against the requisitions, the cities are hungry. The party has no organised peasant movement behind it that the Bolsheviks need to listen to, or no contact with the Bolsheviks that would let it say so. The peasants rise by themselves, and are shot by themselves.
 
-*(Peasant congresses and a working relation with the moderate Bolsheviks make the programme possible.)*
+*(The programme needs 2 peasant soviets organised, through the Peasant Congress card (the party had [+ peasant_organised : organised +]), and relations with the Bolsheviks of 33 (they were [+ prog_rbd +]).)*

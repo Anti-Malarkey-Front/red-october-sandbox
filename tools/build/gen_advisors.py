@@ -195,7 +195,7 @@ STAT_NAMES = {'bolshevik': 'Bolshevik strength', 'ruble': 'the ruble', 'bread': 
 FLAG_TEXT = {
     'insight': 'better intelligence for the Vikzhel talks on an all-socialist government (November 1917)',
     'foreign_pressure': 'more pressure from the socialists abroad',
-    'peasant_organised': "the peasants' soviets better organised",
+    'peasant_organised': "one more peasant soviet organised",
     'cheka_shield': 'a shield for the party when the Red Terror comes',
     'land_law_draft': 'a land law ready for the Constituent Assembly',
     'armed_struggle': 'the party takes up arms: a government on the Volga, relying on foreign aid',
@@ -451,6 +451,10 @@ Q.month_actions += 1;
 - @root: Continue.
 
 """
+    if any('peasant_organised' in a[4] for a in actions):
+        # the count that decides the peasant endings (lsr_1921, sr_programme_1919): the card body is read fresh each time
+        plan += ("[? if player_party = 'lsr' : *Peasant soviets organised so far: [+ peasant_organised : organised +] of the 6 that the bargain with Lenin in 1921 needs.* ?]"
+                 "[? if player_party = 'sr' : *Peasant soviets organised so far: [+ peasant_organised : organised +]; the peasant programme of 1919 needs 2.* ?]\n\n")
     # a lent advisor's pinned card is seen by other parties too, and its subtitle is static: name no party's currents
     who = 'neutral' if aid in LENT_TO else party
     summary = offers([(a[0], a[1], describe(a[4], who)) for a in actions])

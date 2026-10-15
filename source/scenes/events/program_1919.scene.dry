@@ -7,6 +7,7 @@ priority: 25
 max-visits: 1
 on-arrival: {!
 Q.nep_early = 0;
+Q.prog_rbd = Math.floor(Q.rel_bol);
 if (Q.program_adopted && Q.rel_bol >= 43 && Q.dix < 72) {
     Q.nep_early = 1;
     RO.add(Q, {bread: 10, soviet_democracy: 5, repression: -8, land_pressure: -5});
@@ -33,10 +34,12 @@ In the summer of 1919, our programme was published, and ignored. The Council of 
 
 The programme will remain available. It will be needed.
 
+*(Lenin listens to the programme only with relations with the Bolsheviks of 43; they were [+ prog_rbd +]. The same 43, the programme and soviet democracy of 45 decide the demand for free soviets at the Eighth Congress, in December 1920.)*
+
 @prog_none
 
 = No Programme
 
 The summer of 1919 is a season of crisis: Denikin is advancing, the villages are in revolt, the cities are hungry. The party has no programme of its own to offer. The workers are asking what we would do, and we have only criticism to offer.
 
-*(The "What Is to Be Done?" card in the Party Affairs deck unlocks the party's economic programme.)*
+*(The "What Is to Be Done?" card in the Party Affairs deck unlocks the party's economic programme. Published, and with relations with the Bolsheviks of 43, it would have been heard.)*

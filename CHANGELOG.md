@@ -2,6 +2,31 @@
 
 This changelog covers the Red October fork only and follows the format of [Keep a Changelog](https://keepachangelog.com). The game has no numbered releases yet, so entries are grouped by date, newest first, and the history of the original game is in [docs/upstream/social-democracy-changes.txt](docs/upstream/social-democracy-changes.txt).
 
+## 2026-10-15: ending gates
+
+Playtest round 3: B6, B7, C1, C2 and the rest of M3.
+
+The rolls and thresholds that decide the Left SR, Menshevik and peasant endings are now shown, and the option effects that were hidden are stated. Measured with seeded bot runs (1,000 games a row, same seed before and after).
+
+### Added
+
+- The Left SR coalition's two rolls are shown before they are made: the chance that Lenin lets the commissars stay is on the Brest-Litovsk "Stay in the government" option, and the January 1919 squeeze now shows its chance, and what it rises with, before "Continue" rolls it. Both are rounded down, as the force odds are.
+- A Left SR card, **Joint Measures** (April to December 1918, while in the government): collect the grain levy through the village soviets with the Food Commissariat, or defend the elected soviets and the coalition in Znamya Truda. Each measure (at most two) adds 5 points to the chance of surviving the squeeze, so a player who plays for the coalition can improve the roll. The `lsr_coalition` bot plays it.
+- Under the Bolsheviks the Bolshevik relations bar has a red tick at what the party's way to a win needs: 43 for the Mensheviks (the 1919 programme and the free-soviets demand of December 1920), 33 and 35 for the SRs, 38 for the Left SRs (the 1921 bargain), with a line saying that goodwill fades by itself. `play_cli.js` prints the same.
+- The Eighth Congress page gives the demand's conditions with the current numbers (relations 43, soviet democracy 45, the programme), and "Demand free soviet elections now" says whether it will pass and what failure costs. "What Is to Be Done?" says what the programme can win and what it needs; the 1919 programme pages give the numbers that decided them.
+- Peasant soviets are counted: the Peasant Congress card and Spiridonova say "organised 3 of the 6" for the Left SRs (the 2 needed for the SRs), the card's options say what each organises, and "No Peasant Programme" gives the 2 soviets and relations of 33 it needed, with the party's own figures. The Left SR bargain of 1921 says which conditions are missing, with numbers, and "Stand by the sailors' programme" says that the party will be banned.
+- Option effects stated in their subtitles: Kronstadt (all three, including the legality step and the members lost by backing the programme), "Expel Maisky" (the alliance with the SRs breaks unless relations stay at 70), Food Supply (requisition and the others), Defend the Revolution (all three; from October 1919 every play after the first wins back a step of legal standing, the way back from a ban), the Eighth Congress options. The strike fund (`treasury`) is left to the party-economy change.
+
+### Fixed
+
+- Land Committees, The Land Question and Chernov's land event are closed once the Cabinet has socialised the land, not only after a land decree.
+
+### Balance
+
+- `lsr_coalition` wins the Soviet Coalition ending 44% of the time (was 41% to 42%, in two seeded runs of 1,000 games); `lsr_rising` and `lsr_villages` are unchanged.
+- Closing the land cards after socialisation raises the `socializer` and `breaker` strategies, which socialise the land in their first turn: from 41% and 44% wins to 46% and 49% (1,000 games, before the party-economy change), and from 42% and 45% to 48% and 53% on top of it. They had spent about one and a half turns a game drafting a land law and passing the Land Question's committees law after the land was already socialised, and that law angered the generals: most of the gain is fewer generals' coups (128 to 95 and 86 to 55 of 1,000). The anger came from a law that did nothing, so it is not compensated; whether socialisation itself should anger the generals more is left as a balance decision. `sr_land`, `sr_peasant`, `sr_komuch`, `democrat` and `vikzhelist` are unchanged (none of them socialises the land through the Cabinet).
+- Tried and dropped: giving Martov's and Sukhanov's relations actions their own three-month clock. It did not raise the Menshevik soviet democracy ending (`democrat` 4% to 3%, `vikzhelist` 9% to 8%): the bots spent the extra turns on Martov and adopted the economic programme less often. It only raised `vikzhelist`'s all-socialist ending, 19% to 24%.
+
 ## 2026-10-15
 
 The fixes from the third playtest round (`docs/reports/playtest-round-3.md`) that do not touch the balance, checked by playing every balance row 300 times with the same seeds before and after (all within noise). The Denikin timing (M15) and war weariness in a republic at peace (M16) wait for bot measurements, and so does the other half of M3: closing Land Committees, Agricultural Policy and Chernov's land event once the Cabinet has socialised the land raised the `socializer` and `breaker` strategies from 36% and 40% wins to 47% and 51%, so it was left out.

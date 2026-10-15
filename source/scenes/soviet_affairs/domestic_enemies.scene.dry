@@ -15,7 +15,7 @@ on-arrival: month_actions += 1; domestic_enemies_timer = 3
 - @easy_discard
 
 @mobilise
-subtitle: Many of the members who go will not come back, and the party's right will be angry.
+subtitle: Red Army +5, relations with the Bolsheviks +4, repression -3; members lost at the front, and the party's right is angry. From October 1919, every play after the first wins back a step of the party's legal standing (played [+ defended +] times so far): the way back from a ban.
 on-arrival: {!
 Q.red_army += 5;
 Q.members = Math.max(3, Q.members - 4 * Q.mem_scale);
@@ -30,6 +30,7 @@ if (Q.legality < 3 && Q.defended >= 2 && Q.dix >= 66) { Q.legality += 1; }
 Our members enlisted in the Red Army and our veterans took commissions. The Bolsheviks have noticed, and some of the arrests have stopped.
 
 @neither
+subtitle: Middle classes +2, peasants +1; relations with the Bolsheviks -2, repression +1; the party's right is angry.
 on-arrival: {!
 RO.boost(Q, {middle: 2, peasants: 1});
 RO.add(Q, {repression: 1, rel_bol: -2});
@@ -40,6 +41,7 @@ RO.fac(Q, 'intl', 0, -2);
 "Neither Kolchak nor Lenin." The slogan is exact, and it gives satisfaction to nobody who is on a front.
 
 @conditions
+subtitle: Red Army +3, relations with the Bolsheviks +1, repression -2; some prisoners freed.
 on-arrival: {!
 Q.red_army += 3;
 RO.add(Q, {repression: -2, rel_bol: 1});

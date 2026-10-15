@@ -6,8 +6,23 @@ view-if: player_party = 'lsr' and dix >= 48 and bol_regime = 1 and lsr_in_gov = 
 priority: 25
 max-visits: 1
 on-arrival: {!
-Q.sq_rb = Q.rel_bol;
-Q.squeeze_p = RO.clamp((Q.rel_bol - 58) / 50 + (Q.soviet_democracy - 50) / 200 + 0.05 * Q.bloc_lean, 0.1, 0.9);
+Q.sq_rb = Math.round(Q.rel_bol);
+Q.coalition_record = Q.coalition_record || 0;
+Q.squeeze_p = RO.clamp((Q.rel_bol - 58) / 50 + (Q.soviet_democracy - 50) / 200 + 0.05 * Q.bloc_lean + 0.05 * Math.min(Q.coalition_record, 2), 0.1, 0.9);
+// shown rounded down, as the force odds are
+Q.squeeze_pct = Q.dissent < 0.45 ? Math.floor(100 * Q.squeeze_p) : 0;
+!}
+
+= The Coalition Is Squeezed
+
+The civil war is making the Bolsheviks stronger and every other party weaker. In the Council of People's Commissars there is talk of "merging" commissariats, and the Left SR ones are always the ones to be merged. The coalition will last the year only if Lenin still finds it useful.
+
+Chance that the coalition holds: [+ squeeze_pct +]%[? if dissent >= 0.45 :  (none while the party's dissent is 45% or more) ?]. It rises with relations with the Bolsheviks (now [+ sq_rb +]) and with soviet democracy, and with each joint measure carried out in 1918 ([+ coalition_record +] of 2). If it fails, the party is out of the government.
+
+- @squeeze_roll: Continue.
+
+@squeeze_roll
+on-arrival: {!
 Q.squeeze_ok = (Q.dissent < 0.45 && RO.chance(Q.squeeze_p)) ? 1 : 0;
 if (!Q.squeeze_ok) {
     Q.lsr_in_gov = 0;

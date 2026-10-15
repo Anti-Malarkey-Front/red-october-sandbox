@@ -4,7 +4,7 @@ subtitle: Back the peasants' land committees now, or hold the land for the Assem
 new-page: true
 is-card: true
 tags: party_affairs
-view-if: player_party = 'sr' and land_committees_timer <= 0 and land_decree = 0
+view-if: player_party = 'sr' and land_committees_timer <= 0 and land_decree = 0 and pol_land < 2
 on-arrival: month_actions += 1; land_committees_timer = 4
 
 In every volost the peasants have set up committees to take stock of the landowners' estates, and in some they have begun to divide them. Chernov wants the transfers regulated through the committees, in the interest of the whole village, and the final settlement left to the Assembly. The Kadets want nothing done at all. (Land pressure: [+ land_pressure : level +].)

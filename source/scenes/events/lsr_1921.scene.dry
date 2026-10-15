@@ -7,6 +7,7 @@ priority: 35
 max-visits: 1
 on-arrival: {!
 Q.lsr_still = Q.lsr_in_gov ? 1 : 0;
+Q.l21_rb = Math.floor(Q.rel_bol); Q.l21_sd = Math.floor(Q.soviet_democracy);
 !}
 go-to: l21_yes if lsr_still = 1; l21_choice if lsr_still = 0
 
@@ -31,8 +32,9 @@ The Bolsheviks have the cities and the army. They do not have the villages, and 
 - @quiet: Keep quiet, and wait for the arrests to pass.
 
 @villages
+subtitle: If Lenin agrees, the party is legal again, the villages elect their own soviets, and the Peasant Soviets ending is in reach.
 choose-if: legality >= 2 and peasant_organised >= 6 and rel_bol >= 38 and soviet_democracy >= 48 and lsr_rising = 0
-unavailable-subtitle: [? if lsr_rising = 1 : The Bolsheviks have not forgotten July 1918. ?][? if legality < 2 : The party is too persecuted to bargain. ?][? if peasant_organised < 6 : We have not organised enough of the peasant soviets. ?][? if rel_bol < 38 : The Bolsheviks do not trust us enough to listen. ?][? if soviet_democracy < 48 : The soviets no longer hold elections worth bargaining for. ?]
+unavailable-subtitle: [? if lsr_rising = 1 : The Bolsheviks have not forgotten July 1918. ?][? if legality < 2 : Needs a party at least tolerated (it is [+ legality : legality +]). ?][? if peasant_organised < 6 : Needs 6 peasant soviets organised (we have [+ peasant_organised : organised +]). ?][? if rel_bol < 38 : Needs relations with the Bolsheviks of 38 (they are [+ l21_rb +]). ?][? if soviet_democracy < 48 : Needs soviet democracy of 48 (it is [+ l21_sd +]). ?]
 on-arrival: {!
 Q.lsr_peasant_soviets = 1;
 if (Q.legality < 3) { Q.legality += 1; }
@@ -48,6 +50,7 @@ Spiridonova wrote to Lenin from her sanatorium, and the Central Committee sent K
 Lenin took the bargain, as he took the tax in kind: as a retreat, for as long as it was needed. The decree on the rural soviets was published in April. By the summer, Antonov's men had gone home, and the Left SRs held a majority in hundreds of volost soviets. The Cheka keeps a file on every one of them.
 
 @sailors
+subtitle: The party is banned and loses half its members; relations with the Bolsheviks -8.
 on-arrival: {!
 Q.legality = 0;
 Q.members -= Math.round(Q.members * 0.5);
