@@ -7,7 +7,7 @@ tags: coalition_affairs
 view-if: labor_affairs_timer <= 0
 on-arrival: month_actions += 1; labor_affairs_timer = 3
 
-The Ministry of Labour, in the Menshevik Skobelev's hands, handles the strikes that sweep every industrial city. Employers want order and the factory committees want control. The socialists are both the workers' parties and parties of government.
+[? if dix < 17 : The Ministry of Labour, in the Menshevik Skobelev's hands, handles the strikes that sweep every industrial city. ?][? if dix >= 17 and dix < 20 : The Ministry of Labour, now in the hands of the Menshevik Gvozdev, a metalworker who sat on the war industries committee, handles the strikes that sweep every industrial city. ?][? if dix >= 20 : The Ministry of Labour, in socialist hands since 1917, handles the lay-offs and the strikes of the Republic's industrial cities. ?][? if dix < 12 : The laundresses of Petrograd are out, and the Donbas mine owners are threatening a lockout. ?][? if dix >= 12 and dix < 20 : The autumn has brought the largest strikes of the year: the railwaymen, the Moscow leather workers, the textile mills of the Central Industrial Region. ?][? if dix >= 20 and dix < 48 : With the army being demobilised, the factories are cutting shifts and closing for want of fuel and orders. ?][? if dix >= 48 : Production is recovering slowly, and the workers want their share of the recovery before the employers have taken it. ?] Employers want order and the factory committees want control. The socialists are both the workers' parties and parties of government.
 
 - @arbitrate: Arbitrate the strikes through conciliation boards.
 - @committees: Legalise the factory committees and the eight-hour day.
@@ -22,7 +22,7 @@ RO.fac(Q, 'unions', 2, -1);
 RO.fac(Q, 'intl', 0, 1);
 !}
 
-Conciliation boards settled the worst strikes in Petrograd and the Urals. The employers are grateful. The factory committees are less so.
+[? if dix < 12 : Conciliation boards settled the laundresses' strike in Petrograd and the worst of the disputes in the Donbas. ?][? if dix >= 12 and dix < 20 : Conciliation boards settled the railwaymen's dispute and, at last, the long strike of the Moscow leather workers. ?][? if dix >= 20 : Conciliation boards settled the worst disputes over the lay-offs in Petrograd and the Urals. ?] The employers are grateful. The factory committees are less so.
 
 @committees
 
@@ -91,4 +91,4 @@ RO.fac(Q, 'intl', 0, 4);
 RO.fac(Q, 'defencist', 0, -1);
 !}
 
-Skobelev's circular forbade the committees from interfering with management. The Bolsheviks have printed it in full, with their own comments.
+[? if dix < 17 : Skobelev's circular forbade the committees from interfering with management. ?][? if dix >= 17 : Skobelev's old circular, reissued over his successor's signature, forbade the committees from interfering with management. ?] The Bolsheviks have printed it in full, with their own comments.

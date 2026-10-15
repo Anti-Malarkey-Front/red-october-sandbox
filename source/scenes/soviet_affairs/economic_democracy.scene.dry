@@ -7,7 +7,7 @@ tags: soviet_affairs
 view-if: economic_democracy_timer <= 0 and dix >= 28
 on-arrival: month_actions += 1; economic_democracy_timer = 3
 
-Since March 1918 the workers of Petrograd and Moscow have been electing delegates to assemblies of factory representatives, in which the Bolsheviks are a minority, and the Mensheviks, the SRs and the anarchists are not. The government has begun to close them.
+[? if dix < 36 : Since March 1918 the workers of Petrograd and Moscow have been electing delegates to assemblies of factory representatives, in which the Bolsheviks are a minority, and the Mensheviks, the SRs and the anarchists are not. The government has begun to close them. ?][? if dix >= 36 and dix < 52 : In June the government dispersed the Petrograd assembly of factory representatives and arrested its delegates on the eve of the general strike they had called. The movement survives in the workshops, without a hall to meet in. ?][? if dix >= 52 and dix < 72 : The assemblies are gone, but the idea is not. In March 1919 the Putilov works struck, and voted for free elections to the soviets and an equal ration for every worker, Communist or not. ?][? if dix >= 72 and dix < 96 : The Communists now call non-party conferences of factory delegates themselves, to hear the workers' mood. The delegates say more than they were expected to. ?][? if dix >= 96 : The Petrograd factories are electing delegates again, outside the soviets, to bargain over bread and the right to trade. The Cheka is taking their names. ?]
 
 - @support: Support the assemblies as the workers' own voice.
 - @rival: Make them a rival to the Bolshevik-controlled soviets.

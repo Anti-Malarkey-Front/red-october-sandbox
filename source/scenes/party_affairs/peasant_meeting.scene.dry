@@ -7,7 +7,7 @@ tags: party_affairs
 view-if: (player_party = 'sr' or player_party = 'lsr') and peasant_meeting_timer <= 0
 on-arrival: month_actions += 1; peasant_meeting_timer = 3
 
-The party's voice carries furthest in the villages and the barracks, where almost everyone who can vote has already decided that they are an SR[? if player_party = 'lsr' and lsr_split = 1 : , and must now be told which kind?]. What is the theme?
+[? if bol_regime = 0 and dix < 20 : The village assembly meets after church on Sunday, and the regimental committee meets whenever it likes. ?][? if bol_regime = 1 and dix < 36 : The soldiers are coming home from the front with their rifles, and the villages are sharing out the landlords' land by the number of mouths in each household. ?][? if bol_regime = 1 and dix >= 36 and dix < 96 : Between the requisition squads, the committees of the village poor and the Red Army's mobilisation, the village has learned to meet strangers with silence. ?][? if bol_regime = 1 and dix >= 96 and dix < 100 : From Tambov to western Siberia the villages are up in arms against the requisitions, and the meeting is held with sentries posted. ?][? if bol_regime = 1 and dix >= 100 and dix < 110 : The requisitions have given way to a tax in kind. The village wants to know how much it must give, and whether the collectors will believe what it says it has. ?][? if bol_regime = 1 and dix >= 110 : On the Volga the harvest has failed, and the tax in kind is collected from villages that are eating their seed grain. ?][? if bol_regime = 0 and dix >= 20 : Under the Republic the land committees sit in every volost, and the village assembly wants to know what they will decide. ?] The party's voice carries furthest in the villages and the barracks, where almost everyone who can vote has already decided that they are an SR[? if player_party = 'lsr' and lsr_split = 1 : , and must now be told which kind?]. What is the theme?
 
 - @land: Land and freedom: the land to those who work it.
 - @assembly: Wait for the Constituent Assembly, and trust it.
@@ -24,7 +24,7 @@ RO.fac(Q, 'intl', 0, -3);
 RO.fac(Q, 'rightdef', 0, 2);
 !}
 
-The assembly of the village listened in silence and then voted a resolution. The land, they said, is God's and the people's, and the landowner's claim is a bad joke.
+[? if bol_regime = 0 or dix < 36 : The assembly of the village listened in silence and then voted a resolution. The land, they said, is God's and the people's, and the landowner's claim is a bad joke. ?][? if bol_regime = 1 and dix >= 36 : The land is the village's already. What the assembly wanted to hear was who would keep the grain grown on it, and the answer it voted was: those who sowed it. ?]
 
 @assembly
 view-if: dix < 25
@@ -47,7 +47,7 @@ RO.fac(Q, 'intl', -1, 4);
 RO.add(Q, {rel_kad: 2, war_weariness: 1});
 !}
 
-The regiment cheered for Kerensky, and the revolution, and the cause of the Allies, in that order. They would like to go home.
+[? if bol_regime = 0 : The regiment cheered for Kerensky, and the revolution, and the cause of the Allies, in that order. They would like to go home. ?][? if bol_regime = 1 : The regiment cheered for the revolution and the Constituent Assembly, and asked when the demobilisation would reach them. ?]
 
 @peace
 view-if: at_war = 1
@@ -65,4 +65,4 @@ on-arrival: {!
 RO.boost(Q, {peasants: 3, soldiers: 1, middle: 1});
 !}
 
-We answered what we were asked: the price of salt, the horses requisitioned for the army, the soldiers' families' allowances.
+We answered what we were asked: [? if bol_regime = 0 : the price of salt, the horses requisitioned for the army, the soldiers' families' allowances. ?][? if bol_regime = 1 and dix < 96 : the grain quota, the price of salt and matches, the deserters hiding in the woods. ?][? if bol_regime = 1 and dix >= 96 and dix < 100 : the requisition quota, the seed grain for the spring, the news from Tambov. ?][? if bol_regime = 1 and dix >= 100 : the tax in kind, the seed grain, the famine on the Volga. ?]

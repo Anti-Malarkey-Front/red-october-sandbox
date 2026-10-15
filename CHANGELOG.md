@@ -61,6 +61,11 @@ Measured with the 21 balance rows and `persuader`, 300 games each with `SEED=500
 - Chances to break a camp by force are shown rounded down, so a camp shown at 45% is never left alone as "under 45%".
 - "One Party: The SRs never split" is no longer earned after a current walked out.
 
+### Changed: card variety (playtest round 3, B2)
+
+- Thirteen of the most repeated cards now read differently in each period: 1917, the first half of 1918, the Civil War, and 1921, under the Bolsheviks or the Republic, and by party where it matters. The cards are the Party Press, Party Unity, the Party Line, Reshuffle the Leadership, the Workers' Meeting, the Peasant and Soldier Meeting, the Soviet Election Campaign, the Ministry of Labour, Money and the Market, Union Independence, Factory Representatives, Cooperatives, and Prisoners and the Cheka. The new text draws on each period's newspapers (Novy Luch, Vsegda Vpered, Sotsialistichesky Vestnik), congresses, strikes, decrees and arrests. Option effects are unchanged. In cautious play, repeated cards that show the same text fell from 41-50% of plays to 23-26%; the share of draws that repeat a card already seen is unchanged (55-70%), since every eligible card has been seen by 1920.
+- The Party Press, Party Unity and the Workers' Meeting come back after six months instead of three, four and three. The Peasant and Soldier Meeting keeps its three months: at six, `lsr_villages` won 14% of games instead of 9%. All 21 balance rows stay within 3 points, measured with 300 games a row and the same seeds before and after, with the scenes sorted so that only the change differs. `lsr_coalition` and `lsr_villages` gain 3 points at 1,000 games.
+
 ## 2026-10-14
 
 ### Added

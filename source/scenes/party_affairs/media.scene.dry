@@ -5,9 +5,9 @@ new-page: true
 is-card: true
 tags: party_affairs
 view-if: media_timer <= 0
-on-arrival: month_actions += 1; media_timer = 3
+on-arrival: month_actions += 1; media_timer = 6
 
-[? if legality <= 1 : The censors read every line, and the print shop has been raided twice. ?][? if legality > 1 : The party press is the voice of the party. ?] [? if player_party = 'menshevik' and dix < 34 : Rabochaya Gazeta?][? if player_party = 'menshevik' and dix >= 34 : Vsegda Vpered?][? if player_party = 'sr' : Delo Naroda?][? if player_party = 'lsr' : Znamya Truda?] goes to press tomorrow. What is the main theme?
+[? if bol_regime = 0 and dix < 20 : Since March the presses of Petrograd have been free. Paper is the only thing in short supply: there are more newspapers than kiosks, and every regiment wants its own copy. ?][? if bol_regime = 1 and dix < 36 : In its first week the Military Revolutionary Committee closed the liberal papers, and the socialist ones followed. A paper that is shut reopens the next morning under a new name, and is shut again. ?][? if bol_regime = 1 and dix >= 36 and dix < 96 : The print shops are nationalised, newsprint is allotted by the Supreme Economic Council, and whatever slips through is tried by the Revolutionary Tribunal of the Press. ?][? if bol_regime = 1 and dix >= 96 and legality >= 2 : The party has a licence to publish again, which is more than it had last year, and a ration of newsprint, which is less than it needs. ?][? if bol_regime = 1 and dix >= 96 and dix < 100 and legality <= 1 : The winter has closed the factories for want of fuel, and the Cheka has closed the last printers who would set our type. ?][? if bol_regime = 1 and dix >= 100 and legality <= 1 : Since Kronstadt the arrests have taken the editors as well as the printers. What is not printed abroad is copied out by hand. ?][? if bol_regime = 0 and dix >= 20 and dix < 48 : The Republic has kept the freedom of the press that February won. It has not kept the price of paper, which is ten times what it was in 1914. ?][? if bol_regime = 0 and dix >= 48 : The press is free, and there is a great deal of it. A hundred papers carry the Republic's quarrels, and the readers are growing tired of them. ?] [? if legality <= 1 : The censors read every line, and the print shop has been raided twice. ?][? if player_party = 'menshevik' and bol_regime = 0 : Rabochaya Gazeta?][? if player_party = 'menshevik' and bol_regime = 1 and dix < 36 : Novy Luch?][? if player_party = 'menshevik' and bol_regime = 1 and dix >= 36 and (dix < 98 or legality >= 2) : Vsegda Vpered?][? if player_party = 'menshevik' and bol_regime = 1 and dix >= 98 and legality <= 1 : Sotsialistichesky Vestnik, which Martov now edits in Berlin and which crosses the border in suitcases,?][? if player_party = 'sr' : Delo Naroda?][? if player_party = 'lsr' and lsr_rising = 0 : Znamya Truda?][? if player_party = 'lsr' and lsr_rising = 1 : The party's sheet, set in secret since Znamya Truda was closed,?] goes to press tomorrow. What is the main theme?
 
 - @defence: Defence of the revolution.
 - @peace: Peace without annexations.
@@ -25,7 +25,7 @@ RO.fac(Q, 'defencist', 2, 0);
 RO.fac(Q, 'intl', 0, 2);
 !}
 
-The paper made the case that the revolution must be defended against the Kaiser first, and quarrel about the rest later.
+[? if bol_regime = 0 : The paper made the case that the revolution must be defended against the Kaiser first, and quarrel about the rest later. ?][? if bol_regime = 1 : The paper argued that a separate peace would hand the Ukraine and the Baltic to the Kaiser, and the revolution with them. The commissars called it the voice of the Entente. ?]
 
 @peace
 view-if: at_war = 1
@@ -35,7 +35,7 @@ RO.fac(Q, 'intl', 3, -2);
 RO.fac(Q, 'rightdef', -1, 3);
 !}
 
-The paper called for a general democratic peace, and for the socialists of Europe to meet at Stockholm.
+[? if bol_regime = 0 and dix < 20 : The paper called for a general democratic peace, and for the socialists of Europe to meet at Stockholm. ?][? if bol_regime = 1 : The paper called for a general peace, not a separate one signed at Brest-Litovsk by a government that nobody elected to sign it. ?][? if bol_regime = 0 and dix >= 20 : The paper called on the Allies to publish their war aims, and on the socialists of every country to hold their governments to a peace without annexations. ?]
 
 @bolsheviks
 view-if: player_party != 'lsr'
@@ -45,7 +45,7 @@ RO.add(Q, {bolshevik: -3, rel_bol: -4, rel_lsr: -1});
 RO.fac(Q, 'intl', 0, 3);
 !}
 
-A series of articles took apart the Bolshevik programme point by point. It was convincing to those who were already convinced.
+[? if bol_regime = 0 : A series of articles took apart the Bolshevik programme point by point. It was convincing to those who were already convinced. ?][? if bol_regime = 1 and dix < 36 : A series of articles set the decrees of the People's Commissars beside the promises of October. The issue was confiscated at the kiosks, and passed from hand to hand in the factories. ?][? if bol_regime = 1 and dix >= 36 and dix < 100 : A series of articles on the Cheka, the hostages and the requisition squads. The issue was seized, and the editor was called in for questioning and kept for a week. ?][? if bol_regime = 1 and dix >= 100 : The paper asked why a workers' state had turned its guns on the sailors of Kronstadt. Few copies reached Petrograd. All of them were read. ?]
 
 @assembly
 view-if: dix < 25
@@ -54,7 +54,7 @@ RO.boost(Q, {peasants: 3, middle: 2, nations: 1});
 RO.add(Q, {rel_ally: 2, land_pressure: -1});
 !}
 
-The Constituent Assembly will settle the land question, the form of the state and the war. The paper insisted that nothing should be settled before it.
+[? if dix < 20 : The Constituent Assembly will settle the land question, the form of the state and the war. The paper insisted that nothing should be settled before it. ?][? if dix >= 20 and bol_regime = 1 : The Assembly has been elected, and the socialist parties hold its majority. The paper insisted that it must meet, and that the soviets must bow to it. ?][? if dix >= 20 and bol_regime = 0 : The Assembly has been elected by the whole country, and the paper printed its first tasks in a box on the front page: the land, the peace, and the constitution of the Republic. ?]
 
 @land
 view-if: player_party = 'sr' or player_party = 'lsr'
@@ -64,7 +64,7 @@ RO.add(Q, {land_pressure: -1, rel_kad: -1});
 RO.fac(Q, 'intl', 0, -2);
 !}
 
-The paper printed the land programme in plain words, with a cartoon of a landlord's estate carved into plots. It is read aloud in the villages by the one literate man.
+[? if bol_regime = 0 : The paper printed the land programme in plain words, with a cartoon of a landlord's estate carved into plots. It is read aloud in the villages by the one literate man. ?][? if bol_regime = 1 and dix < 36 : The paper printed the party's land programme beside the Bolsheviks' decree on the land, which had borrowed it almost word for word, and asked who had written it first. ?][? if bol_regime = 1 and dix >= 36 and dix < 100 : The paper asked who owns the harvest: the peasant who sowed it, or the squad that comes to take it. It is read aloud in the villages, after the squad has gone. ?][? if bol_regime = 1 and dix >= 100 : The paper welcomed the tax in kind as the party's own demand, four years late, and asked when the peasants would be allowed to elect their own soviets to collect it. ?]
 
 @soviets
 on-arrival: {!
@@ -72,4 +72,4 @@ RO.boost(Q, {workers: 2, railway: 2, soldiers: 1});
 RO.add(Q, {soviet_democracy: 3, repression: -1});
 !}
 
-We wrote about the soviets as the foundation of Russian democracy, and warned that a one-party soviet would no longer be a soviet.
+[? if bol_regime = 0 : We wrote about the soviets as the foundation of Russian democracy, and warned that a one-party soviet would no longer be a soviet. ?][? if bol_regime = 1 and dix < 100 : We wrote that the soviets were elected to rule, not to be ruled by their executive committees, and asked when they would next be freely elected. ?][? if bol_regime = 1 and dix >= 100 : We wrote that the sailors of Kronstadt had asked for nothing but freely elected soviets, and had been answered with artillery across the ice. ?]

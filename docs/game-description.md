@@ -1587,8 +1587,8 @@ Each turn the player draws cards into a hand (three cards, four on Easy) and pla
   - Return card to hand.
 
 #### The Party Press
-- **Drawn:** any party, at any time. Cooldown 3 months.
-- **What it is:** the party's newspaper, whose main theme is chosen for tomorrow's issue. The paper's name depends on the party and the date.
+- **Drawn:** any party, at any time. Cooldown 6 months.
+- **What it is:** the party's newspaper, whose main theme is chosen for tomorrow's issue. The paper's name depends on the party, the date and the party's legal status, and the opening and most results change with the period (1917, early 1918, the Civil War, 1921; Bolshevik rule or the Republic).
 - **Options:**
   - *Defence of the revolution* (at war only): a boost among the middle classes, soldiers and workers, and the main line gains strength.
   - *Peace without annexations* (at war only): a strong boost among the soldiers and workers, and the left wing gains strength.
@@ -1655,7 +1655,7 @@ Each turn the player draws cards into a hand (three cards, four on Easy) and pla
   - Return card to hand.
 
 #### Party Unity
-- **Drawn:** any party, at any time. Cooldown 4 months.
+- **Drawn:** any party, at any time. Cooldown 6 months.
 - **What it is:** managing the quarrels between the party's currents.
 - **Options:**
   - *The left wing* (the intl current): its dissent falls sharply, and the main line's dissent rises a little.
@@ -1667,7 +1667,7 @@ Each turn the player draws cards into a hand (three cards, four on Easy) and pla
   - Return card to hand.
 
 #### Workers' Meeting
-- **Drawn:** Mensheviks only. Cooldown 3 months.
+- **Drawn:** Mensheviks only. Cooldown 6 months.
 - **What it is:** a meeting at a factory or a garrison. What happens depends on the state of the party. In 1917, if Bolshevik influence is 55 or more and the Bolsheviks do not rule, and the phase is early (up to January 1918), a Bolshevik crowd packs the hall. Under Bolshevik rule with repression at 30 or more, the Cheka turns up at the gate. Otherwise it is the main rally.
 - **Options, Bolshevik crowd:**
   - *Stay on the platform and argue it out* (free): the workers gain a little, the soldiers lose a little, Bolshevik influence falls a little, and the left wing gains strength.

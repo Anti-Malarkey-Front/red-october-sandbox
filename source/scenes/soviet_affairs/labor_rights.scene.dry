@@ -7,7 +7,7 @@ tags: soviet_affairs
 view-if: player_party = 'menshevik' and labor_rights_timer <= 0
 on-arrival: month_actions += 1; labor_rights_timer = 3
 
-Boris Batursky and the union men argue that unions must not become the state's instrument. The Bolsheviks say a workers' state needs no independent union to defend workers against it.
+Boris Batursky and the union men argue that unions must not become the state's instrument. The Bolsheviks say a workers' state needs no independent union to defend workers against it. [? if dix < 48 : The First Congress of Trade Unions voted in January to make the unions organs of the state power; the Mensheviks voted against. ?][? if dix >= 48 and dix < 78 : The Second Congress of Trade Unions has voted to merge the unions into the state. The Moscow printers, who elect Mensheviks, are the one large union that refuses. ?][? if dix >= 78 and dix < 96 : Trotsky wants labour armies and the militarisation of labour, and the Third Congress of Trade Unions has agreed. ?][? if dix >= 80 and dix < 96 : Since the Moscow printers met the British Labour delegation, their union has been put under a Communist board. ?][? if dix >= 96 : The question of the unions has split the Communist Party itself: Trotsky would make them departments of the state, the Workers' Opposition would hand them industry, and Lenin calls them schools of communism. None of them proposes that the unions be free. ?]
 
 - @petition: Petition for the union's independence through the Soviet.
 - @strike: Back a railway and printers' strike in defence of union rights.

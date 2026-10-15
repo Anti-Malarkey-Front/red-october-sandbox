@@ -7,7 +7,7 @@ tags: party_affairs
 view-if: campaigning_timer <= 0
 on-arrival: month_actions += 1; campaigning_timer = 3
 
-Soviets are re-elected often. A campaign costs money for printing, halls and travel. [? if resources < 1 : We have nothing to spend. ?]
+[? if bol_regime = 0 and dix < 20 : Soviets are re-elected often, sometimes every month, and a deputy who displeases his factory is recalled at the next meeting. ?][? if bol_regime = 1 and dix < 30 : The soviets were re-elected after October with the Bolsheviks counting the votes, but some factories still send back the deputies of other parties. ?][? if bol_regime = 1 and dix >= 30 and dix < 44 : The soviets are being re-elected one town at a time, and where the opposition wins, a detachment from Moscow is apt to arrive and dissolve the result. ?][? if bol_regime = 1 and dix >= 44 and dix < 96 : Elections are held by a show of hands, with the Communist cell's list read out first and the Cheka's man at the door. ?][? if bol_regime = 1 and dix >= 96 : The Moscow Soviet is re-elected this spring. The party's candidates will stand, those of them who are not already in prison. ?][? if bol_regime = 0 and dix >= 20 : Under the Republic the soviets compete with the elected town dumas and the zemstvos, and a campaign must be fought in both. ?] A campaign costs money for printing, halls and travel. [? if resources < 1 : We have nothing to spend. ?]
 
 - @factories: Campaign in the factories. (1 resource)
 - @garrisons: Campaign in the garrisons and at the front. (1 resource)
@@ -27,7 +27,7 @@ RO.boost(Q, {peasants: 7, soldiers: 2});
 RO.fac(Q, 'defencist', 1, 0);
 !}
 
-Speakers went out to the volost assemblies and the village gatherings. The peasants listen to the party that calls itself their own.
+[? if bol_regime = 0 or dix < 36 : Speakers went out to the volost assemblies and the village gatherings. The peasants listen to the party that calls itself their own. ?][? if bol_regime = 1 and dix >= 36 : Speakers went out to the volost assemblies by the back roads, past the posts of the requisition squads. The peasants listen to the party that calls itself their own, when nobody from the town is watching. ?]
 
 @speeches
 on-arrival: {!
@@ -45,7 +45,7 @@ RO.boost(Q, {workers: 6});
 RO.add(Q, {soviet_democracy: 1});
 !}
 
-Every shop floor that elects its deputies hears our speakers first.
+[? if bol_regime = 0 : Every shop floor that elects its deputies hears our speakers first. ?][? if bol_regime = 1 : Every shop floor that still votes heard our speakers first, before the Communist cell could read out its list. ?]
 
 @garrisons
 choose-if: resources >= 1 and bol_regime = 0

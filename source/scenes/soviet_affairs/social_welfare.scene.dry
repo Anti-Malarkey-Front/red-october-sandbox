@@ -7,7 +7,7 @@ tags: soviet_affairs
 view-if: social_welfare_timer <= 0
 on-arrival: month_actions += 1; social_welfare_timer = 4
 
-The consumer cooperatives are old, well-managed and run by our friends. They can move food that the state cannot, and the state would like to take them over.
+The consumer cooperatives are old, well-managed and run by our friends. They can move food that the state cannot, and the state would like to take them over. [? if dix < 52 : Their union, Tsentrosoyuz, still has its own board in Moscow and its own agents in London. ?][? if dix >= 52 and dix < 72 : Since the decree of March 1919 they are consumers' communes, with Communists added to every board. Their old managers still run them, because nobody else knows how. ?][? if dix >= 72 and dix < 100 : In January 1920 the Allies lifted the blockade for trade with the Russian cooperatives, and Moscow at once put its own men on their boards to do the trading. ?][? if dix >= 100 : Under the New Economic Policy they may buy and sell freely again, and the state wants them as its partners rather than its shops. ?]
 
 - @expand: Expand cooperative food distribution.
 - @credit: Support cooperative credit and the rural cooperatives.

@@ -7,7 +7,7 @@ tags: soviet_affairs
 view-if: judiciary_timer <= 0 and dix >= 26
 on-arrival: month_actions += 1; judiciary_timer = 3
 
-The Cheka was created in December 1917. Every month it arrests socialists of the other parties, sometimes dozens at a time. Our members are among them. (Repression: [+ repression : level +].)
+[? if dix < 40 : The Cheka was created in December 1917. Every month it arrests socialists of the other parties, sometimes dozens at a time. Our members are among them. ?][? if dix >= 40 and dix < 72 : Since the Red Terror was declared in September 1918, the Cheka has taken hostages and shot them by published lists. Socialists of every party are among those it holds, and our members among them. ?][? if dix >= 72 and dix < 96 : In January the death penalty was abolished, and in May it was restored. The camps of forced labour set up last year are filling with socialists, our members among them. ?][? if dix >= 96 : The Cheka is arresting socialists by the hundred: the Menshevik committees, the SR organisations, the anarchists. In the Butyrki the socialist prisoners have a wing of their own, and hold hunger strikes in it. ?] (Repression: [+ repression : level +].)
 
 - @public: Launch a public campaign for the prisoners.
 - @quiet: Use our contacts among the moderate Bolsheviks.
@@ -91,4 +91,4 @@ Q.foreign_pressure = (Q.foreign_pressure || 0) + 1;
 RO.fac(Q, 'bund', 1, -1);
 !}
 
-The International sent protests, and the British Labour Party offered to send a delegation. It is hard to shoot a man who is in the foreign press.
+[? if dix < 72 : The International sent protests, and the British Labour Party offered to send a delegation. ?][? if dix >= 72 and dix < 96 : The British Labour delegation asked to see the prisoners, and was shown some of them. ?][? if dix >= 96 : The socialist parties of Europe, of the old International and of the new union in Vienna, protested in every capital. ?] It is hard to shoot a man who is in the foreign press.
