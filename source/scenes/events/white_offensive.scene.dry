@@ -1,0 +1,58 @@
+title: The Whites March on Moscow
+subtitle: The Soviet Republic is in danger.
+new-page: true
+tags: event
+view-if: bol_regime = 1 and white_front >= 60 and dix >= 48 and dix < 66
+priority: 45
+max-visits: 1
+on-arrival: white_lever = 1
+
+= The Whites March on Moscow
+
+[? if dix < 52 : At Christmas Admiral Kolchak's Siberian Army took Perm, and the Red Third Army fell apart in the snow, losing half its men in three weeks. The road over the Urals to Vyatka and the Volga is open, and the British and Czech officers in Omsk speak of meeting the Archangel front by the summer. ?][? if dix >= 52 and dix < 56 : In March Admiral Kolchak's armies broke the Red front in the Urals and took Ufa. His advance guards are now within a hundred kilometres of the Volga, and Kazan and Samara are being evacuated. Kolchak's officers, who shot the Komuch deputies in Omsk in December, speak of watering their horses in the Volga by May. ?][? if dix >= 56 and dix < 58 : In May General Yudenich's North-Western Army crossed the Estonian border and marched on Petrograd, and in the south General Denikin's armies broke into the Donbass. Petrograd is under siege law, and its soviet is evacuating the factories. ?][? if dix >= 58 and dix < 60 : General Denikin's armies have broken the southern front and taken Kharkov and Tsaritsyn, and before Petrograd the forts of Krasnaya Gorka mutinied and went over to Yudenich. ?][? if dix >= 60 and dix < 62 : General Denikin's armies have taken Kharkov and Tsaritsyn, and on 3 July he ordered them to march on Moscow. The Volunteer Army moves north town by town. ?][? if dix >= 62 : General Denikin's armies have taken Kharkov and Tsaritsyn, and on 3 July he ordered them to march on Moscow. Mamontov's Cossacks are raiding far behind the Red lines, burning the soviets and hanging their chairmen, and the Volunteer Army moves north town by town. ?]
+
+The Soviet government has declared that the Republic is in danger. A White victory would mean the destruction of every labour organisation in Russia, the end of every socialist party, and the return of the landlords. Whatever our quarrels, [+ pname_the +] and the Bolsheviks have a common enemy. [? if armed_struggle = 1 : Some of our own people are still on the other side of that front; mobilising against the Whites would mean calling them home. ?]
+
+- @mobilise: Mobilise our members against the Whites.
+- @neutral: Stay neutral.
+- @prisoners: Support the defence, if our prisoners are released first.
+
+@mobilise
+subtitle: Lowers the White front. Members will be lost, and the party's right will be angry.
+on-arrival: {!
+Q.red_army += 6;
+Q.white_front = Math.max(0, Q.white_front - 3);
+// a party at war with the Bolsheviks calls its own army home and stops fighting the Red Army: the aid taken back
+// is what joining Komuch (2) and raising the People's Army (1.5) gave the Whites
+Q.white_recalled = Q.armed_struggle ? 1 : 0;
+if (Q.armed_struggle) { Q.white_aid = Math.max(0, Q.white_aid - 3.5); Q.armed_struggle = 0; }
+Q.defended = (Q.defended || 0) + 1;
+Q.members = Math.max(3, Q.members - 3 * Q.mem_scale);
+RO.add(Q, {rel_bol: 5, repression: -4, soviet_democracy: -1});
+RO.boost(Q, {workers: 2, soldiers: 3});
+RO.fac(Q, 'rightdef', 0, 4);
+RO.fac(Q, 'intl', 0, -2);
+!}
+
+The Central Committee called on every member who could hold a rifle to join the defence. [? if white_recalled = 1 : The party's people beyond the front were told to lay down their arms against the Red Army, and many of them crossed the lines. ?]Our members went to the front as commissars, clerks and riflemen, and some of them did not come back. The line held, for now. The Bolsheviks have noticed, and some of the arrests have stopped.
+
+@neutral
+on-arrival: {!
+RO.add(Q, {repression: 3, rel_bol: -4});
+RO.boost(Q, {middle: 2, workers: -2});
+RO.fac(Q, 'rightdef', 0, 3);
+RO.fac(Q, 'intl', 0, 3);
+!}
+
+We said that this was not our war. The crowds in the factory districts did not agree, and the Bolsheviks noted it.
+
+@prisoners
+on-arrival: {!
+Q.red_army += 3;
+Q.white_front = Math.max(0, Q.white_front - 2);
+RO.add(Q, {repression: -2, rel_bol: -2});
+RO.boost(Q, {workers: 1});
+Q.prisoner_deal = 1;
+!}
+
+We offered to take up arms against the Whites if our prisoners were freed. Some were, and some of our members went to the front. The rest are still in prison.

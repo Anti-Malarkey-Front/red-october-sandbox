@@ -92,7 +92,8 @@ Q.exile_low_members = risk && risk.reasons.some(function(r) { return /members/.t
 
 // 2. immediate endings
 if (!Q.game_end) {
-    if (Q.bol_regime && Q.white_front >= 72) {
+    // the White ending waits until the player has seen a White offensive event and its Red Army option (from 1919)
+    if (Q.bol_regime && Q.white_front >= 72 && (Q.white_lever || Q.dix < 48)) {
         Q.game_end = 1; Q.ending = 'white';
     } else if (Q.bol_regime && Q.legality <= 0 && Q.members <= 12 * Q.mem_scale) {
         Q.game_end = 1; Q.ending = 'exile';

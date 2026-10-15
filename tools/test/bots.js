@@ -72,6 +72,7 @@ var democrat = {
     october_line: [/Adopt Martov/],
     relegalised: [/Accept/],
     denikin: [/Mobilise/],
+    white_offensive: [/Mobilise/],
     labour_delegation: [/Speak openly/],
     congress_1920: [/Demand free/],
     kronstadt: [/Condemn/],
@@ -117,6 +118,8 @@ var whiteaid = {
     komuch: [/Join Komuch/],
     expelled: [/Go underground/, /Protest/],
     denikin: [/Stay neutral/],
+    // the White offensive of 1919 (front 60 or more): even this line takes the last lever before the Whites win
+    white_offensive: [/Mobilise/],
     domestic_enemies: [/neither side/]
   }),
   cards: ['reichsbanner', 'campaigning', 'media', 'treasury', 'rally', 'inter_party_relationships', 'fundraising', 'party_disunity', 'economic_democracy', 'labor_rights', 'social_welfare']
@@ -184,7 +187,8 @@ var breaker = {
 var sr_komuchbot = {
   choices: merge(merge(opposition.choices, srCommon), {
     february: [/Back Kerensky/], first_coalition: [/Chernov takes Agriculture/], october: [/Walk out/], vikzhel: [/Refuse/],
-    sr_komuch: [/Join Komuch, and raise/], sr_directory: [/Join the Directory/], kolchak: [/Fight on/], sr_ufa: [/Let the Ufa/], denikin: [/Stay neutral/], people_army: [/Raise the People/]
+    sr_komuch: [/Join Komuch, and raise/], sr_directory: [/Join the Directory/], kolchak: [/Fight on/], sr_ufa: [/Let the Ufa/], denikin: [/Stay neutral/], people_army: [/Raise the People/],
+    white_offensive: [/Mobilise/]
   }),
   cards: ['people_army', 'land_committees', 'peasant_congress', 'treasury', 'campaigning', 'peasant_meeting', 'media', 'inter_party_relationships', 'fundraising', 'volsky']
 };
@@ -192,7 +196,7 @@ var sr_peasant = {
   choices: merge(merge(opposition.choices, srCommon), {
     inter_party_relationships: [/moderate Bolsheviks/],
     february: [/Back Kerensky/], first_coalition: [/Chernov takes Agriculture/], october: [/Walk out/], vikzhel: [/Refuse/],
-    sr_komuch: [/Refuse/], sr_ufa: [/Adopt the Ufa/], denikin: [/Mobilise/], expelled: [/Pledge/]
+    sr_komuch: [/Refuse/], sr_ufa: [/Adopt the Ufa/], denikin: [/Mobilise/], white_offensive: [/Mobilise/], expelled: [/Pledge/]
   }),
   cards: ['peasant_congress', 'land_committees', 'inter_party_relationships', 'treasury', 'domestic_enemies', 'judiciary', 'campaigning', 'peasant_meeting', 'media', 'social_welfare', 'economic_democracy', 'fundraising', 'party_disunity', 'international_relations', 'gots', 'zenzinov']
 };
@@ -227,6 +231,7 @@ var lsrCommon = {
   expelled: [/Protest/],
   red_terror: [/Bargain/, /Condemn/],
   denikin: [/Mobilise/],
+  white_offensive: [/Mobilise/],
   kronstadt: [/Condemn/, /Stay silent/],
   nep: [/Demand political/, /Claim/]
 };

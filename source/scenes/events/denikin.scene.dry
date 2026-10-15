@@ -6,6 +6,7 @@ tags: event
 view-if: dix >= 66 and bol_regime = 1
 priority: 40
 max-visits: 1
+on-arrival: white_lever = 1
 
 = Denikin at Orel
 

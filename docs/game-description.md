@@ -480,7 +480,7 @@ Starting values are for the Mensheviks at normal difficulty. Rates are per month
 
 #### The Red Army
 
-- **Moves:** under the Bolsheviks, +1.2 a month while below 70, then no growth. Other changes come from events (Denikin, the Defend the Revolution card).
+- **Moves:** under the Bolsheviks, +1.2 a month while below 70, then no growth. Other changes come from events (The Whites March on Moscow, Denikin, the Defend the Revolution card).
 - **Affects:** the White front's target: `−0.5 × red_army`.
 
 #### The White front
@@ -504,7 +504,7 @@ Starting values are for the Mensheviks at normal difficulty. Rates are per month
 | 96 | January 1921 | 8 |
 | 200 | (end) | 5 |
 
-- **Affects:** the White ending (front at 72 or more, under the Bolsheviks). The `komuch_without_kolchak` achievement needs the front under 72 at the end. The sidebar shows the front by word, with a tick at 72: contained (under 15), on the offensive (under 35), wavering (under 55), advancing (under 65), near Moscow (under 72); from 60 it warns that the Whites are close. The options that add `white_aid` say "(raises the White front)". The front stat is shown only from `dix` 34 under the Bolsheviks.
+- **Affects:** the White ending (front at 72 or more, under the Bolsheviks, once the player has seen a White offensive event; see the exact rules). The `komuch_without_kolchak` achievement needs the front under 72 at the end. The sidebar shows the front by word, with a tick at 72: contained (under 15), on the offensive (under 35), wavering (under 55), advancing (under 65), near Moscow (under 72); from 60 it warns that the Whites are close. The options that add `white_aid` say "(raises the White front)". The front stat is shown only from `dix` 34 under the Bolsheviks.
 - `white_aid` (raised by joining Komuch, the People's Army and the Directory; lowered by refusing them) raises the target by 8 for each point. At the peak of 85, with no Red Army and no aid, the front takes several months to pass 72.
 
 ### Alliances
@@ -1325,6 +1325,15 @@ After October 1917 the game runs on one of two timelines. Each event below says 
   - *No peasant programme.* Without the organisation or the contact with the Bolsheviks, the party cannot say so; the peasants rise by themselves and are shot by themselves.
 - Why it matters: the same flags as the Menshevik programme (nep_early and the NEP's later text) are set here.
 
+### The Whites March on Moscow (1919)
+- File: `white_offensive`; Who sees: all parties, under the Bolshevik regime, from January to September 1919 (`dix` 48 to 65), the first time the White front is 60 or more; once. Priority 45. Sets `white_lever`.
+- What happens: the text follows the date: Kolchak takes Perm (January and February), Kolchak's spring offensive takes Ufa and nears the Volga (March and April), Yudenich marches on Petrograd and Denikin enters the Donbass (May), Denikin takes Kharkov and Tsaritsyn and Krasnaya Gorka mutinies (June), the Moscow Directive (July), and Mamontov's raid (from August). The Republic is declared in danger; the party and the Bolsheviks have a common enemy.
+- Choices:
+  - *Mobilise our members against the Whites.* No requirement. Six red army units are added and the front falls by 3 at once. A party still at war with the Bolsheviks (`armed_struggle`) calls its army home: White aid falls by 3.5 (what joining Komuch and raising the People's Army gave) and armed struggle ends. Members fall by 3 × `mem_scale`; Bolshevik relations rise by 5, repression falls by 4, soviet democracy by 1; workers and soldiers support rise; the Right Defencists become more restless and the internationalists calmer. The defended counter rises.
+  - *Stay neutral.* No requirement. Repression rises by 3 and Bolshevik relations fall by 4. Middle support rises and workers fall; the Right Defencists and internationalists become more restless.
+  - *Support the defence, if our prisoners are released first.* No requirement. Three red army units are added and the front falls by 2; repression falls by 2 and Bolshevik relations by 2. Workers support rises. Sets prisoner_deal.
+- Why it matters: it is the lever against the White ending before Denikin's October offensive; the White ending waits until the player has seen it or Denikin at Orel.
+
 ### Denikin at Orel (October 1919)
 - File: `denikin`; Who sees: all parties, under the Bolshevik regime, from October 1919; once.
 - What happens: in October Denikin's Volunteer Army takes Orel, 380 kilometres from Moscow. In the north Yudenich stands twenty kilometres from Petrograd. The government declares the Socialist Fatherland in danger and calls for every worker who can hold a rifle. A Denikin victory would destroy every labour organisation and every socialist party and return the landlords; the party and the Bolsheviks have a common enemy.
@@ -1332,7 +1341,7 @@ After October 1917 the game runs on one of two timelines. Each event below says 
   - *Mobilise our members for the Red Army.* No requirement. Eight red army units are added; the party is defended (defended counter rises). Bolshevik relations rise by 6 and repression falls by 5; soviet democracy falls by 1; workers and soldiers support rise; the Right Defencists become more restless. Legality rises by 1 if it is below 3. Hundreds enlist, the Cheka releases many arrested comrades, and some delegates are readmitted to the soviets.
   - *Stay neutral.* No requirement. Repression rises by 3 and Bolshevik relations fall by 4. Middle support rises and workers fall; the Right Defencists and internationalists become more restless. The crowds in the factory districts disagree with the choice.
   - *Demand the release of our prisoners first.* No requirement. Three red army units are added; repression falls by 2 and Bolshevik relations fall by 2. Workers support rises. Sets prisoner_deal. Many prisoners are freed, the rest are not.
-- Why it matters: the mobilise choice raises legality and the defended counter; the prisoner deal is recorded (prisoner_deal).
+- Why it matters: the mobilise choice raises legality and the defended counter; the prisoner deal is recorded (prisoner_deal). Seeing the event sets `white_lever`, which the White ending waits for.
 
 ### The Ufa Delegation (October 1919)
 - File: `sr_ufa`; Who sees: SRs only, under the Bolshevik regime, from October 1919; once.
@@ -2042,7 +2051,7 @@ A game ends in December 1921, or earlier if the party is crushed. There are twel
 
 - **Kornilov's Russia** (*a loss*, September 1917). Kornilov's cavalry enters Petrograd, the Soviet is dissolved, and the revolution of February ends in the barracks. Comes when Kornilov's force beats the resistance in the Kornilov Affair. Historians think his march was doomed; in the game it is a close thing.
 - **The Generals' Republic** (*a loss*, from autumn 1918, only if the Bolsheviks never took power). The officers find the republic's hold on the army weak, send the Assembly home and dissolve the soviets. Comes from the generals' plot, a lost landowners' rising or a successful generals' march, when the threat from the Right is too high.
-- **White Russia** (*a loss*, during the Civil War). The Whites reach Moscow; the soviets are dissolved, the workers' organisations banned, and the socialist leaders share the officers' prisons with the Bolsheviks. Comes when the White front reaches 72.
+- **White Russia** (*a loss*, during the Civil War). The Whites reach Moscow; the soviets are dissolved, the workers' organisations banned, and the socialist leaders share the officers' prisons with the Bolsheviks. Comes when the White front reaches 72, never before the player has been offered The Whites March on Moscow or Denikin at Orel.
 
 ### Historical: the party dissolved or driven abroad, as in our world
 
@@ -2066,7 +2075,7 @@ At the end of every game, the **recap** shows the run as a chart and lists the p
 #### When an ending is decided
 
 1. **Immediate endings** (in `post_event`, on every visit, if the game has not ended):
-   - `white`: the Bolsheviks rule and the White front is 72 or more.
+   - `white`: the Bolsheviks rule and the White front is 72 or more, and, from January 1919 (`dix` 48), `white_lever` is set: the player has seen The Whites March on Moscow or Denikin at Orel, whose Red Army options are the last levers. On the turn the front first passes 72 without it, the ending waits for that turn's events; because `post_event` runs again after every event, the ending then comes straight after the event if the choice left the front at 72 or more.
    - `exile`: the Bolsheviks rule, legality is 0 or lower, and members are 12 × `mem_scale` or fewer. This applies on any difficulty.
    - `final`: the year is 1922 or later. (December 1921 sets `final` when the month completes.)
 2. **The `final` ending** is resolved in `game_over`, as follows:
