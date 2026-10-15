@@ -10,7 +10,7 @@ on-arrival: month_actions += 1; fundraising_timer = 4
 Dues are the party's lifeblood. They are paid in kopecks, in factories and in unions, and not always on time.
 
 - @dues: Ordinary dues. [? if dues_income <= 1 : (Brings in 1 resource.) ?][? if dues_income > 1 : (Brings in [+ dues_income +] resources.) ?]
-- @appeal: A special appeal to the members. (More money, but some members will drift away.)
+- @appeal: A special appeal to the members. (Half as much again, but one member in twenty will drift away.)
 - @coops: Ask the cooperatives and the unions for support.
 - @easy_discard
 
@@ -24,8 +24,8 @@ The collectors made their rounds. The money arrives slowly, but it arrives.
 @appeal
 on-arrival: {!
 Q.resources += Math.max(2, Math.round(Q.dues_income * 1.5));
-// asking too much costs members, and patience in every current
-Q.members = Math.max(3, Q.members - 2 * Q.mem_scale);
+// asking too much costs members (a twentieth of them), and patience in every current
+Q.members = Math.max(3, Q.members - Math.max(2 * Q.mem_scale, 0.05 * Q.members));
 RO.fac(Q, 'unions', 0, 5);
 RO.fac(Q, 'intl', 0, 5);
 RO.fac(Q, 'defencist', 0, 3);

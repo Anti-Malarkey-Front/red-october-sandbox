@@ -9,9 +9,10 @@ on-arrival: {!
 Q.month_actions += 1;
 Q.treasury_timer = 3;
 Q.treasury_shown = Math.round(Q.resources);
+Q.treasury_decay = Math.max(1, Math.round(0.07 * (Q.resources - 15)));
 !}
 
-The party's treasurer has come to the Central Committee with the accounts. The dues have come in month after month, and most of the money is still in the bank, or in a cashbox in somebody's flat, where it does the party no good. [? if bol_regime = 1 : Money that sits still in Soviet Russia is money that the Cheka will find. ?][? if bol_regime = 0 : Money that sits still is losing its value with the ruble. ?] The party has [+ treasury_shown +] in hand.
+The party's treasurer has come to the Central Committee with the accounts. The dues have come in month after month, and most of the money is still in the bank, or in a cashbox in somebody's flat, where it does the party no good. [? if bol_regime = 1 : Money that sits still in Soviet Russia is money that the Cheka will find. ?][? if bol_regime = 0 : Money that sits still is losing its value with the ruble. ?] The party has [+ treasury_shown +] in hand, and [? if treasury_decay <= 1 : about 1 ?][? if treasury_decay > 1 : about [+ treasury_decay +] ?] of it is lost every month: seven in every hundred above the first 15.
 
 - @coops: Fund the consumer cooperatives' grain purchases. (10 resources)
 - @organisers: Pay full-time organisers for every current in the party. (10 resources)

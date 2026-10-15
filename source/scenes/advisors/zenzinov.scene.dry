@@ -22,8 +22,8 @@ Zenzinov (1880-1953) is a member of the Central Committee and the party's organi
 @action
 title: Party Machine
 subtitle: Zenzinov builds the party's organisation and its membership. Support among peasants +2, workers +1; +50,000 members; the Right Centre: strength +1, dissent −4.
-choose-if: advisor_action_timer <= 0
-unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?]
+choose-if: advisor_action_timer <= 0 and mem_full = 0
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?][? if mem_full = 1 : The party already has about as many members as its committees can organise. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

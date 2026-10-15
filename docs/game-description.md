@@ -225,6 +225,8 @@ Hard and Easy change the starting resources and dissent (see Difficulty). Income
 
 Resources have no ceiling and cannot fall below 0. They are spent with `RO.pay`, which returns false if the party cannot afford the cost. They rise with dues, the Party Dues card and some events, and fall with the costs of cards and laws (the Party Treasury card spends 10 to 20 at a time).
 
+Idle money loses its value: each turn, after the dues, 7% of the stock above 15 (times `tl`) goes into an accumulator (`res_decay_acc`), and whole units are taken from resources. A party with 45 loses about 2 a month; one with 15 or less loses nothing. The Party Treasury card names the monthly loss.
+
 Resources also count in the party's strength (see Opposition): `2 × min(resources, 5)`. A failed attempt to break a camp costs 1 resource, and a law carried out "slowly" costs 1.
 
 #### Dues
@@ -237,13 +239,15 @@ Each turn the party adds `dues_income × 0.25 × tl` to an accumulator, and whol
 
 Membership changes every turn by:
 
-`Δmembers = tl × mem_scale × ( g − (3 − legality) × 1.5 − repression / 25 )`
+`Δmembers = tl × ( mem_scale × ( g − (3 − legality) × 1.5 − repression / 15 ) − loss × members )`
 
 - `g` is `0.7 × (player_poll − poll_neutral)` when that is positive, multiplied by a factor for legality: 0.1 (banned), 0.3 (expelled), 0.7 (tolerated), 1 (legal).
 - When `g` is negative (the poll is below the neutral point), it is not scaled by legality.
+- `loss` is the share of the membership lost each month to arrests, conscription and fear: 0 (legal), 1% (tolerated), 2.5% (expelled), 5% (banned). It is what makes a large persecuted party shrink: a banned party of 300,000 loses about 15,000 a month on top of the fixed drain, and usually reaches the exile floor (12,000 × `mem_scale`, an immediate ending) in its third year underground.
+- `mem_full` is 1 while members are at 90% of the cap or more. The advisors' recruiting drives (Broido, Zenzinov, Proshian) are unavailable then.
 - Members are kept between 3 (thousand) and the cap. The cap is clamped in `clampStats`, and the sidebar shows "at its limit" when the cap is reached.
 
-Examples: a legal Menshevik polling 20% gains `0.7 × 11 = 7.7` thousand a month. A banned party at 0% with no repression loses `6.3 + 4.5 = 10.8` thousand a month.
+Examples: a legal Menshevik polling 20% gains `0.7 × 11 = 7.7` thousand a month. A banned party at 0% with no repression and 100,000 members loses `6.3 + 4.5 + 5 = 15.8` thousand a month.
 
 `player_poll` is the share in the current arena (see Support and elections).
 
@@ -255,6 +259,7 @@ Status is an integer from 0 to 3 (`legality`). The sidebar names it `banned`, `e
 |---|---|---|---|---|
 | Membership gain, when positive | ×1 | ×0.7 | ×0.3 | ×0.1 |
 | Membership drain per month | 0 | 1.5 | 3.0 | 4.5 |
+| Share of members lost per month | 0 | 1% | 2.5% | 5% |
 | Dues collected | 100% | 100% | 100% | 25% |
 | Campaign boosts | full | full | ×0.6 | ×0.6 |
 | Repression growth under the Bolsheviks | +0.3/mo | +0.3/mo | +0.6/mo | +0.6/mo |
@@ -468,7 +473,7 @@ Starting values are for the Mensheviks at normal difficulty. Rates are per month
 - **Moves:** under the Bolsheviks, +0.6 a month if legality is 1 or lower, otherwise +0.3. The Cabinet's order and food settings move it. A squash win adds 1 repression (against the Kadets) or 2 (against the Bolsheviks). It has no natural decay; only cards, events and advisors bring it down.
 - **Affects:**
   - Menshevik and SR shares: `(1 − 0.4 × repression/100)`. Left SR share: `(1 − 0.3 × repression/100)`.
-  - Membership drain: `repression / 25` a turn, multiplied by `tl`.
+  - Membership drain: `repression / 15` a month (scaled by `mem_scale`), multiplied by `tl`.
   - Soviet democracy under the Bolsheviks, through its drift.
   - The "soviet democracy" ending needs repression of 40 or less.
 - The sidebar shows it only above 4.
@@ -1546,7 +1551,7 @@ Each turn the player draws cards into a hand (three cards, four on Easy) and pla
 - **What it is:** collecting the party's dues and keeping the press going.
 - **Options:**
   - *Ordinary dues*: the party collects its dues income, which is smaller when membership is low.
-  - *A special appeal*: brings in more money (about one and a half times the dues, and at least 2), but costs members, and the unions, the left wing and the main line become more discontented.
+  - *A special appeal*: brings in more money (about one and a half times the dues, and at least 2), but costs one member in twenty (at least 2,000, scaled), and the unions, the left wing and the main line become more discontented.
   - *Ask the cooperatives and the unions for support* (needs unions strength of 5 or more): +2 resources, the unions gain strength, and bread and the ruble rise a little.
   - Return card to hand.
 
@@ -1738,7 +1743,7 @@ Each turn the player draws cards into a hand (three cards, four on Easy) and pla
 
 #### The Party Treasury
 - **Drawn:** any party, once the party has at least 10 resources. Cooldown 3 months.
-- **What it is:** the party's money, which has been sitting in the bank.
+- **What it is:** the party's money, which has been sitting in the bank. The text names how much of it is lost each month (7% of the stock above 15; see Resources).
 - **Options:**
   - *Fund the consumer cooperatives' grain purchases* (10 resources; the party must be legal): bread and the ruble rise, the peasants and workers gain, and the unions gain strength.
   - *Pay full-time organisers for every current* (10 resources): every current's dissent falls, and membership rises.
@@ -1974,7 +1979,7 @@ The Mensheviks' currents are the Revolutionary Defencists (defencist, the main l
 | Pavel Axelrod | Organisers (unions) | The Martov Returns event, from the second half of May 1917 (he came on Martov's train) | First half of October 1917 (the fixed date), when he leaves for Stockholm | Western Socialist Network: soviet democracy rises a little, repression falls a little, +2 resources, and foreign pressure rises. |
 | Raphael Abramovich | Bund | Start | First half of November 1920 (the fixed date). Also removed by the Wrangel Leaves Crimea event, from the same date under Bolshevik rule | Bridge-Builder: every current's dissent falls by 6. |
 | Mikhail Liber | Bund | Start | No date; no event removes him | Jewish Workers' Link: the nationalities and workers gain, and the Bund gains strength with less dissent. |
-| Eva Broido | Internationalists (intl) | The Menshevik Unity Congress event (from the second half of September 1917) | No date; no event removes her | Party Secretary: membership rises by 8 (scaled), the workers and middle classes gain, and the left wing gains a little strength. |
+| Eva Broido | Internationalists (intl) | The Menshevik Unity Congress event (from the second half of September 1917) | No date; no event removes her | Party Secretary (not while members are at 90% of the cap): membership rises by 8 (scaled), the workers and middle classes gain, and the left wing gains a little strength. |
 | Lidia Dan | Internationalists (intl) | Start | First half of August 1921, in The Arrests of 1921 | Family Bridge: the left wing's dissent falls a lot, and the main line's dissent falls a little. |
 | Nikolai Sukhanov | Internationalists (intl) | Start | No date; no event removes him | Insider Chronicler: adds one to the party's insight counter, and the Left SR and Bolshevik relations rise a little. |
 | Boris Batursky | Organisers (unions) | Start | First half of August 1921, in The Arrests of 1921 | Independent Unions: the workers and railway workers gain, the unions gain strength, and repression rises a little. |
@@ -1991,7 +1996,7 @@ The SRs' currents are the Centre under Chernov (defencist, the main line), the L
 | Nikolai Avksentiev | Right SRs (rightdef) | Start | First half of November 1918, in Kolchak's Coup (from that date under Bolshevik rule) | Order and Republic: the right threat falls, Kadet relations rise, soviet democracy falls a little, the right wing gains strength, and the left wing's dissent rises. |
 | Ekaterina Breshko-Breshkovskaya | Right SRs (rightdef) | Start | First half of December 1918 (the fixed date) | Founding Prestige: the peasants, soldiers and middle classes gain, and the right wing gains a little strength with less dissent. |
 | Abram Gots | Right Centre (unions) | Start | First half of June 1920 (the fixed date) | Soviet Majority: partner relations +6, soviet democracy rises, the workers, soldiers and railway workers gain, and the unions gain a little strength. |
-| Vladimir Zenzinov | Right Centre (unions) | Start | First half of November 1918, in Kolchak's Coup | Party Machine: membership rises by 20 (scaled), the peasants and workers gain, and the unions gain strength with less dissent. |
+| Vladimir Zenzinov | Right Centre (unions) | Start | First half of November 1918, in Kolchak's Coup | Party Machine (not while members are at 90% of the cap): membership rises by 20 (scaled), the peasants and workers gain, and the unions gain strength with less dissent. |
 | Vladimir Volsky | Ufa delegation (bund) | The Komuch event, from the second half of May 1918 (dix 33), for an SR player under Bolshevik rule | No date; no event removes him | Two actions, both under Bolshevik rule. *Komuch*: he sets up an armed government on the Volga, which starts the armed struggle, brings foreign aid to the Whites, and angers the Bolsheviks; the peasants and middle classes gain. *Compromise*: Bolshevik relations rise sharply, repression falls a little, the Bund gains strength, and the right wing's dissent rises a lot. |
 
 ### Left SRs (7)
@@ -2005,7 +2010,7 @@ The Left SRs' currents are the leadership of Kamkov and Spiridonova (defencist, 
 | Mark Natanson | Pro-coalition Left SRs (rightdef) | Start | First half of April 1919 (the fixed date) | Elder's Authority: every current's dissent falls by 6, and the right wing gains a little strength. |
 | Isaac Steinberg | Pro-coalition Left SRs (rightdef) | The Vikzhel Talks event, from December 1917 (dix 21), under Bolshevik rule if the Left SRs enter the government; or the Seven Commissars event, from December 1917 (dix 22), for a Left SR player after the split | First half of July 1918, in The German Ambassador (from that date, Left SR player under Bolshevik rule) | Revolutionary Legality (only while the Left SRs are in the government): repression falls sharply, soviet democracy rises, Bolshevik relations fall a little, and the right wing gains a little strength. |
 | Andrei Kolegaev | Pro-coalition Left SRs (rightdef) | The Vikzhel Talks event or the Seven Commissars event (as Steinberg) | First half of July 1918, in The German Ambassador | Land Decree (only while the Left SRs are in the government): land pressure falls sharply, the peasants gain, and the unions gain a little strength. |
-| Prosh Proshian | Village organisers (unions) | The Vikzhel Talks event or the Seven Commissars event (as Steinberg) | First half of July 1918, in The German Ambassador | Telegraph Lines (only while the Left SRs are in the government): adds one to the insight counter, membership rises by 10 (scaled), the workers and railway workers gain, and the unions gain a little strength. |
+| Prosh Proshian | Village organisers (unions) | The Vikzhel Talks event or the Seven Commissars event (as Steinberg) | First half of July 1918, in The German Ambassador | Telegraph Lines (only while the Left SRs are in the government, and not while members are at 90% of the cap): adds one to the insight counter, membership rises by 10 (scaled), the workers and railway workers gain, and the unions gain a little strength. |
 | Pyotr Aleksandrovich | Pro-coalition Left SRs (rightdef) | Seats on the Cheka's Board, from January 1918 (dix 24), when the Left SRs take their seats | First half of July 1918, in The German Ambassador | Inside the Cheka (only while the Left SRs are in the government): repression and Bolshevik relations fall a little, the right wing gains a little strength, and a shield against arrests is set. |
 
 ### Shared advisors (lent)
@@ -2165,7 +2170,7 @@ What the numbers say about playing:
 - **Before October is where the game is won or lost.** Preventing the Bolshevik rising (by giving the land, peace and bread before November 1917, through a government of the Soviet parties, and by holding the Left SRs close) opens the Constituent Republic and the all-socialist government; a Bolshevik takeover leaves only the long road of the legal opposition.
 - **Armed struggle is a road to the Whites.** Joining Komuch, and the Directory after it, ends in Kolchak's dictatorship more often than in the Assembly.
 - **Legality is the Mensheviks' lifeline.** Under the Bolsheviks, keep it above "expelled" by the end of 1921: accept readmission to the soviets, stand with the Red Army when the Whites near Moscow, and keep repression down. The sidebar warns when the party is heading for exile.
-- **Money accumulates.** Resources pile up over the years: spend them through the Party Treasury card on cooperatives, organisers, the press, strike funds, prisoners' relief and famine relief.
+- **Money does not keep.** Above 15, resources lose 7% a month: spend them through the Party Treasury card on cooperatives, organisers, the press, strike funds, prisoners' relief and famine relief.
 
 ## Presentation
 

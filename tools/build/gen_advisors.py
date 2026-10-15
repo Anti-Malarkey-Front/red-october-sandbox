@@ -426,6 +426,10 @@ def write_advisor(aid, title, tag, flag, bio, party, actions):
               '[? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?]')
         if cond:
             un += '[? if not (' + cond + ') : ' + unavail + ' ?]'
+        # a recruiting drive is offered only while the party is below nine tenths of the size it can organise
+        if 'Q.members +=' in js:
+            choose += ' and mem_full = 0'
+            un += '[? if mem_full = 1 : The party already has about as many members as its committees can organise. ?]'
         own, eff = effects(aid, party, js)
         sid = 'action' if i == 0 else 'action%d' % (i + 1)
         acts += '- @%s\n' % sid

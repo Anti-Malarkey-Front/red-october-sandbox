@@ -6,6 +6,15 @@ This changelog covers the Red October fork only and follows the format of [Keep 
 
 The fixes from the third playtest round (`docs/reports/playtest-round-3.md`) that do not touch the balance, checked by playing every balance row 300 times with the same seeds before and after (all within noise). The Denikin timing (M15) and war weariness in a republic at peace (M16) wait for bot measurements, and so does the other half of M3: closing Land Committees, Agricultural Policy and Chernov's land event once the Cabinet has socialised the land raised the `socializer` and `breaker` strategies from 36% and 40% wins to 47% and 51%, so it was left out.
 
+### Changed (party economy: round 3 B3, B4, B11)
+
+Measured with the 21 balance rows and `persuader`, 300 games each with `SEED=5000`, before and after; every win rate moved by less than 3 points except `sr_peasant` (31% to 26%) and `lsr_coalition` (52% to 47%), which at 1,000 games are 29.4% to 28.1% and 51.5% to 51.3%, so noise. The resources the bots hold at the end fell from 60–86 to 20–32, and from 45 to 20 in the fuzz mean.
+
+- A persecuted party loses a share of its members every month, to arrests, conscription and fear: 1% when tolerated, 2.5% when expelled, 5% when banned, and the repression drain is `repression / 15` (was `/ 25`). A banned party used to end the game with 40–50% of its membership limit; it now ends with about a tenth, and a party banned from 1918 reaches the exile floor (an immediate ending) in 1921. Exile and the historical endings come about as often as before (Menshevik exile 68% to 70% at 1,000 games), but earlier.
+- Money that sits idle loses its value: 7% a month of the stock above 15. The Party Treasury card, which already said so, now names the monthly loss.
+- The advisors' recruiting drives (Broido's Party Secretary, Zenzinov's Party Machine, Proshian's Telegraph Lines) are unavailable while the party is at 90% of its membership limit or more.
+- The special dues appeal costs one member in twenty (it cost 2,000, scaled, which was nothing at the limit), so it is a trade against ordinary dues and no longer always better.
+
 ### Added
 
 - The White front bar has a tick at 72, where the Whites take Moscow and the game is lost, and new words to match (advancing from 55, near Moscow from 65); from 60 the sidebar warns that the Whites are close. The nine options that add foreign aid to the Whites say "(raises the White front)", and so does Volsky's card.

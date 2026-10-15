@@ -22,8 +22,8 @@ Proshian (1883-1918), a Left SR, is a telegraph man, with a network of operators
 @action
 title: Telegraph Lines
 subtitle: Proshian's telegraph network carries news and the party's organisation. Support among workers +1, railwaymen +2; +8,000 members; the village organisers: strength +1, dissent −2; better intelligence for the Vikzhel talks on an all-socialist government (November 1917).
-choose-if: advisor_action_timer <= 0 and lsr_in_gov = 1
-unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?][? if not (lsr_in_gov = 1) : We are not in the government. ?]
+choose-if: advisor_action_timer <= 0 and lsr_in_gov = 1 and mem_full = 0
+unavailable-subtitle: [? if advisor_action_timer > 1 : [+ advisor_wait +] months before the next advisor action. ?][? if advisor_action_timer > 0 and advisor_action_timer <= 1 : One month before the next advisor action. ?][? if not (lsr_in_gov = 1) : We are not in the government. ?][? if mem_full = 1 : The party already has about as many members as its committees can organise. ?]
 on-arrival: {!
 Q.advisor_action_timer = 6;
 Q.last_advisor_action = 1;

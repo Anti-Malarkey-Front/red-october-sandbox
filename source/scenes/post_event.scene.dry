@@ -55,10 +55,15 @@ if (Q.month_actions >= 1) {
     RO.clampStats(Q);
     RO.updatePolls(Q);
     // a persecuted party recruits little, and a banned one hardly at all, however popular it is
+    var leg = Math.max(0, Math.min(3, Math.round(Q.legality)));
     var mem_gain = 0.7 * (Q.player_poll - (Q.poll_neutral || 9));
-    if (mem_gain > 0) { mem_gain *= [0.1, 0.3, 0.7, 1][Math.max(0, Math.min(3, Math.round(Q.legality)))]; }
-    Q.members += Q.turn_length * Q.mem_scale * (mem_gain - (3 - Q.legality) * 1.5 - Q.repression / 25);
+    if (mem_gain > 0) { mem_gain *= [0.1, 0.3, 0.7, 1][leg]; }
+    // and it loses a share of what it has every month, to arrests, conscription and fear
+    var mem_loss = [0.05, 0.025, 0.01, 0][leg] * Q.members;
+    Q.members += Q.turn_length * (Q.mem_scale * (mem_gain - (3 - leg) * 1.5 - Q.repression / 15) - mem_loss);
     if (Q.members < 3) { Q.members = 3; }
+    // the advisors' recruiting drives are pointless once the party is close to the size it can organise
+    Q.mem_full = Q.members >= 0.9 * Q.mem_cap ? 1 : 0;
     Q.dues_income = Math.max(1, Math.round(Q.members / Q.mem_div));
     // dues come in every month, a quarter of a collection at a time (the Party Dues card is a collection on top of it);
     // a banned party collects almost nothing
@@ -66,6 +71,14 @@ if (Q.month_actions >= 1) {
     var dues_whole = Math.floor(Q.dues_acc);
     Q.resources += dues_whole;
     Q.dues_acc -= dues_whole;
+    // money that sits still loses its value with the ruble, or is found by the Cheka: a share of the stock above 15
+    // goes every month (the Party Treasury card names it)
+    if (Q.resources > 15) {
+        Q.res_decay_acc = (Q.res_decay_acc || 0) + 0.07 * Q.turn_length * (Q.resources - 15);
+        var decay_whole = Math.floor(Q.res_decay_acc);
+        Q.resources -= decay_whole;
+        Q.res_decay_acc -= decay_whole;
+    }
 }
 RO.clampStats(Q);
 RO.updateFactions(Q);
