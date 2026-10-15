@@ -2,6 +2,10 @@
 
 This changelog covers the Red October fork only and follows the format of [Keep a Changelog](https://keepachangelog.com). The game has no numbered releases yet, so entries are grouped by date, newest first, and the history of the original game is in [docs/upstream/social-democracy-changes.txt](docs/upstream/social-democracy-changes.txt).
 
+## 2026-10-15: round 3 balance, combined
+
+The five balance changes of the day (White front, party economy, state economy and difficulty, card variety, ending gates) measured together against the build before them (aca1081), 300 games a row, `SEED=4242`, natural scene order: every bot's win rate is within 5 points (`lsr_coalition` 49% to 54%, `vikzhelist` 31% to 35%, `socializer` 46% to 50%, `sr_peasant` 31% to 34%, `lsr_villages` 31% to 28%, the rest within 3). White losses: `sr_komuch` 65% to 52%, SR cautious 27% to 15%, Menshevik cautious 7% to 4%, `whiteaid` 61% to 0%. Fuzz (5,000 games): SR White losses 25% to 9%; wins by difficulty (Easy / Normal / Hard) Mensheviks 15/9/4% (was 15/10/7), SRs 29/22/10% (was 22/28/14), Left SRs 14/14/9% (was 14/13/12). The balance and fuzz reports are regenerated.
+
 ## 2026-10-15: ending gates
 
 Playtest round 3: B6, B7, C1, C2 and the rest of M3.
@@ -40,7 +44,7 @@ The fixes from the third playtest round (`docs/reports/playtest-round-3.md`) tha
 
 ### Changed (party economy: round 3 B3, B4, B11)
 
-Measured with the 21 balance rows and `persuader`, 300 games each with `SEED=5000`, before and after; every win rate moved by less than 3 points except `sr_peasant` (31% to 26%) and `lsr_coalition` (52% to 47%), which at 1,000 games are 29.4% to 28.1% and 51.5% to 51.3%, so noise. The resources the bots hold at the end fell from 60–86 to 20–32, and from 45 to 20 in the fuzz mean.
+Measured with the 21 balance rows and `persuader`, 300 games each with `SEED=5000`, before and after; every win rate moved by less than 3 points except `sr_peasant` (31% to 26%) and `lsr_coalition` (52% to 47%). Those two shifts came from the order in which the compiler writes the scenes, not from the change: with the scenes sorted in both builds, 20 of the 22 rows are identical and the other two move by under a point. The resources the bots hold at the end fell from 60–86 to 20–32, and from 45 to 20 in the fuzz mean.
 
 - A persecuted party loses a share of its members every month, to arrests, conscription and fear: 1% when tolerated, 2.5% when expelled, 5% when banned, and the repression drain is `repression / 15` (was `/ 25`). A banned party used to end the game with 40–50% of its membership limit; it now ends with about a tenth, and a party banned from 1918 reaches the exile floor (an immediate ending) in 1921. Exile and the historical endings come about as often as before (Menshevik exile 68% to 70% at 1,000 games), but earlier.
 - Money that sits idle loses its value: 7% a month of the stock above 15. The Party Treasury card, which already said so, now names the monthly loss.
