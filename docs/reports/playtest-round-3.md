@@ -1,0 +1,226 @@
+# Playtest report, round 3
+
+Ten testers (Claude Haiku 5.5) each played one full game with `tools/test/play_cli.js`, keeping a raw log of every page. Two reviewers (Claude Sonnet 5.5) then went through the reports and the logs (about 43,000 lines). One checked every bug against the source and the history; the other checked every balance and clarity claim against the logs' numbers, `balance.md` and `fuzz-report.md`. Nothing in the game was changed by this round.
+
+Paths are relative to the repository root. "dix" is the half-month index used in the scene gates.
+
+## 1. Testers and endings
+
+| Tester | Party, difficulty, plan | Ending |
+|---|---|---|
+| men-normal-democrat | Mensheviks, Normal, coalition and Constituent Assembly | **white** (crushed), October 1919 |
+| men-hard-opposition | Mensheviks, Hard, opposition, aiming for soviet democracy | exile, December 1921 |
+| men-easy-late | Mensheviks, Easy, the late game under the Bolsheviks | exile, December 1921 |
+| men-normal-newcomer | Mensheviks, Normal, first-time player, no docs | exile, December 1921 |
+| sr-normal-peasants | SRs, Normal, peasant road | **white** (crushed), September 1919 |
+| sr-hard-force | SRs, Hard, decrees and force | constituent_republic (won), December 1921 |
+| sr-easy-komuch | SRs, Easy, meant to take the Komuch road | constituent_republic (won), December 1921; the Bolsheviks never took power, so Komuch never opened |
+| lsr-normal-coalition | Left SRs, Normal, coalition with the Bolsheviks | lsr_historical, December 1921 (lost the January 1919 squeeze roll) |
+| lsr-hard-rising | Left SRs, Hard, July 1918 rising | lsr_historical, March 1921 |
+| lsr-easy-villages | Left SRs, Easy, village road | peasant_soviets (won), December 1921 |
+
+Three wins, five historical endings, two White defeats. The rates agree with the fuzz report (SRs win about 22%, Left SRs 13%, Mensheviks 11%, almost all of those through a failed October rising).
+
+## 2. Read first: the command-line tool hides what the browser shows
+
+Several clarity complaints, from up to 8 of the 10 testers, come from `play_cli.js`, not from the game:
+
+- The pinned-cards header "Advisors - next action available in N months" (`main.scene.dry:4-10`) is not printed, so every tester thought the shared advisor cooldown was hidden.
+- "Relations: ally 55" and "Opposition hostility: kad 0 (strength 33)" are the tool's own summary lines. The browser names the partner, shows the alliance level and its 40/60/75 ticks, and explains hostility and strength (`ui.js:135-143`, `ui.js:301-335`).
+- The tool prints "harassed" and "persecuted" (`play_cli.js:74`) where the game says "tolerated" and "expelled" (`ui.js:30`).
+- It drops the Soviet Affairs deck subtitle ("When it is empty, its cards come back as their time comes"), the "projected" on the support line, and the Popularity tab.
+
+Making `play_cli.js` print these is cheap and has no balance effect. Until it does, every round will report them again.
+
+## 3. Confirmed bugs
+
+The bug reviewer confirmed 44 (4 high, 18 medium, 22 low). Two are leftovers from round 2: H13 (options outliving the Constituent Assembly) was never applied to `peasant_meeting`, `media`, `nationalities` or the Cabinet, and M3 (a faction acting after it left) was fixed only for the Left SR split, not for the generic walk-out.
+
+### High
+
+**H1. A current that "left the party in a body" keeps acting inside it.** (men-hard, sr-peasants, lsr-hard; also seen by sr-hard)
+After "A Current Walks Out", the same faction is still offered on The Party Line, Reshuffle the Leadership and Party Unity. It still "writes letters to the newspapers", and it still gains strength from advisors (Dan's "the Revolutionary Defencists: strength +1").
+- Cause: `events/party_crisis.scene.dry:19` only multiplies the faction's strength by 0.4. `RO.updateFactions` (`model.js:268`) renormalises it back. `RO.fac` (`model.js:394`) would revive even a zeroed faction. The pick (`:12-15`) can choose the main line (the Menshevik Defencists), and `crisis_count < 2` lets the same current leave twice.
+- Separately, `events/october_line.scene.dry:13` says "The Right Defencists leave" whichever line is chosen.
+- Fix: set strength to 0 and a `<faction>_gone` flag; make `RO.fac` return early on it; gate the faction options on `_strength > 0`; exclude `defencist` from the walk-out pick; move the october_line sentence into the `@martov` branch.
+
+**H2. Constituent Assembly options offered after it has sat or been dispersed.** (lsr-normal, lsr-hard, sr-hard, sr-easy)
+Examples: "Wait for the Constituent Assembly, and trust it" in 1918 to 1920; Party Press "The Constituent Assembly and the land"; Nationalities "until the Assembly meets" in 1921; the Cabinet's "Leave the land to the Assembly" in July 1918.
+- Cause: no gate at `party_affairs/peasant_meeting.scene.dry:13,29`, `party_affairs/media.scene.dry:15,50`, `coalition_affairs/nationalities.scene.dry:15,137`, or `advisors/cabinet.scene.dry:39-40,56` (the last is generated by `gen_cabinet.py`).
+- Fix: `view-if: dix < 25` (or `and dix < 25`).
+
+**H3. After a May 1917 split, Left SR events speak as if the party were still inside the SRs.** (lsr-hard)
+"Within the SR delegation ... the Left SRs number perhaps 0" (`events/lsr_congress.scene.dry:12,23`). "The party, still the left wing of the SR delegation" (`events/democratic_conference.scene.dry:13`). "Stay on the SR lists" is offered at the Assembly election (`events/constituent_assembly_election.scene.dry:82`, intro at `:14`).
+- Fix: branch on `lsr_split` and add `and lsr_split = 0` to `@lsr_inside`.
+
+**H4. The Red Terror says the Left SRs "were crushed in July" in every Left SR game.** (lsr-normal, lsr-easy; both had called the rising off)
+- Cause: `events/red_terror.scene.dry:31` has no `lsr_rising` test.
+
+### Medium
+
+- **M15. The White ending fires before its only counter-lever.** (men-democrat, sr-peasants)
+  - The game ends on `white_front >= 72` (`post_event.scene.dry:82`) before events run. The Denikin event's "Mobilise for the Red Army" is gated at `dix >= 66` (`events/denikin.scene.dry:6`). Both losses ended on or before that turn.
+  - "The Sealed Train Back" (`events/exile_warning.scene.dry:19`) promises that standing with the Red Army "when the Whites next march on Moscow" will win the party back. See also B1.
+- **M3. The land flags disagree, so land options come back after the land is settled.** (sr-easy, sr-hard, men-democrat, lsr-normal)
+  - The Cabinet's "Socialise the land now" sets `pol_land = 2` but not `land_decree`, which is what gates Land Committees, the Land Question and Chernov's land event.
+  - October and the Assembly set `land_decree` but not `pol_land`, so the Cabinet line still reads "Land: wait for the Assembly".
+  - Fix it in `gen_cabinet.py`, checking the Kadet grievance at `model.js:855` does not double count.
+- **M1. The Assembly dispersal says the Bolsheviks and Left SRs held "about a third" of the seats.** The simulated result gives the Left SRs 200 to 230 seats alone (45% with the Bolsheviks). `events/assembly_dispersed.scene.dry:15`: print the real share. The Left SRs out-poll the SRs when they run separate lists (`model.js:180` `lsrMult = 3`, times the 1.3 list factor); historically they held about 5% of the seats. Whether that boost is wanted is a design question.
+- **M2. The Left SR "Split" card returns after "Plan to split" or "Stay" and stacks its effects.** `party_affairs/the_split.scene.dry:7` never reads `split_planned` or `lsr_kept`.
+- **M4. Lent advisors' pinned cards use the home party's wording.** Chernov shows "the Right SRs: dissent +5" to a Left SR. `tools/build/gen_advisors.py:442` writes the summary for the home party only. Card subtitles are not re-evaluated, so use a neutral summary if a per-party one will not re-render.
+- **M5. "The Last Party Congress" puts Left SR members "in the government" when they are not.** `events/lsr_oct18.scene.dry:11` branches on `lsr_rising` and not on `lsr_in_gov`.
+- **M6. Axelrod, a Menshevik, is the SRs' "best-known name abroad".** `party_affairs/international_relations.scene.dry:48` has no party branch, and its "since August 1917" disagrees with the unity congress (late September).
+- **M7. Left SR players are told voters "have decided that they are an SR".** `party_affairs/peasant_meeting.scene.dry:9`.
+- **M8. The Cheka arrests strike leaders in November 1917.** It was founded on 20 December 1917. `soviet_affairs/labor_rights.scene.dry:48,64,83`: gate the card at dix 23 or name the Military Revolutionary Committee.
+- **M9. "Famine Relief" is offered after the Pomgol has been broken up.** `soviet_affairs/fiscal_policy.scene.dry:7` has no upper bound; add `dix < 110`.
+- **M10. "Relations with Other Parties" uses 1917 text in 1921.** "We agreed on the war, the Assembly and everything except the land" (`party_affairs/inter_party_relationships.scene.dry:33`, and `:43`, `:56-58`). Branch on `bol_regime` and `lsr_split`.
+- **M11. The force odds round up past the cut-off.** `model.js:379` displays `Math.round`, while `model.js:989` tests the unrounded `< 0.45`. A true 44.6% shows "45%" and the camp is skipped (sr-hard saw exactly this). The same applies to alliance gates: 74.99 shows as "ally 75" while the gate is `>= 75` (sr-easy lost the coalition level this way).
+- **M12. Every force win prints the same "Rech was closed ..." sentence** (five times in one game), and later options still offer to close Rech. `model.js:948` and the ally suffix at `:972`; `events/opp_kad_sanction.scene.dry:18`.
+- **M13. "Have the workers' militia clear the hall" needs no militia.** `party_affairs/rally.scene.dry:16,29`.
+- **M14. "Build a militia" adds no militia.** `coalition_affairs/police.scene.dry:18-23`.
+- **M16. War weariness keeps rising in a republic at peace.** `model.js:320`: the non-Bolshevik term is a flat +0.2 a month with no end. sr-hard went 77 to 87 and sr-easy 80 to 90 with no civil war. See B8.
+- **M17. Proshian (died 1918) stays an advisor to 1921.** There is no entry in `ADVISOR_UNTIL` (`model.js:632`).
+- **M18. "One Party: The SRs never split" is earned after the Right SRs walked out.** `model.js:1160`.
+
+### Low (one line each)
+
+- **L1.** A space before the full stop: "an end to the war ." (`party_affairs/ideology.scene.dry:10`) and "answerable to itself alone ." (`game_over.scene.dry:166`).
+- **L2.** "the Mensheviks's support" (`events/july_days.scene.dry:37`).
+- **L3.** "1 months" and "0.5 months" in the advisor cooldown (`gen_advisors.py:416`): print a ceiling and pluralise.
+- **L4.** "(Few members are left to pay.)" at 44,000 to 89,000 members (`party_affairs/fundraising.scene.dry:12`).
+- **L5.** "in 1919, the pogroms in Ukraine are the worst in a century" shown in 1917 (`party_affairs/response_to_antisemitism.scene.dry:10`).
+- **L6.** "A Second Bolshevik Attempt" is also the title of the third (`events/alt_second_attempt.scene.dry:1`).
+- **L7.** "The Republic Is Struggling" blames the ruble when only bread failed (`events/alt_recovery.scene.dry:29`).
+- **L8.** Left SR Brest text calls the Bolshevik-Left SR government "the first coalition in Russian history" (`events/brest.scene.dry:129`).
+- **L9.** "Kerensky accepted it", then the choice keeps Chernov in; the "land law left unfinished" line appears after a decree (`events/sr_chernov_leaves.scene.dry:11`).
+- **L10.** The exile warning says "if the war ended now" after the Civil War has been declared over (`ui.js:75`, `events/exile_warning.scene.dry:19`). Use "if the year ended now".
+- **L11.** The Menshevik Party Line still offers "keep the alliance with the liberals" under the Bolsheviks; the Left SR version talks of keeping the commissariats when out of government (`party_affairs/ideology.scene.dry:10`).
+- **L12.** "The Motion to Expel" is dated 14 June but appears in July 1918 (`events/expelled.scene.dry:6`). The gate was chosen in round 2 so that Komuch comes first; fix the date in the text.
+- **L13.** The Georgia event in June 1918 speaks with hindsight of British protection and the 1920 treaty (`events/georgia.scene.dry:20`).
+- **L14.** Relations of 74.99 show as 75 at a `>= 75` gate (`model.js:454-456`). Same root as M11.
+- **L15.** "(The front: the front is wavering.)" (`source/qdisplays/front.qdisplay.dry:3`).
+- **L16.** Abramovich is abroad in 1920 (`events/wrangel.scene.dry:20`) but "follows" Dan into exile in January 1922 (`game_over.scene.dry:74`).
+- **L17.** The ending text uses the historical "248 delegates" against the simulated 251 to 304 (`game_over.scene.dry:76`).
+- **L18.** Sukhanov's and Proshian's "better intelligence for the talks on an all-socialist government" stays on their cards to 1921 (`gen_advisors.py`). Hide it after dix 22.
+- **L19.** The Left SR epilogue is static ("Spiridonova was arrested in 1919 ... By May 1921 the party's activity had ceased"), even on a March 1921 ending or with no rising. Spiridonova and Kamkov stay pinned after being reported under guard or arrested (`game_over.scene.dry:98-104`, `events/lsr_1921.scene.dry:52`).
+- **L20.** "The Bolsheviks were a minority. The Mensheviks, the SRs and the anarchists were not." reads backwards (Factory Representatives).
+- **L21.** "30 of the 30 provincial capitals" in nine of ten logs: `events/spring_elections.scene.dry:15` saturates.
+- **L22.** The SR Assembly election intro speaks of "the unity of the Left SRs and the Right" after the Right SRs walked out (`events/constituent_assembly_election.scene.dry:14`; goes with H1).
+
+## 4. Balance
+
+**B1 (high). The White ending is a hidden accumulator.** (2 testers lost to it; fuzz says 25% of SR games and 6% of Menshevik games.)
+- **The mechanism.** The front moves 30% a month toward `whitePressure + 8*white_aid - 0.5*red_army` (`model.js:359-363`). The reviewer simulated it with the model's own `updateFront`. With `white_aid` of 2.0 the front peaks at 69 and the player survives. At 2.5 it ends in October 1919, and at 3 in September.
+- **Where `white_aid` comes from.** Komuch "Join" gives +2. The Menshevik Assembly protest "provinces" option gives +0.5, and its text says nothing about the Whites (`assembly_dispersed.scene.dry:48`). men-democrat lost on exactly those two choices, 2.5 in all.
+- **Counter-play is too weak.** Each point of Red Army is worth 1/16 of a point of `white_aid`, and the one big lever (Denikin, M15) arrives too late.
+- **The browser gives no warning.** Its word "Whites near Moscow" starts at 75, but the game ends at 72. There is no tick at 72 and no warning like the exile one.
+- **Suggested, no balance effect:**
+  - Put a tick at 72 and change the word table (`ui.js:27,91`).
+  - Add "(raises the White front)" to the nine options that add `white_aid`.
+  - Show a sidebar warning from 60.
+- **Suggested, measure with `sr_komuch`, `whiteaid` and `democrat` first:** let the Denikin choice fire from front 60, and check the ending after events.
+
+**B2 (high). Cards come back 4 to 9 times with the same text.** (10 of 10)
+- Repeat draws were 43% to 76% of all draws. Decks hold about 10 to 13 eligible cards with 3- to 4-month timers.
+- Suggested: year-dependent paragraphs on the six most repeated flavour cards (Party Press, Party Unity, Party Line, Reshuffle, the Workers' and Peasant meetings, Soviet Election Campaign). That has no balance effect.
+- Then raise the Meeting, Press and Unity timers to 6 months, after a bot run.
+
+**B3 (high). Membership is a number with almost no consequence.** (9 of 10)
+- Growth is about +13k a month when legal and +6k when "tolerated" (the tool's "harassed"), even at repression 35 to 50. At "expelled" (the tool's "persecuted") it is −2k to −5k, and banned about −5k.
+- The recruiting poll (`post_event.scene.dry:58-60`) ignores legality, so a banned party still polls about 35%.
+- Members feed only dues and the exile floor, so the exile-by-members rule is unreachable once a party passes about 100,000.
+- Suggested, after a fuzz run: scale the poll by legality (`[0.1, 0.4, 0.8, 1]`) and change `repression/25` to `/15`.
+
+**B4 (high). Resources pile up with no sink.** (9 of 10)
+- Peaks were 50, 48, 89 and 75. The fuzz mean at the end is 45.
+- `strength()` counts only `min(resources, 5)`, and under the Bolsheviks the stock does nothing.
+- The Treasury card says idle money "is losing its value", but nothing implements it.
+- Suggested, after a bot run: lose 4% a month of the surplus above 15.
+
+**B5 (high). Under Bolshevik rule the ruble and bread sit at the floor for over a year.** (6 of 10)
+- In all seven full Bolshevik-era games the ruble was at 2 or less for 9 to 19 months (`model.js:326`: −1.5 a month until NEP).
+- The early way out (`nep_early`) is behind the same relations-43 gate as B6.
+- Suggested, after a fuzz run: an asymptotic fall, `ruble -= (0.5 + 0.03*ruble) * tl`, so it settles near 5 to 10 and the bread and ruble cards still matter.
+
+**B6 (high). The Menshevik soviet democracy ending turns on holding Bolshevik relations of 43 at a one-shot congress.** (men-hard; fuzz 1%)
+- Relations faded exactly as `REL_FADE` predicts (48 to 37 in ten months), so the player needs about +6 every five or six months.
+- The tester's "one random card" claim did not hold: the programme card is very likely drawn. The relations check is what failed.
+- This was retuned on 2026-10-14. Do not move the 43 without the full bot set (`democrat`, `vikzhelist`, `lsr_*`).
+- What can change now: mark the 43 and 38 lines on the Relations bar, and say on the Eighth Congress page what the demand needs.
+
+**B7 (high). The Left SR coalition ending needs two hidden rolls.** Brest, then the January 1919 squeeze (`lsr_squeeze.scene.dry:11-12`).
+- With relations 67 and soviet democracy 61 the squeeze was about 24% to 29%, and the page offered only "Continue".
+- Even the `lsr_coalition` bot loses about two games in three.
+- Suggested, no balance effect: show both chances on the page.
+
+**B8 (medium). War weariness in a republic at peace.** See M16. Suggested: `at_war ? 0.2 : -0.3` for the republic branch, after a quick fuzz run.
+
+**B9 (medium). Difficulty is flat after 1917.**
+- Difficulty touches start values, dissent and opposition anger, none of which matter by 1919. Hard Mensheviks had dissent of 0% to 4% from 1918, and Hard SRs had 60 to 89 spare resources.
+- Controlled balance rows give SR White rates of 35%, 28% and 29% on Easy, Normal and Hard.
+- Suggested: make Hard change something still live after 1918 (the `white_aid` weight, the war drift of the ruble and bread, the relations fade). Measure all three parties.
+
+**B10 (medium). The SR's own land programme can close the Komuch road unseen.** (sr-easy)
+- The decree and the land committees took 14 points off the Bolsheviks' takeover strength, which ended at 46.75 against the 55 needed. That is a legitimate branch; about 70% of SR games still reach Komuch.
+- The problem is that the 55 line is visible only in the debug panel. Suggested: a sentence or a "chance of a Bolshevik rising" cue before November 1917.
+
+**B11–B14 (medium and low).**
+- Member-gaining advisor actions (Zenzinov +50,000) and the special dues appeal are dead weight at the cap.
+- lsr-hard's "Stand by the sailors' programme" ends the game at once with no warning.
+- Kadet relations are a dead number after 1917.
+- The generals almost never revolt: `right_coup` is 0% to 1% in the fuzz, so that ending is nearly unreachable.
+
+## 5. Clarity
+
+- **C1 (high). Option effects are not stated, while advisor cards now state everything.** (7 of 10)
+  - Komuch and the other `white_aid` options.
+  - "Back Kronstadt's programme": relations −10, repression +10, a legality step, −10k members.
+  - The strike fund (−3 relations under the Bolsheviks).
+  - "Demand free soviet elections now": fails without relations 43 and the programme, and costs −5 relations and +7 repression.
+  - "Expel Maisky": breaks the SR bloc.
+  - Requisition.
+  - "Defend the Revolution": lists only its cost, yet a second play is the Menshevik way back from the ban. men-easy declined it and lost to exile because of that.
+  - Suggested: put the effects in the subtitles, ideally generated as `gen_advisors.py` does.
+- **C2 (high). The numbers that decide endings are not shown.**
+  - Peasant Soviets needs `peasant_organised >= 6`, which only ever shows as "hardly begun" or "organised many".
+  - "No Peasant Programme" needs `peasant_organised >= 2` and `rel_bol >= 33`, with no numbers on the page.
+  - The Congress demand: see B6.
+  - Suggested: "organised 3 of the 6 soviets needed", and numbers in the unavailable lines.
+- **C4 (medium).** "Any camp under 45% is too strong for you" reads as if 45 were a strength. Suggested wording: "Where your chance is below 45% the camp is left alone and the law passes as a decree; its anger stays." The rounding bug is M11.
+- **C5 (medium).** The Vikzhel page shows the score, the 70 threshold and the ranked factors, but not each factor's value, or that signing below 70 fails and costs relations. Scores seen: 32, 42, 45, 46, 48 and 66. Do not move the 70 without the bots.
+- **C6 (medium).** The support figure switches arena: soviets, then Assembly (5% to 7% for the Mensheviks), then city soviets (about 30%). The browser says "projected", but a one-line notice when the arena changes would help.
+- **C7 (medium).** The Soviet Affairs deck is empty once, for 1 to 5 turns around the takeover. For the SRs and Left SRs it holds only one eligible card until February 1918. Lower the Prisoners and the Cheka and Factory Representatives gates (26, 28) to 22, after a bot run.
+- **Low.**
+  - The Council card and departing advisors vanish without a line.
+  - Silent number jumps: Zimmerwald dissent 7 to 12, Vikzhel walk-out dissent 10 to 23.
+  - The "Game note" about monthly turns sits inside the story text.
+
+## 6. Not supported, not a bug
+
+- **"Wait and See was the only sensible move for months."** The logs show 0 to 3 idle turns a game.
+- **"The Soviet deck is empty for months."** It is one window of 1 to 5 turns.
+- **"No lever lowers the White front."** Levers exist; they are 8 to 16 times weaker than Komuch.
+- **Repression and relations labels.** Consistent with their thresholds (`ui.js:22-26`).
+- **Georgia surviving 1921.** An alternate-history branch gated on `foreign_pressure >= 4` and `georgia_support >= 2`; the default is the real February 1921 invasion. It fired in two of three Menshevik runs, which is a balance remark, not an error.
+- **Dates.** The game uses New Style throughout. 16 April, 18 May, the Moscow State Conference (25–28 August), the Democratic Conference (27 September–5 October) and the 22 September Petrograd vote are all correct New Style dates.
+- **Other history.** Martov's death in 1923, the January 1922 expulsion of Dan and the Political Red Cross in 1918 are correct.
+- **Kadet relations "frozen" at 30.** That is the base; the Kadets are banned.
+- **"A win cows the camp for most of a year."** It holds: the camp's target is capped at 30, below the sanction line, for 10 months. The bar simply climbs back to about 20.
+
+## 7. Suggested order of work
+
+1. **Text and gate fixes with no balance effect:** H1 to H4, M1 to M18 except M15 and M16, and the low list.
+2. **Clarity with no balance effect:**
+   - The White front tick, words and option labels (B1).
+   - Option effects in the subtitles (C1).
+   - Ending numbers shown (C2, B6, B7).
+   - Display the rounded odds the rules use (M11).
+   - `play_cli.js` printing what the browser shows (section 2).
+3. **Balance, each measured with the bots and the fuzz first:**
+   - The Denikin timing (M15, B1).
+   - Membership by legality (B3).
+   - Resource decay (B4).
+   - Ruble asymptote (B5).
+   - Republic war weariness (B8).
+   - A live Hard setting (B9).
+   - Card timers (B2).
