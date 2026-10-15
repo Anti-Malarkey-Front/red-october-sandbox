@@ -236,9 +236,9 @@ new-page: true
 
 = Choose your difficulty
 
-- @easy: Easy. More resources, a bigger hand, cards can be returned, and the currents, the opposition and the generals are a little gentler.
+- @easy: Easy. More resources, a bigger hand, cards can be returned, and the currents, the opposition and the generals are a little gentler. Bread, the ruble and soviet democracy wear down more slowly, and goodwill between the parties lasts longer.
 - @normal: Normal.
-- @hard: Hard. Fewer resources, no returning cards, currents that are harder to hold together, an opposition that angers faster, and stronger generals.
+- @hard: Hard. Fewer resources, no returning cards, currents that are harder to hold together, an opposition that angers faster, and stronger generals. Bread, the ruble and soviet democracy wear down faster, and goodwill between the parties fades sooner.
 
 @easy
 on-arrival: {!

@@ -187,6 +187,28 @@ test('without the war the ruble recovers under a republic, and falls under War C
   var B = state({at_war: 0, ruble: 30, bread: 40, war_weariness: 40, land_pressure: 40, bol_regime: 1, dix: 50, repression: 10, legality: 2, red_army: 20});
   for (i = 0; i < 6; i++) { RO.drift(B, 1); }
   assert.ok(B.ruble < 30, 'War Communism ruble ' + B.ruble);
+  // ... but ever more slowly: it settles above the floor instead of sitting at 0 for a year
+  for (i = 0; i < 30; i++) { RO.drift(B, 1); }
+  assert.ok(B.ruble > 5 && B.ruble < 10, 'War Communism ruble after three years ' + B.ruble);
+  assert.ok(B.bread > 5, 'War Communism bread after three years ' + B.bread);
+});
+
+test('a republic at peace lets the war weariness fall', function() {
+  var Q = state({at_war: 0, ruble: 40, bread: 40, war_weariness: 60, land_pressure: 40, bol_regime: 0});
+  for (var i = 0; i < 12; i++) { RO.drift(Q, 1); }
+  assert.ok(Q.war_weariness < 60, 'weariness ' + Q.war_weariness);
+});
+
+test('difficulty still matters after 1918: the economy and goodwill', function() {
+  function run(d) {
+    var Q = state({at_war: 1, difficulty: d, ruble: 50, bread: 50, war_weariness: 40, land_pressure: 40, bol_regime: 0, rel_bol: 60, rel_base_bol: 25});
+    for (var i = 0; i < 6; i++) { RO.drift(Q, 1); }
+    return Q;
+  }
+  var e = run(-1), n = run(0), h = run(1);
+  assert.ok(e.ruble > n.ruble && n.ruble > h.ruble, 'ruble ' + [e.ruble, n.ruble, h.ruble]);
+  assert.ok(e.bread > n.bread && n.bread > h.bread, 'bread ' + [e.bread, n.bread, h.bread]);
+  assert.ok(e.rel_bol > n.rel_bol && n.rel_bol > h.rel_bol, 'relations ' + [e.rel_bol, n.rel_bol, h.rel_bol]);
 });
 
 test('advisors leave the council when they leave Russia, are jailed or die', function() {

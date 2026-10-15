@@ -73,6 +73,14 @@ Measured with the 21 balance rows and `persuader`, 300 games each with `SEED=500
 - Thirteen of the most repeated cards now read differently in each period: 1917, the first half of 1918, the Civil War, and 1921, under the Bolsheviks or the Republic, and by party where it matters. The cards are the Party Press, Party Unity, the Party Line, Reshuffle the Leadership, the Workers' Meeting, the Peasant and Soldier Meeting, the Soviet Election Campaign, the Ministry of Labour, Money and the Market, Union Independence, Factory Representatives, Cooperatives, and Prisoners and the Cheka. The new text draws on each period's newspapers (Novy Luch, Vsegda Vpered, Sotsialistichesky Vestnik), congresses, strikes, decrees and arrests. Option effects are unchanged. In cautious play, repeated cards that show the same text fell from 41-50% of plays to 23-26%; the share of draws that repeat a card already seen is unchanged (55-70%), since every eligible card has been seen by 1920.
 - The Party Press, Party Unity and the Workers' Meeting come back after six months instead of three, four and three. The Peasant and Soldier Meeting keeps its three months: at six, `lsr_villages` won 14% of games instead of 9%. All 21 balance rows stay within 3 points, measured with 300 games a row and the same seeds before and after, with the scenes sorted so that only the change differs. `lsr_coalition` and `lsr_villages` gain 3 points at 1,000 games.
 
+### Changed: state economy and difficulty (playtest round 3, B5, B8, B9)
+
+The state economy and the difficulty settings, from the third playtest round (B5, B8, B9). Measured with the same seeds before and after: every Normal row of the balance report stays within 3 points (300 games a row), and in a 5,000-game fuzz run the win rates on Easy, Normal and Hard went from 12/9/6% to 16/9/3% for the Mensheviks, 24/21/14% to 30/21/11% for the SRs and 14/13/10% to 15/13/8% for the Left SRs. The share of games in which the ruble touches 5 or less fell from 78% to 0%.
+
+- Under War Communism the ruble no longer falls 1.5 a month to the floor and stays there for a year: it loses 7% a month of its distance above 6, so it settles near 6 to 10 and the cards that raise it still count. Bread under the Bolsheviks loses 4% a month of its distance above 8, instead of a flat 0.4.
+- A republic at peace sheds war weariness (−0.3 a month); it used to gain 0.2 a month for ever, with no war to be weary of.
+- Difficulty now matters after 1918. On Hard bread and the ruble are worn down 15% faster by the war and by War Communism, goodwill between the parties fades at 7% a month of the gap (6% on Normal), and soviet democracy declines 5% faster under the Bolsheviks; Easy is the reverse (×0.85, 5%, ×0.95). The difficulty page says so.
+
 ## 2026-10-14
 
 ### Added

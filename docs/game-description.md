@@ -386,14 +386,14 @@ Starting values are for the Mensheviks at normal difficulty. Rates are per month
 
 | Stat | Start | Monthly movement (no card or event) | What it feeds |
 |---|---|---|---|
-| Bread | 30 | −1.8 at war; −0.2 in a republic; −0.4 under the Bolsheviks | grievance; Bolshevik power (−4 at 35 or more) |
-| Ruble | 60 | at war −2.6; in a republic moves towards 50 at 5% of the gap, less 0.3 (rests near 44); under the Bolsheviks −1.5 until the NEP, then towards 40 less 0.2 (rests near 36) | grievance |
-| War weariness | 70 | at war +1.6; in a republic +0.2; under the Bolsheviks +0.5, then −1.5 from `dix` 94 | grievance |
+| Bread | 30 | −1.8 at war (×0.85 on Easy, ×1.15 on Hard); −0.2 in a republic; under the Bolsheviks 4% of the gap above 8 (×0.85 Easy, ×1.15 Hard) | grievance; Bolshevik power (−4 at 35 or more) |
+| Ruble | 60 | at war −2.6 (×0.85 on Easy, ×1.15 on Hard); in a republic moves towards 50 at 5% of the gap, less 0.3 (rests near 44); under the Bolsheviks until the NEP, 7% of the gap above 6 (×0.85 Easy, ×1.15 Hard), then towards 40 less 0.2 (rests near 36) | grievance |
+| War weariness | 70 | at war +1.6; in a republic at peace −0.3; under the Bolsheviks +0.5, then −1.5 from `dix` 94 | grievance |
 | Army discipline | 50 | at war −1.3; no drift otherwise | strength; Kornilov; generals' objections |
 | Land pressure | 40 | at war +2.2; otherwise +1.0; a land decree −1.0 | grievance; Left SR share; Bolshevik power |
 | Bolshevik strength | 20 | before the takeover, grievance-driven (2.1 at `G = 55`); no drift once in power | Bolshevik share and camp; Bolshevik power |
 | Threat from the Right | 30 | towards 25 at 4% of the gap | Kadet share; generals' power; Kornilov |
-| Soviet democracy | 70 | towards 60 at 10% of the gap; under the Bolsheviks −(0.5 + repression/60) | Menshevik and SR shares; strength; Kornilov resistance; blocs |
+| Soviet democracy | 70 | towards 60 at 10% of the gap; under the Bolsheviks −(0.5 + repression/60) (×0.95 on Easy, ×1.05 on Hard) | Menshevik and SR shares; strength; Kornilov resistance; blocs |
 | Repression | 0 | under the Bolsheviks +0.6 (legality 1 or lower), otherwise +0.3 | Menshevik, SR and Left SR shares; membership; endings |
 | Red Army | 15 | under the Bolsheviks +1.2 until 70 | the White front's target |
 | White front | 0 | from June 1918, monthly, 30% of the gap to its target | the White ending; an achievement |
@@ -409,7 +409,7 @@ Starting values are for the Mensheviks at normal difficulty. Rates are per month
 #### The ruble
 
 - **Moves:** as the table shows. The Cabinet's finance and labour settings also move it.
-- **Equilibria:** in a republic `r' = 0.05 (50 − r) − 0.3`, which rests at `r = 44`. Under the Bolsheviks with the NEP, `r' = 0.05 (40 − r) − 0.2`, which rests at `r = 36`. The NEP is entered when `nep_early` is set or from `dix` 100 (March 1921).
+- **Equilibria:** in a republic `r' = 0.05 (50 − r) − 0.3`, which rests at `r = 44`. Under War Communism `r' = −0.07 (r − 6)` (never upwards; ×0.85 on Easy, ×1.15 on Hard), so the ruble sinks ever more slowly towards 6 and the cards that raise it still count. Under the Bolsheviks with the NEP, `r' = 0.05 (40 − r) − 0.2`, which rests at `r = 36`. The NEP is entered when `nep_early` is set or from `dix` 100 (March 1921).
 - **Affects:** grievance (weight 1/4 on `100 − ruble`), and through it the Bolsheviks' growth and the parties' support.
 
 #### War weariness
@@ -530,7 +530,7 @@ Levels, and what the relation must be for each:
 | 2 | bloc | relation ≥ 60, and the lines are compatible | 50 |
 | 3 | coalition | relation ≥ 75, lines compatible, and shared power | 65 |
 
-**Relations drift.** Each relation moves towards its base: 6% of the gap a month when it is above the base (goodwill fades), 8% when it is below (quarrels heal). Mensheviks: ally 55, Left SRs 30, Bolsheviks 25, Kadets 30. SRs: ally 55, Left SRs 60, Bolsheviks 25, Kadets 35. Left SRs: ally 45, Mensheviks 35, Bolsheviks 40, Kadets 15.
+**Relations drift.** Each relation moves towards its base: 6% of the gap a month when it is above the base (goodwill fades; 5% on Easy, 7% on Hard), 8% when it is below (quarrels heal). Mensheviks: ally 55, Left SRs 30, Bolsheviks 25, Kadets 30. SRs: ally 55, Left SRs 60, Bolsheviks 25, Kadets 35. Left SRs: ally 45, Mensheviks 35, Bolsheviks 40, Kadets 15.
 
 **Left SR start.** The Left SRs start in coalition with the SRs (level 3, relation 55). On the first turn the relation is below the coalition hold (65), so the level drops to 2. Its drift towards 45 then drops it again, to 1 (cooperation), since 45 is below the bloc hold of 50. The alliance only holds if the relation is tended.
 
@@ -732,7 +732,7 @@ The Kornilov Affair event (September 1917) compares the two, with the defence bo
 **The Whites.** Under the Bolsheviks, the front moves by the monthly rule in The country. The White ending comes at a front of 72. The `kornilovForce` and `bolPower` figures are printed by the debug view (`?debug` in the address), which shows the designers where the events draw their numbers.
 
 **Civil War moves.** The Civil War's effect on the other stats:
-- While `at_war` is set, whatever the regime: weariness +1.6, bread −1.8, ruble −2.6, discipline −1.3, land pressure +2.2 a month. Otherwise the peacetime rates apply.
+- While `at_war` is set, whatever the regime: weariness +1.6, bread −1.8, ruble −2.6 (bread and ruble ×0.85 on Easy, ×1.15 on Hard), discipline −1.3, land pressure +2.2 a month. Otherwise the peacetime rates apply.
 - Under the Bolsheviks: the Red Army grows to 70, and repression and soviet democracy move as described.
 
 ### The exile warning
@@ -2160,6 +2160,9 @@ The fuzz report (`docs/reports/fuzz-report.md`) shows how often random games ear
 | The opposition's anger | ×0.88 | ×1 | ×1.12 |
 | Resistance to Kornilov | +4 | 0 | −4 |
 | Starting relations with the ally | as the party | as the party | −10 |
+| Bread and ruble lost to the war and War Communism | ×0.85 | ×1 | ×1.15 |
+| Goodwill above a party's base fades, a month | 5% of the gap | 6% | 7% |
+| Soviet democracy lost under the Bolsheviks | ×0.95 | ×1 | ×1.05 |
 | Driven abroad at the end if | banned, or 12,000 or fewer members (scaled) | expelled or banned, or 20,000 or fewer (scaled) | as Normal |
 
 The parties have their own difficulty too: the **SRs** are the gentlest campaign (the largest party, with the Assembly to win), and the **Mensheviks** and **Left SRs** the hardest (a small party on the losing side of history).

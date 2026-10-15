@@ -303,27 +303,35 @@ var RO = (function() {
     }
   }
 
-  // how fast goodwill above a party's base fades, a share of the gap a month
-  var REL_FADE = 0.06;
+  // how fast goodwill above a party's base fades, a share of the gap a month (on Hard a little faster, on Easy slower)
+  var REL_FADE = 0.06, REL_FADE_DIFF = 0.01;
+  // difficulty scales how fast the war and War Communism wear down bread and the ruble, and the dictatorship the soviets
+  var ECON_DIFF = 0.15, SD_DIFF = 0.05;
+  // under War Communism the ruble and bread sink towards these floors, a share of the gap a month
+  var BOL_RUBLE_FLOOR = 6, BOL_RUBLE_RATE = 0.07, BOL_BREAD_FLOOR = 8;
 
   // Per-turn drift of the stats. tl is the turn length in months (0.5 or 1).
   function drift(Q, tl) {
-    var G = grievance(Q);
+    var G = grievance(Q), dm = 1 + ECON_DIFF * (Q.difficulty || 0);
     if (Q.at_war) {
       Q.war_weariness += 1.6 * tl;
-      Q.bread -= 1.8 * tl;
-      Q.ruble -= 2.6 * tl;
+      Q.bread -= 1.8 * dm * tl;
+      Q.ruble -= 2.6 * dm * tl;
       Q.army_discipline -= 1.3 * tl;
       if (!Q.land_decree) { Q.land_pressure += 2.2 * tl; }
     } else {
-      // the Civil War wears on until Wrangel leaves the Crimea (November 1920); then the country begins to rest
-      Q.war_weariness += (Q.bol_regime ? (Q.dix >= 94 ? -1.5 : 0.5) : 0.2) * tl;
-      Q.bread -= (Q.bol_regime ? 0.4 : 0.2) * tl;
+      // the Civil War wears on until Wrangel leaves the Crimea (November 1920); then the country begins to rest. A republic
+      // at peace begins to rest at once
+      Q.war_weariness += (Q.bol_regime ? (Q.dix >= 94 ? -1.5 : 0.5) : -0.3) * tl;
       // without the war the ruble can recover: towards 50 under a republic, and under the Bolsheviks only once the
-      // market is allowed back (the NEP, or the party's programme adopted early); War Communism prints it away
-      if (!Q.bol_regime) { Q.ruble += (0.05 * (50 - Q.ruble) - 0.3) * tl; }
-      else if (Q.nep_early || Q.dix >= 100) { Q.ruble += (0.05 * (40 - Q.ruble) - 0.2) * tl; }
-      else { Q.ruble -= 1.5 * tl; }
+      // market is allowed back (the NEP, or the party's programme adopted early); War Communism prints it away, but
+      // ever more slowly as it nears the bottom (barter and the black market keep some money in use)
+      if (!Q.bol_regime) { Q.bread -= 0.2 * tl; Q.ruble += (0.05 * (50 - Q.ruble) - 0.3) * tl; }
+      else {
+        Q.bread -= Math.max(0, 0.04 * (Q.bread - BOL_BREAD_FLOOR)) * dm * tl;
+        if (Q.nep_early || Q.dix >= 100) { Q.ruble += (0.05 * (40 - Q.ruble) - 0.2) * tl; }
+        else { Q.ruble -= Math.max(0, BOL_RUBLE_RATE * (Q.ruble - BOL_RUBLE_FLOOR)) * dm * tl; }
+      }
       if (!Q.land_decree) { Q.land_pressure += 1.0 * tl; }
     }
     if (Q.land_decree) { Q.land_pressure -= 1.0 * tl; }
@@ -338,7 +346,7 @@ var RO = (function() {
       Q.right_threat += (25 - Q.right_threat) * 0.04 * tl;
       Q.soviet_democracy += (60 - Q.soviet_democracy) * 0.1 * tl;
     } else {
-      Q.soviet_democracy -= (0.5 + Q.repression / 60) * tl;
+      Q.soviet_democracy -= (0.5 + Q.repression / 60) * (1 + SD_DIFF * (Q.difficulty || 0)) * tl;
       Q.repression += (Q.legality <= 1 ? 0.6 : 0.3) * tl;
       Q.red_army += 1.2 * tl * (Q.red_army < 70 ? 1 : 0);
     }
@@ -346,7 +354,7 @@ var RO = (function() {
     // slowly than quarrels heal
     var relBase = {rel_ally: Q.rel_base_ally || 55, rel_lsr: Q.rel_base_lsr || 30, rel_bol: Q.rel_base_bol || 25, rel_kad: Q.rel_base_kad || 30};
     for (var rk in relBase) {
-      Q[rk] += (relBase[rk] - Q[rk]) * (Q[rk] > relBase[rk] ? REL_FADE : 0.08) * tl;
+      Q[rk] += (relBase[rk] - Q[rk]) * (Q[rk] > relBase[rk] ? REL_FADE + REL_FADE_DIFF * (Q.difficulty || 0) : 0.08) * tl;
     }
     // the player's campaign boosts fade slowly
     for (var g = 0; g < BOOST_GROUPS.length; g++) {
