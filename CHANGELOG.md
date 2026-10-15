@@ -2,6 +2,16 @@
 
 This changelog covers the Red October fork only and follows the format of [Keep a Changelog](https://keepachangelog.com). The game has no numbered releases yet, so entries are grouped by date, newest first, and the history of the original game is in [docs/upstream/social-democracy-changes.txt](docs/upstream/social-democracy-changes.txt).
 
+## 2026-10-16: the Menshevik road through Komuch
+
+### Changed
+
+- The Whites March on Moscow: a Menshevik party that sat in Komuch can no longer undo its help to the Whites by mobilising. Komuch's army was never the party's to call home, so its White aid stays, and the Bolsheviks put its volunteers at the front only if they trust it: a chance of (relations with the Bolsheviks − 5) / 40, between 10% and 90%, shown on the page. Untrusted volunteers are kept in the rear (1.5 Red Army units, no fall in the front). The SR road (calling the People's Army home) is unchanged.
+
+### Balance
+
+The White-front lever of 2026-10-15 had taken the Menshevik `whiteaid` strategy from 61% White losses to none, because mobilising took back all of its Komuch aid. Measured with 300 games a row: `whiteaid` White losses 0% to 27–32% over three seeds (its wins unchanged at 11%); `sr_komuch` unchanged (52%); Menshevik cautious White losses 4% to 6%; every other row within noise. The balance and fuzz reports are regenerated.
+
 ## 2026-10-15: round 3 balance, combined
 
 The five balance changes of the day (White front, party economy, state economy and difficulty, card variety, ending gates) measured together against the build before them (aca1081), 300 games a row, `SEED=4242`, natural scene order: every bot's win rate is within 5 points (`lsr_coalition` 49% to 54%, `vikzhelist` 31% to 35%, `socializer` 46% to 50%, `sr_peasant` 31% to 34%, `lsr_villages` 31% to 28%, the rest within 3). White losses: `sr_komuch` 65% to 52%, SR cautious 27% to 15%, Menshevik cautious 7% to 4%, `whiteaid` 61% to 0%. Fuzz (5,000 games): SR White losses 25% to 9%; wins by difficulty (Easy / Normal / Hard) Mensheviks 15/9/4% (was 15/10/7), SRs 29/22/10% (was 22/28/14), Left SRs 14/14/9% (was 14/13/12). The balance and fuzz reports are regenerated.

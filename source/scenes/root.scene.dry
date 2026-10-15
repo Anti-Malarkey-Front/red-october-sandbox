@@ -178,7 +178,7 @@ var flags = ['may_crisis_seen', 'larin_seen', 'crisis_count', 'vik_check_1', 'al
              'split_alliance_done', 'anti_brest_front', 'lent_chernov', 'lent_dan', 'lent_spiridonova', 'lent_martov',
              'ant_kad', 'ant_gen', 'ant_bol', 'opp_kad_ev', 'opp_gen_ev', 'opp_bol_ev', 'opp_kad_n', 'opp_gen_n', 'opp_bol_n',
              'directory_joined', 'late_coup', 'late_peace', 'lost_petrosoviet', 'vik_ever', 'kadets_back', 'assembly_met', 'opp_kad_age', 'opp_gen_age', 'opp_bol_age', 'opp_kad_base', 'opp_gen_base', 'opp_bol_base', 'coalition_reached',
-             'ca_left_pct', 'advisor_wait', 'kad_broken', 'gen_broken', 'bol_broken', 'rec_bread_bad', 'rec_ruble_bad', 'intl_gone', 'rightdef_gone', 'unions_gone', 'bund_gone', 'white_lever', 'white_recalled'];
+             'ca_left_pct', 'advisor_wait', 'kad_broken', 'gen_broken', 'bol_broken', 'rec_bread_bad', 'rec_ruble_bad', 'intl_gone', 'rightdef_gone', 'unions_gone', 'bund_gone', 'white_lever', 'white_recalled', 'wo_komuch', 'wo_trusted', 'wo_trust_p', 'wo_trust_pct', 'wo_rb'];
 // the party economy (post_event.scene.dry): the member cap reached, the treasury's decay
 flags.push('mem_full', 'res_decay_acc', 'treasury_decay');
 Q.fault_text = '';
