@@ -7,16 +7,14 @@ go-to: sandbox_menu
 
 @sandbox_menu
 
-- @edit_budget: Edit the Budget
-- @edit_resources: Edit Party Resources
-- @edit_militiary: Edit the militiary
+- @edit_stats: Edit Stats
+- @edit_resources: Edit Party Resources and Members
+- @edit_: Edit 
 - @edit_relations: Edit Relations
 - @edit_factions: Edit Party Factions
-- @edit_security: Edit Internal Security, Unrest, Crime and Militias
-- @edit_economy: Edit the Economy and Food
 - @return_home: Return to Home
 
-@edit_budget
+@edit_stats
 
 - @add1budget: Add 1 to the Budget
 - @add10budget: Add 10 to the Budget
@@ -62,13 +60,12 @@ on-arrival: budget -= 500;
 
 @edit_resources
 
--@edit_k_resources: Edit Kadet Resources
+-@edit_left_sr_resources: Edit Left SR Resources
 -@edit_sr_resources: Edit SR Resources
 -@edit_m_resources: Edit Menshevik Resources
--@edit_b_resources: Edit Bolshevik Resources
 -@sandbox_back: Back to Sandbox
 
-@edit_k_resources
+@edit_left_sr_resources
 
 - @add1_k_budget: Add 1 Resource 
 - @add10_k_budget: Add 10 Resources
@@ -200,54 +197,7 @@ on-arrival: m_resources -= 100;
 go-to: edit_m_resources
 on-arrival: m_resources -= 500;
 
-@edit_b_resources
-
-- @add1_b_budget: Add 1 Resource 
-- @add10_b_budget: Add 10 Resources
-- @add100_b_budget: Add 100 Resources
-- @add500_b_budget: Add 500 Resources
-- @remove1_b_budget: Remove 1 Resource
-- @remove10_b_budget: Remove 10 Resources
-- @remove100_b_budget: Remove 100 Resources
-- @remove500_b_budget: Remove 500 Resources
-- @sandbox_back: Back to Sandbox
-
-@add1_b_budget
-go-to: edit_b_resources
-on-arrival: b_resources += 1;
-
-@add10_b_budget
-go-to: edit_b_resources
-on-arrival: b_resources += 10;
-
-@add100_b_budget
-go-to: edit_b_resources
-on-arrival: b_resources += 100;
-
-@add500_b_budget
-go-to: edit_b_resources
-on-arrival: b_resources += 500;
-
-@remove1_b_budget
-go-to: edit_b_resources
-on-arrival: b_resources -= 1;
-
-@remove10_b_budget
-go-to: edit_b_resources
-on-arrival: b_resources -= 10;
-
-@remove100_b_budget
-go-to: edit_b_resources
-on-arrival: b_resources -= 100;
-
-@remove500_b_budget
-go-to: edit_b_resources
-on-arrival: b_resources -= 500;
-
-
-
-
-@edit_militiary
+@edit_
 
 - @edit_friendlies: Edit Friendly Stats
 - @edit_strength: Edit Front Strength
@@ -1303,59 +1253,30 @@ go-to: edit_strength
 
 @edit_relations
 
--@edit_inter_relations: Edit International Relations 
 -@add_party_relations: Add Party Relations
 -@remove_party_relations: Remove Party Relations
 -@sandbox_back: Return to Sandbox Menu
 
-@edit_inter_relations
-
--@add_west_relations: Add West Relations
--@remove_west_relations: Remove West Relations
--@add_usa_relations: Add US Relations
--@remove_usa_relations: Remove US Relations
--@return_relations: Return to Relations Page
-
-@add_west_relations
-go-to: edit_inter_relations
-on-arrival: west_relation += 10;
-
-@remove_west_relations
-go-to: edit_inter_relations
-on-arrival: west_relation -= 10;
-
-@add_usa_relations
-go-to: edit_inter_relations
-on-arrival: usa_relation += 10;
-
-@remove_usa_relations
-go-to: edit_inter_relations
-on-arrival: usa_relation -= 10;
-
-
-
 @add_party_relations
 
--@add_kc_relations: Add Kadet-Conservative Relations
--@add_km_relations: Add Kadet-Menshevik Relations
--@add_ksr_relations: Add Kadet-SR Relations
--@add_kb_relations: Add Kadet-Bolshevik Relations
--@add_srm_relations: Add SR-Menshevik Relations
--@add_srb_relations: Add SR-Bolshevik Relations
+-@add_sr_m_relations: Add SR-Menshevik Relations
+-@add_sr_k_relations: Add SR-Kadet Relations
+-@add_sr_b_relations: Add SR-Bolshevik Relations
+-@add_m_sr_relations: Add Menshevik-SR Relations
+-@add_m_lsr_relations: Add Menshevik-Left SR Relations
+-@add_m_k_relations: Add Menshevik-Kadet Relations
 -@add_mb_relations: Add Menshevik-Bolshevik Relations
--@return_relations: Return to Relations Page
-
-@remove_party_relations
-
--@remove_kc_relations: Remove Kadet-Conservative Relations
--@remove_ksr_relations: Remove Kadet-SR Relations
+-@add_lsr_k_relations: Add Left SR-Kadet Relations
+-@add_lsr_m_relations: Add Left SR-Menshevik Relations
+-@add_lsr_b_relations: Add Left SR-Bolshevik Relations
+-@remove_lsr_k_relations: Remove Left SR-Kadet Relations
+-@remove_lsr_b_relations: Remove Left SR-Relations
 -@remove_km_relations: Remove Kadet-Menshevik Relations
 -@remove_kb_relations: Remove Kadet-Bolshevik Relations
 -@remove_srm_relations: Remove SR-Menshevik Relations
 -@remove_srb_relations: Remove SR-Bolshevik Relations
 -@remove_mb_relations: Remove Menshevik-Bolshevik Relations
 -@return_relations: Return to Relations Page
-
 
 @add_kc_relations
 go-to: add_party_relations
